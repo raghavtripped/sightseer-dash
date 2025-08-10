@@ -1,8 +1,11 @@
 import React from "react";
 import { GlobalFilters } from "@/components/GlobalFilters";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, NavLink as RRNavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Home, Activity } from "lucide-react";
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarSeparator, SidebarTrigger } from "@/components/ui/sidebar";
+import { appRoutes, routesByPersona, PersonaKey } from "@/routes";
+import MetricDefinitions from "@/components/MetricDefinitions";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -16,8 +19,31 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, show
   const [spot, setSpot] = React.useState({ x: 50, y: 50 });
 
   return (
-    <div className="min-h-screen bg-background">
-      <header
+    <SidebarProvider>
+      <Sidebar variant="inset">
+        <SidebarContent>
+          {Object.keys(routesByPersona).map((persona) => (
+            <SidebarGroup key={persona}>
+              <SidebarGroupLabel>{persona}</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {routesByPersona[persona as PersonaKey].map((r) => (
+                    <SidebarMenuItem key={r.id}>
+                      <SidebarMenuButton asChild isActive={location.pathname === r.path}>
+                        <RRNavLink to={r.path}>
+                          <span>{r.title}</span>
+                        </RRNavLink>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))}
+        </SidebarContent>
+      </Sidebar>
+      <SidebarInset>
+        <header
         className="border-b bg-card/70 backdrop-blur supports-[backdrop-filter]:bg-card/60"
         onMouseMove={(e) => {
           const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
@@ -36,6 +62,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, show
             <Link to="/" className="font-semibold">Synapse Dashboard</Link>
           </div>
           <div className="flex items-center gap-1">
+            <SidebarTrigger />
             <NavLink to="/" icon={<Home size={16} />} active={location.pathname === "/"}>Home</NavLink>
             <NavLink to="/live-ops" icon={<Activity size={16} />} active={location.pathname.startsWith("/live-ops")}>Live Ops</NavLink>
           </div>
@@ -49,10 +76,18 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, show
             {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
           </div>
         )}
-        {showFilters && <GlobalFilters />}
+        {showFilters && (
+          <div className="space-y-2">
+            <GlobalFilters />
+            <div className="flex items-center justify-end">
+              <MetricDefinitions />
+            </div>
+          </div>
+        )}
         {children}
       </main>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 };
 

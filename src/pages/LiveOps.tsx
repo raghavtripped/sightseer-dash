@@ -4,6 +4,7 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import ExportBar from "@/components/ExportBar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 import { MoreHorizontal, Pause, Play, DollarSign, ArrowUpRight, ArrowDownRight } from "lucide-react";
@@ -93,7 +94,7 @@ const LiveOps: React.FC = () => {
         <section className="space-y-2">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-semibold">Campaigns</h2>
-            <Button variant="outline" size="sm">Export CSV</Button>
+            <ExportBar />
           </div>
 
           <div className="overflow-hidden rounded-lg border bg-card">
