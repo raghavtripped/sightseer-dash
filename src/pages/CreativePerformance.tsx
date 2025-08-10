@@ -61,7 +61,7 @@ const CreativePerformance: React.FC = () => {
           ))}
         </section>
 
-        <section>
+        <section className="grid gap-4 md:grid-cols-2">
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Multi-arm bandit share</CardTitle>
@@ -77,6 +77,24 @@ const CreativePerformance: React.FC = () => {
                   <ChartLegend content={<ChartLegendContent />} />
                 </PieChart>
               </ChartContainer>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm">Top creatives by ROAS</CardTitle>
+            </CardHeader>
+            <CardContent className="text-sm">
+              <ul className="space-y-2">
+                {items
+                  .slice()
+                  .sort((a, b) => b.roas - a.roas)
+                  .map((i) => (
+                    <li key={i.id} className="flex items-center justify-between">
+                      <span className="text-muted-foreground">{i.platform} · {i.id}</span>
+                      <span className="font-medium">{i.roas.toFixed(1)}x</span>
+                    </li>
+                  ))}
+              </ul>
             </CardContent>
           </Card>
         </section>

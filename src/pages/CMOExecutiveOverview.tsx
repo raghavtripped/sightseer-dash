@@ -33,6 +33,12 @@ const spendSalesTrend = Array.from({ length: 8 }).map((_, i) => ({
 const mixPie = channelMix.map((c) => ({ name: c.channel, value: c.spend }))
 const pieColors = ["#4f46e5", "#06b6d4", "#16a34a", "#f59e0b", "#ef4444"]
 
+const roasBridge = [
+  { name: "Baseline", value: 3.8 },
+  { name: "Synapse Uplift", value: 0.8 },
+  { name: "Final ROAS", value: 4.6 },
+]
+
 const ExecutiveOverview: React.FC = () => {
   return (
     <>
@@ -112,10 +118,21 @@ const ExecutiveOverview: React.FC = () => {
         <section className="grid gap-4 md:grid-cols-3">
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Contribution bridge (baseline → Synapse uplift)</CardTitle>
+              <CardTitle className="text-sm">Contribution bridge (baseline → Synapse)</CardTitle>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              Placeholder waterfall. Use your data layer to replace with a proper bridge chart.
+            <CardContent>
+              <ChartContainer
+                config={{ value: { label: "ROAS" } }}
+                className="h-48"
+              >
+                <BarChart data={roasBridge}>
+                  <CartesianGrid vertical={false} />
+                  <XAxis dataKey="name" tickLine={false} axisLine={false} />
+                  <YAxis tickLine={false} axisLine={false} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar dataKey="value" radius={4} />
+                </BarChart>
+              </ChartContainer>
             </CardContent>
           </Card>
 

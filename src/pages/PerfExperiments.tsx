@@ -63,8 +63,17 @@ const PerfExperiments: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Upcoming tests</CardTitle>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              Calendar placeholder.
+            <CardContent className="text-sm">
+              <ul className="space-y-2">
+                <li className="rounded-md border p-2 flex items-center justify-between">
+                  <span className="text-muted-foreground">Instamart breakfast bid curve</span>
+                  <span>Starts Mon</span>
+                </li>
+                <li className="rounded-md border p-2 flex items-center justify-between">
+                  <span className="text-muted-foreground">Blinkit PDP video vs image</span>
+                  <span>Next Thu</span>
+                </li>
+              </ul>
             </CardContent>
           </Card>
         </section>

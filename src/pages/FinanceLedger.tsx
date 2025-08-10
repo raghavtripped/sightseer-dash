@@ -21,8 +21,22 @@ const FinanceLedger: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Waterfall</CardTitle>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              Placeholder for Plan → Commit → Deploy → Spend → Sales → Margin → ROAS.
+            <CardContent>
+              <div className="grid grid-cols-6 gap-2 text-center text-xs">
+                {[
+                  { k: "Plan", v: "₹90L" },
+                  { k: "Commit", v: "₹85L" },
+                  { k: "Deploy", v: "₹82L" },
+                  { k: "Spend", v: "₹80L" },
+                  { k: "Sales", v: "₹360L" },
+                  { k: "ROAS", v: "4.5x" },
+                ].map((s) => (
+                  <div key={s.k} className="rounded-md border p-3">
+                    <div className="text-muted-foreground">{s.k}</div>
+                    <div className="text-base font-semibold">{s.v}</div>
+                  </div>
+                ))}
+              </div>
             </CardContent>
           </Card>
           <Card>

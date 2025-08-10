@@ -106,6 +106,16 @@ const BrandSkuPerformance: React.FC = () => {
                   <Bar dataKey="sales" radius={4} />
                 </BarChart>
               </ChartContainer>
+              <div className="mt-3 grid grid-cols-2 gap-3">
+                <div className="rounded-md border p-3 text-sm">
+                  <div className="text-xs text-muted-foreground">Hero SKUs (ROAS ≥ 4.5)</div>
+                  <div className="font-medium">{rows.filter(r => r.roas >= 4.5).length}</div>
+                </div>
+                <div className="rounded-md border p-3 text-sm">
+                  <div className="text-xs text-muted-foreground">Laggards (ROAS \u003c 4.0)</div>
+                  <div className="font-medium">{rows.filter(r => r.roas < 4).length}</div>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </section>

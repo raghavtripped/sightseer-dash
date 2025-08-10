@@ -31,8 +31,21 @@ const BrandPromotionsPricing: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Uplift vs control</CardTitle>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              Placeholder for incremental sales, % lift, ROAS during promo.
+            <CardContent>
+              <div className="grid grid-cols-3 gap-3 text-sm">
+                <div className="rounded-md border p-3">
+                  <div className="text-xs text-muted-foreground">Incremental sales</div>
+                  <div className="text-lg font-semibold">+₹12.5L</div>
+                </div>
+                <div className="rounded-md border p-3">
+                  <div className="text-xs text-muted-foreground">Lift vs control</div>
+                  <div className="text-lg font-semibold">+18.4%</div>
+                </div>
+                <div className="rounded-md border p-3">
+                  <div className="text-xs text-muted-foreground">Promo ROAS</div>
+                  <div className="text-lg font-semibold">5.2x</div>
+                </div>
+              </div>
             </CardContent>
           </Card>
           <Card>

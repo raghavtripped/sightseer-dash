@@ -95,10 +95,17 @@ const StrategicHeatmaps: React.FC = () => {
         <section className="grid gap-4 md:grid-cols-2">
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Geo ROAS and NTB% by city (map)</CardTitle>
+              <CardTitle className="text-sm">Geo ROAS and NTB% by city</CardTitle>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              Map placeholder. Integrate your map provider or a choropleth.
+            <CardContent>
+              <div className="grid grid-cols-2 gap-3">
+                {[{ city: "Delhi", roas: 5.2, ntb: 44 }, { city: "Mumbai", roas: 4.8, ntb: 40 }, { city: "Bengaluru", roas: 4.6, ntb: 39 }, { city: "Pune", roas: 4.1, ntb: 35 }].map((c) => (
+                  <div key={c.city} className="rounded-md border p-3">
+                    <div className="text-sm font-medium">{c.city}</div>
+                    <div className="text-xs text-muted-foreground">ROAS {c.roas.toFixed(1)}x · NTB {c.ntb}%</div>
+                  </div>
+                ))}
+              </div>
             </CardContent>
           </Card>
           <Card>

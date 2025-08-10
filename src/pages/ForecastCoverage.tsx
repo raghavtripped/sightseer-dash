@@ -48,8 +48,15 @@ const ForecastCoverage: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Coverage map</CardTitle>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              Dark-store presence vs target radius; stock heat placeholder.
+            <CardContent>
+              <div className="grid grid-cols-2 gap-3">
+                {cityCoverage.map((r) => (
+                  <div key={r.city} className="rounded-md border p-3">
+                    <div className="text-sm font-medium">{r.city}</div>
+                    <div className="text-xs text-muted-foreground">Dark stores: {Math.round(r.coverage * 10)}/10 · Stock risk: {r.risk}</div>
+                  </div>
+                ))}
+              </div>
             </CardContent>
           </Card>
         </section>
