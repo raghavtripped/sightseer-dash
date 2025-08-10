@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import ExportBar from "@/components/ExportBar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
-import { MoreHorizontal, Pause, Play, DollarSign, ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { MoreHorizontal, Pause, Play, DollarSign, ArrowUpRight, ArrowDownRight, RefreshCcw } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 interface CampaignRow {
   id: string;
@@ -38,6 +39,7 @@ const currency = (n: number) => `₹${(n/1000).toFixed(1)}k`;
 
 const LiveOps: React.FC = () => {
   const { toast } = useToast();
+  const [query, setQuery] = React.useState("");
   const conversionsToday = 1420;
   const conversionsYesterday = 1310;
   const diff = conversionsToday - conversionsYesterday;
@@ -92,9 +94,12 @@ const LiveOps: React.FC = () => {
         </section>
 
         <section className="space-y-2">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-2">
             <h2 className="text-base font-semibold">Campaigns</h2>
-            <ExportBar />
+            <div className="flex items-center gap-2">
+              <Input className="w-48" placeholder="Search…" value={query} onChange={(e) => setQuery(e.target.value)} />
+              <ExportBar />
+            </div>
           </div>
 
           <div className="overflow-hidden rounded-lg border bg-card">
@@ -116,7 +121,7 @@ const LiveOps: React.FC = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {rows.map((r) => (
+                {rows.filter((r) => r.name.toLowerCase().includes(query.toLowerCase()) || r.platform.toLowerCase().includes(query.toLowerCase())).map((r) => (
                   <TableRow key={r.id}>
                     <TableCell className="font-medium">{r.name}</TableCell>
                     <TableCell className="hidden md:table-cell">{r.platform}</TableCell>
@@ -146,6 +151,9 @@ const LiveOps: React.FC = () => {
                 ))}
               </TableBody>
             </Table>
+          </div>
+          <div className="flex items-center justify-end gap-2 text-xs text-muted-foreground">
+            <RefreshCcw size={14} /> Updated just now
           </div>
         </section>
       </DashboardLayout>

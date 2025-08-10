@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import ExportBar from "@/components/ExportBar";
 import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Line, LineChart, Pie, PieChart, Cell } from "recharts";
 
 const channelMix = [
   { channel: "Blinkit", spend: 18, sales: 26 },
@@ -23,6 +23,15 @@ const cityLeaderboard = [
   { city: "Pune", roas: 4.1, sales: 7.4, cpa: 142 },
   { city: "Hyderabad", roas: 4.0, sales: 6.9, cpa: 138 },
 ];
+
+const spendSalesTrend = Array.from({ length: 8 }).map((_, i) => ({
+  week: `W${i + 1}`,
+  spend: 30 + i * 3 + (i % 2 === 0 ? 2 : -1),
+  sales: 40 + i * 4 + (i % 3 === 0 ? 3 : -2),
+}))
+
+const mixPie = channelMix.map((c) => ({ name: c.channel, value: c.spend }))
+const pieColors = ["#4f46e5", "#06b6d4", "#16a34a", "#f59e0b", "#ef4444"]
 
 const ExecutiveOverview: React.FC = () => {
   return (
@@ -100,7 +109,7 @@ const ExecutiveOverview: React.FC = () => {
           </Card>
         </section>
 
-        <section className="grid gap-4 md:grid-cols-2">
+        <section className="grid gap-4 md:grid-cols-3">
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Contribution bridge (baseline → Synapse uplift)</CardTitle>
@@ -117,6 +126,48 @@ const ExecutiveOverview: React.FC = () => {
             <CardContent className="flex gap-2">
               <Button variant="secondary">Export Board Pack (PDF)</Button>
               <Button>Schedule weekly email</Button>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm">Spend vs Sales (8w)</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer
+                config={{ spend: { label: "Spend", color: "hsl(var(--primary))" }, sales: { label: "Sales", color: "hsl(var(--muted-foreground))" } }}
+                className="h-48"
+              >
+                <LineChart data={spendSalesTrend}>
+                  <CartesianGrid vertical={false} />
+                  <XAxis dataKey="week" tickLine={false} axisLine={false} />
+                  <YAxis tickLine={false} axisLine={false} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <ChartLegend content={<ChartLegendContent />} />
+                  <Line type="monotone" dataKey="spend" stroke="var(--color-spend)" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="sales" stroke="var(--color-sales)" strokeWidth={2} dot={false} />
+                </LineChart>
+              </ChartContainer>
+            </CardContent>
+          </Card>
+        </section>
+
+        <section className="grid gap-4 md:grid-cols-2">
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm">Budget mix</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer config={{}} className="h-56">
+                <PieChart>
+                  <Pie data={mixPie} dataKey="value" nameKey="name" innerRadius={50} outerRadius={80}>
+                    {mixPie.map((_, idx) => (
+                      <Cell key={idx} fill={pieColors[idx % pieColors.length]} />
+                    ))}
+                  </Pie>
+                  <ChartLegend content={<ChartLegendContent />} />
+                </PieChart>
+              </ChartContainer>
             </CardContent>
           </Card>
         </section>

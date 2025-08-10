@@ -3,6 +3,9 @@ import { Helmet } from "react-helmet-async";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { Line, LineChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { useToast } from "@/hooks/use-toast";
 
 const dayparts = ["Breakfast", "Lunch", "Snacks", "Dinner"] as const;
 const platforms = ["Blinkit", "Zepto", "Instamart", "Amazon", "Flipkart"] as const;
@@ -16,6 +19,13 @@ const roasMatrix: Record<string, Record<string, number>> = {
 };
 
 const StrategicHeatmaps: React.FC = () => {
+  const { toast } = (useToast as any)();
+  const weeks = Array.from({ length: 8 }).map((_, i) => `W${i + 1}`);
+  const series = weeks.map((w, i) => ({ week: w, roas: 3.5 + (i * 0.2) + (i % 3 === 0 ? 0.3 : -0.1), cpa: 160 - i * 3 }));
+
+  const recommend = () => {
+    toast({ title: "Reallocation ready", description: "+₹20k → Blinkit Snacks Delhi; -₹15k ← Amazon Breakfast; +₹10k → Zepto Dinner Mumbai" });
+  };
   return (
     <>
       <Helmet>
@@ -63,8 +73,21 @@ const StrategicHeatmaps: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Trend lines: 8-week ROAS & CPA</CardTitle>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              Placeholder line charts with annotations (festivals, algo changes). Replace with your data-series.
+            <CardContent>
+              <ChartContainer
+                config={{ roas: { label: "ROAS", color: "hsl(var(--primary))" }, cpa: { label: "CPA", color: "hsl(var(--muted-foreground))" } }}
+                className="h-64"
+              >
+                <LineChart data={series}>
+                  <CartesianGrid vertical={false} />
+                  <XAxis dataKey="week" tickLine={false} axisLine={false} />
+                  <YAxis tickLine={false} axisLine={false} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <ChartLegend content={<ChartLegendContent />} />
+                  <Line type="monotone" dataKey="roas" stroke="var(--color-roas)" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="cpa" stroke="var(--color-cpa)" strokeWidth={2} dot={false} />
+                </LineChart>
+              </ChartContainer>
             </CardContent>
           </Card>
         </section>
@@ -81,7 +104,7 @@ const StrategicHeatmaps: React.FC = () => {
           <Card>
             <CardHeader className="pb-2 flex-row items-center justify-between">
               <CardTitle className="text-sm">Insights</CardTitle>
-              <Button size="sm">Recommend reallocation</Button>
+              <Button size="sm" onClick={recommend}>Recommend reallocation</Button>
             </CardHeader>
             <CardContent className="space-y-2 text-sm">
               <div>

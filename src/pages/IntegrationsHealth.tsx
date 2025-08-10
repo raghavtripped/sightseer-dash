@@ -4,8 +4,10 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 const IntegrationsHealth: React.FC = () => {
+  const { toast } = (useToast as any)();
   return (
     <>
       <Helmet>
@@ -51,8 +53,8 @@ const IntegrationsHealth: React.FC = () => {
             <CardHeader className="pb-2 flex-row items-center justify-between">
               <CardTitle className="text-sm">Connectors</CardTitle>
               <div className="space-x-2">
-                <Button size="sm" variant="secondary">Re-ingest</Button>
-                <Button size="sm" variant="outline">Rollback</Button>
+                <Button size="sm" variant="secondary" onClick={() => toast({ title: "Re-ingest started", description: "Pulling last 24h from all connectors" })}>Re-ingest</Button>
+                <Button size="sm" variant="outline" onClick={() => toast({ title: "Rollback queued", description: "Reverting to previous schema" })}>Rollback</Button>
               </div>
             </CardHeader>
             <CardContent className="overflow-hidden rounded-lg border bg-card p-0">
@@ -89,8 +91,8 @@ const IntegrationsHealth: React.FC = () => {
               <CardTitle className="text-sm">Actions</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-wrap gap-2">
-              <Button variant="secondary">Rotate keys</Button>
-              <Button>Notify owner</Button>
+              <Button variant="secondary" onClick={() => toast({ title: "Keys rotated", description: "All connectors updated" })}>Rotate keys</Button>
+              <Button onClick={() => toast({ title: "Owner notified", description: "Email sent to data@itc.in" })}>Notify owner</Button>
             </CardContent>
           </Card>
         </section>

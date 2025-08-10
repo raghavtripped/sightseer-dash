@@ -3,6 +3,9 @@ import { Helmet } from "react-helmet-async";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { PieChart, Pie, Cell, Tooltip } from "recharts";
 
 type Creative = {
   id: string;
@@ -21,6 +24,13 @@ const items: Creative[] = [
 ];
 
 const CreativePerformance: React.FC = () => {
+  const { toast } = (useToast as any)();
+  const weights = [
+    { name: "V1", value: 50 },
+    { name: "V2", value: 20 },
+    { name: "V3", value: 30 },
+  ];
+  const pieColors = ["#4f46e5", "#06b6d4", "#16a34a"];
   return (
     <>
       <Helmet>
@@ -43,8 +53,8 @@ const CreativePerformance: React.FC = () => {
                 <div>Impr to fatigue est. {it.imprToFatigue.toLocaleString()}</div>
                 <div>Last refreshed {it.lastRefreshed} ago</div>
                 <div className="pt-2 flex gap-2">
-                  <Button size="sm" variant="secondary">Refresh variants</Button>
-                  <Button size="sm" variant="outline">Swap headline</Button>
+                  <Button size="sm" variant="secondary" onClick={() => toast({ title: "Refresh queued", description: `${it.platform} · ${it.id}` })}>Refresh variants</Button>
+                  <Button size="sm" variant="outline" onClick={() => toast({ title: "Headline swap queued", description: `${it.platform} · ${it.id}` })}>Swap headline</Button>
                 </div>
               </CardContent>
             </Card>
@@ -56,8 +66,17 @@ const CreativePerformance: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Multi-arm bandit share</CardTitle>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              Placeholder distribution of serving weights by creative.
+            <CardContent>
+              <ChartContainer config={{}} className="h-64">
+                <PieChart>
+                  <Pie data={weights} dataKey="value" nameKey="name" innerRadius={50} outerRadius={80}>
+                    {weights.map((_, i) => (
+                      <Cell key={i} fill={pieColors[i % pieColors.length]} />
+                    ))}
+                  </Pie>
+                  <ChartLegend content={<ChartLegendContent />} />
+                </PieChart>
+              </ChartContainer>
             </CardContent>
           </Card>
         </section>

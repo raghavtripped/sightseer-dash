@@ -4,6 +4,8 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { ChartContainer } from "@/components/ui/chart";
+import { PieChart, Pie, Cell } from "recharts";
 
 type Row = { city: string; sku: string; stock: "In stock" | "Low" | "OOS"; eta: string; ads: "Active" | "Paused" };
 
@@ -14,6 +16,11 @@ const rows: Row[] = [
 ];
 
 const AvailabilityWatchtower: React.FC = () => {
+  const donut = [
+    { name: "In stock", value: 92 },
+    { name: "OOS/Low", value: 8 },
+  ]
+  const colors = ["#16a34a", "#ef4444"]
   return (
     <>
       <Helmet>
@@ -34,6 +41,17 @@ const AvailabilityWatchtower: React.FC = () => {
               <Button size="sm" variant="outline">Export CSV</Button>
             </CardHeader>
             <CardContent className="overflow-hidden rounded-lg border bg-card p-0">
+              <div className="p-4">
+                <ChartContainer config={{}} className="h-40">
+                  <PieChart>
+                    <Pie data={donut} dataKey="value" nameKey="name" innerRadius={40} outerRadius={60}>
+                      {donut.map((_, i) => (
+                        <Cell key={i} fill={colors[i % colors.length]} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ChartContainer>
+              </div>
               <Table>
                 <TableHeader>
                   <TableRow>

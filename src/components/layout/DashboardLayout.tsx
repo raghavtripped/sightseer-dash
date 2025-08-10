@@ -12,36 +12,39 @@ interface DashboardLayoutProps {
   showFilters?: boolean;
   title?: string;
   subtitle?: string;
+  hideSidebar?: boolean;
 }
 
-export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, showFilters = true, title, subtitle }) => {
+export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, showFilters = true, title, subtitle, hideSidebar = false }) => {
   const location = useLocation();
   const [spot, setSpot] = React.useState({ x: 50, y: 50 });
 
   return (
     <SidebarProvider>
-      <Sidebar variant="inset">
-        <SidebarContent>
-          {Object.keys(routesByPersona).map((persona) => (
-            <SidebarGroup key={persona}>
-              <SidebarGroupLabel>{persona}</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {routesByPersona[persona as PersonaKey].map((r) => (
-                    <SidebarMenuItem key={r.id}>
-                      <SidebarMenuButton asChild isActive={location.pathname === r.path}>
-                        <RRNavLink to={r.path}>
-                          <span>{r.title}</span>
-                        </RRNavLink>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          ))}
-        </SidebarContent>
-      </Sidebar>
+      {!hideSidebar && (
+        <Sidebar variant="inset">
+          <SidebarContent>
+            {Object.keys(routesByPersona).map((persona) => (
+              <SidebarGroup key={persona}>
+                <SidebarGroupLabel>{persona}</SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {routesByPersona[persona as PersonaKey].map((r) => (
+                      <SidebarMenuItem key={r.id}>
+                        <SidebarMenuButton asChild isActive={location.pathname === r.path}>
+                          <RRNavLink to={r.path}>
+                            <span>{r.title}</span>
+                          </RRNavLink>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+            ))}
+          </SidebarContent>
+        </Sidebar>
+      )}
       <SidebarInset>
         <header
         className="border-b bg-card/70 backdrop-blur supports-[backdrop-filter]:bg-card/60"
@@ -62,7 +65,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, show
             <Link to="/" className="font-semibold">Synapse Dashboard</Link>
           </div>
           <div className="flex items-center gap-1">
-            <SidebarTrigger />
+            {!hideSidebar && <SidebarTrigger />}
             <NavLink to="/" icon={<Home size={16} />} active={location.pathname === "/"}>Home</NavLink>
             <NavLink to="/live-ops" icon={<Activity size={16} />} active={location.pathname.startsWith("/live-ops")}>Live Ops</NavLink>
           </div>

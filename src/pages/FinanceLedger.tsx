@@ -4,8 +4,10 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 const FinanceLedger: React.FC = () => {
+  const { toast } = (useToast as any)();
   return (
     <>
       <Helmet>
@@ -27,8 +29,8 @@ const FinanceLedger: React.FC = () => {
             <CardHeader className="pb-2 flex-row items-center justify-between">
               <CardTitle className="text-sm">Exports</CardTitle>
               <div className="space-x-2">
-                <Button size="sm" variant="outline">XLS/CSV</Button>
-                <Button size="sm">Month-end pack</Button>
+                <Button size="sm" variant="outline" onClick={() => toast({ title: "Exported", description: "Ledger exported as CSV" })}>XLS/CSV</Button>
+                <Button size="sm" onClick={() => toast({ title: "Pack generated", description: "Month-end pack prepared" })}>Month-end pack</Button>
               </div>
             </CardHeader>
             <CardContent className="text-sm text-muted-foreground">

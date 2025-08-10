@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import ExportBar from "@/components/ExportBar";
+import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from "recharts";
 
 type SkuRow = {
   sku: string;
@@ -91,8 +93,19 @@ const BrandSkuPerformance: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Charts</CardTitle>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              Placeholder for Pareto and Hero/Laggard quadrant charts.
+            <CardContent>
+              <ChartContainer
+                config={{ sales: { label: "Sales (L)", color: "hsl(var(--primary))" } }}
+                className="h-64"
+              >
+                <BarChart data={rows}>
+                  <CartesianGrid vertical={false} />
+                  <XAxis dataKey="sku" tickLine={false} axisLine={false} hide />
+                  <YAxis tickLine={false} axisLine={false} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar dataKey="sales" radius={4} />
+                </BarChart>
+              </ChartContainer>
             </CardContent>
           </Card>
         </section>
