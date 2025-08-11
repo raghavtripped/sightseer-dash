@@ -94,7 +94,7 @@ const ForecastCoverage: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="h-56">
-                  <ResponsiveContainer>
+                  <ChartContainer config={{ demand: { label: "Demand" }, hi: { label: "High" }, lo: { label: "Low" } }} className="h-full">
                     <AreaChart data={trend} margin={{ left: 6, right: 6 }}>
                       <CartesianGrid vertical={false} />
                       <XAxis dataKey="day" tickLine={false} axisLine={false} />
@@ -105,7 +105,7 @@ const ForecastCoverage: React.FC = () => {
                       <Line type="monotone" dataKey="demand" stroke="#4f46e5" strokeWidth={2} dot={false} />
                       <ChartTooltip content={<ChartTooltipContent />} />
                     </AreaChart>
-                  </ResponsiveContainer>
+                  </ChartContainer>
                 </div>
                 <div className="flex gap-2 text-[11px] text-muted-foreground mt-2">
                   {daypartBands.map((b) => (
