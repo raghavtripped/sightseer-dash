@@ -52,13 +52,14 @@ const Index = () => {
         <link rel="canonical" href="/" />
       </Helmet>
       <DashboardLayout title="AI-Powered Performance Marketing" subtitle="Choose a view to begin." hideSidebar>
+        <div className="max-w-7xl mx-auto px-6 space-y-8">
         {/* KPI strip */}
-        <section className="grid gap-3 md:grid-cols-5">
+        <section className="grid grid-cols-5 gap-4">
           {kpis.map((k) => {
             const delta = k.today - k.yday;
             const positive = delta >= 0;
             return (
-              <Card key={k.key}>
+              <Card key={k.key} className="h-24 rounded-2xl">
                 <CardHeader className="pb-1">
                   <CardTitle className="text-xs text-muted-foreground font-normal">{k.key} (today vs yday)</CardTitle>
                 </CardHeader>
@@ -71,42 +72,70 @@ const Index = () => {
           })}
         </section>
 
-        {/* Quick panels */}
-        <section className="grid gap-4 md:grid-cols-3">
-          {/* Persona tiles */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <h2 className="text-base font-semibold">Views</h2>
-              <Button size="sm" variant="outline">Create saved view</Button>
-            </div>
-            {personas.map((persona) => (
-              <PersonaSection key={persona} persona={persona} />
-            ))}
-          </div>
-
-          {/* Top alerts */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <h2 className="text-base font-semibold">Top alerts (24h)</h2>
-              <Button size="sm" variant="ghost" onClick={() => navigate("/alerts-action-log")}>Open log</Button>
-            </div>
-            <div className="space-y-2">
-              {alerts.map((a, i) => (
-                <div key={i} className="rounded-md border p-3 text-sm cursor-pointer" onClick={() => navigate("/alerts-action-log")}> 
-                  <div className="flex items-center gap-2">
-                    <Badge variant={a.severity === "High" ? "destructive" : a.severity === "Med" ? "secondary" : "outline"}>{a.severity}</Badge>
-                    <div className="font-medium">{a.title}</div>
+        {/* Two-pane */}
+        <section className="grid grid-cols-12 gap-6">
+          {/* Main: Views launcher */}
+          <div className="col-span-12 lg:col-span-8 space-y-3">
+            <Card className="rounded-2xl">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm">Views</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex flex-wrap gap-2 text-xs">
+                    {['Favorites','Performance','CMO','Brand','Creative','Supply','Finance','Admin'].map((t) => (
+                      <button key={t} className="rounded-md bg-muted/40 px-2 py-1">{t}</button>
+                    ))}
                   </div>
-                  <div className="text-xs text-muted-foreground">{a.entity} · {a.time} · {a.auto}</div>
+                  <input placeholder="Find a view…" className="h-8 w-56 rounded-md border bg-background px-2 text-sm" />
                 </div>
-              ))}
-            </div>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {personas.flatMap((p) => routesByPersona[p]).slice(0, 8).map((v) => (
+                    <Card key={v.id} className="rounded-xl">
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm">{v.title}</CardTitle>
+                      </CardHeader>
+                      <CardContent className="text-xs text-muted-foreground space-y-2">
+                        <div className="inline-flex items-center gap-2"><span className="rounded-md bg-muted/40 px-2 py-0.5">{v.persona}</span></div>
+                        <div className="flex items-center justify-between">
+                          <button className="rounded-md bg-primary text-primary-foreground px-2 py-1 text-xs">Open</button>
+                          <button className="rounded-md border px-2 py-1 text-xs">☆</button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+                <div className="text-center">
+                  <button className="text-xs rounded-md border px-3 py-1">Show 8 more</button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
-          {/* Saved views & recent */}
-          <div className="space-y-3">
-            <h2 className="text-base font-semibold">Saved views & recent</h2>
-            <Card>
+          {/* Sidebar stack */}
+          <div className="col-span-12 lg:col-span-4 space-y-6">
+            <Card className="rounded-2xl">
+              <CardHeader className="pb-2 flex items-center justify-between">
+                <CardTitle className="text-sm">Top alerts (24h)</CardTitle>
+                <Button size="sm" variant="ghost" onClick={() => navigate('/alerts-action-log')}>Open log</Button>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {alerts.slice(0,3).map((a, i) => (
+                  <div key={i} className="rounded-md border p-3 text-sm cursor-pointer" onClick={() => navigate('/alerts-action-log')}>
+                    <div className="flex items-center gap-2">
+                      <Badge variant={a.severity === 'High' ? 'destructive' : a.severity === 'Med' ? 'secondary' : 'outline'}>{a.severity}</Badge>
+                      <div className="font-medium">{a.title}</div>
+                    </div>
+                    <div className="text-xs text-muted-foreground">{a.entity} • {a.time} • {a.auto}</div>
+                  </div>
+                ))}
+                {alerts.length > 3 && (
+                  <button className="text-xs rounded-md border px-3 py-1">View all alerts</button>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card className="rounded-2xl">
               <CardHeader className="pb-2"><CardTitle className="text-sm">Saved views</CardTitle></CardHeader>
               <CardContent className="space-y-2 text-sm">
                 {savedViews.map((s) => (
@@ -115,9 +144,13 @@ const Index = () => {
                     <span className="text-xs text-muted-foreground">{s.when}</span>
                   </div>
                 ))}
+                <div className="pt-2">
+                  <Button size="sm" variant="outline">Create saved view</Button>
+                </div>
               </CardContent>
             </Card>
-            <Card>
+
+            <Card className="rounded-2xl">
               <CardHeader className="pb-2"><CardTitle className="text-sm">Recent activity</CardTitle></CardHeader>
               <CardContent className="space-y-2 text-sm">
                 {recent.map((r, i) => (
@@ -139,9 +172,12 @@ const Index = () => {
         <footer className="flex items-center justify-between text-xs text-muted-foreground">
           <div>Data fresh as of 10:24 Asia/Kolkata</div>
           <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-green-500" /> APIs healthy</span>
+            {['Blinkit','Zepto','Instamart','Amazon','Flipkart'].map((p) => (
+              <span key={p} className="inline-flex items-center gap-1 rounded-md bg-muted/40 px-2 py-1"><span className="h-2 w-2 rounded-full bg-green-500" /> {p}</span>
+            ))}
           </div>
         </footer>
+        </div>
       </DashboardLayout>
     </>
   );

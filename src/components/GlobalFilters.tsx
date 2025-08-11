@@ -5,7 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
-import { CalendarDays, Filter, CheckSquare, Building2, PackageOpen, Clock } from "lucide-react";
+import { CalendarDays, Filter, CheckSquare, Building2, PackageOpen, Clock, SlidersHorizontal } from "lucide-react";
 import * as React from "react";
 
 const MultiSelect: React.FC<{
@@ -110,21 +110,35 @@ export const GlobalFilters: React.FC = () => {
           </Select>
         </div>
 
-        <MultiSelect
-          label="SKUs"
-          options={FILTER_OPTIONS.skus}
-          values={filters.skus}
-          onChange={(next) => setFilters((f) => ({ ...f, skus: next }))}
-          icon={<PackageOpen size={16} />}
-        />
-
-        <MultiSelect
-          label="Dayparts"
-          options={FILTER_OPTIONS.dayparts}
-          values={filters.dayparts}
-          onChange={(next) => setFilters((f) => ({ ...f, dayparts: next }))}
-          icon={<Clock size={16} />}
-        />
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="secondary" className="gap-2">
+              <SlidersHorizontal size={16} />
+              More filters
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="start" className="w-80">
+            <div className="space-y-2">
+              <div className="text-xs text-muted-foreground">Advanced</div>
+              <div className="flex flex-wrap gap-2">
+                <MultiSelect
+                  label="SKUs"
+                  options={FILTER_OPTIONS.skus}
+                  values={filters.skus}
+                  onChange={(next) => setFilters((f) => ({ ...f, skus: next }))}
+                  icon={<PackageOpen size={16} />}
+                />
+                <MultiSelect
+                  label="Dayparts"
+                  options={FILTER_OPTIONS.dayparts}
+                  values={filters.dayparts}
+                  onChange={(next) => setFilters((f) => ({ ...f, dayparts: next }))}
+                  icon={<Clock size={16} />}
+                />
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
 
         <div className="ml-auto flex items-center gap-2">
           <Button variant="secondary" onClick={reset}>Reset</Button>
