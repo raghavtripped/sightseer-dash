@@ -142,10 +142,10 @@ const BrandSkuPerformance: React.FC = () => {
       <DashboardLayout title="SKU Performance Drilldown" subtitle="Which SKUs to back off / double down?">
         {/* Row 1: KPI strip */}
         <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <KPI label="Avg ROAS 7d" value={kpis.avgRoas} info={{ short: "Revenue attributed ÷ Ad spend (last 7 days)." }} intent="good" />
-          <KPI label="Hero SKUs" value={kpis.hero} info={{ short: "ROAS ≥ 4.5 & Conv ≥ 100 & OOS% < 5%." }} />
-          <KPI label="Laggard SKUs" value={kpis.laggard} info={{ short: "ROAS < 4.0 or OOS% ≥ 15% with sufficient data." }} intent="bad" />
-          <KPI label="OOS SKUs (any city)" value={kpis.oosSkus} info={{ short: "% of SKUs with any city OOS in last 24h." }} intent="warn" />
+          <KPI label="Avg ROAS 7d" value={kpis.avgRoas} info={{ short: "Revenue attributed ÷ Ad spend (last 7 days).", long: "ROAS: Revenue attributed ÷ Ad spend (current attribution: last-click, same-day)." }} intent="good" />
+          <KPI label="Hero SKUs" value={kpis.hero} info={{ short: "ROAS ≥ 4.5 & Conv ≥ 100 & OOS% < 5%.", long: "Hero/Laggard rules: See “Thresholds” help.\n\nHero: ROAS ≥ 4.5 AND Conv ≥ 100 (7d) AND OOS% < 5%.\nLaggard: ROAS < 4.0 AND Conv ≥ 50 OR OOS% ≥ 15%.\nThin data: Conv < 30 (7d) → show ⚠︎ and suppress strict categorization." }} />
+          <KPI label="Laggard SKUs" value={kpis.laggard} info={{ short: "ROAS < 4.0 or OOS% ≥ 15% with sufficient data.", long: "Hero/Laggard rules: See “Thresholds” help." }} intent="bad" />
+          <KPI label="OOS SKUs (any city)" value={kpis.oosSkus} info={{ short: "% of SKUs with any city OOS in last 24h.", long: "OOS%: % time a SKU was unavailable in a city while ads were on." }} intent="warn" />
           <KPI label="Spend (7d)" value={kpis.spend} info={{ short: "Total ad spend last 7 days." }} />
           <KPI label="Sales (7d)" value={kpis.sales} info={{ short: "Attributed revenue last 7 days." }} />
           <KPI label="OOS-saved spend (7d)" value={kpis.oosSaved} info={{ short: "Spend avoided due to OOS guardrails." }} />
@@ -168,23 +168,23 @@ const BrandSkuPerformance: React.FC = () => {
                     <TableHead>SKU</TableHead>
                     <TableHead className="text-right">Impr</TableHead>
                     <TableHead className="text-right">Clicks</TableHead>
-                    <TableHead className="text-right">CTR <Info short="Clicks ÷ Impressions." /></TableHead>
+                    <TableHead className="text-right">CTR <Info short="Clicks ÷ Impressions." long="CVR/CTR formulae: CTR = Clicks ÷ Impressions. CVR = Conversions ÷ Clicks." /></TableHead>
                     <TableHead className="text-right">Detail views</TableHead>
                     <TableHead className="text-right">Conv</TableHead>
-                    <TableHead className="text-right">CVR <Info short="Conversions ÷ Clicks." /></TableHead>
+                    <TableHead className="text-right">CVR <Info short="Conversions ÷ Clicks." long="CVR: Conversions ÷ Clicks." /></TableHead>
                     <TableHead className="text-right">Sales (₹ L)</TableHead>
-                    <TableHead className="text-right">ROAS <Info short="Revenue attributed ÷ Ad spend (last-click, same-day)." /></TableHead>
-                    <TableHead className="text-right">CPA <Info short="Ad spend ÷ Conversions (orders)." /></TableHead>
-                    <TableHead className="text-right">AOV <Info short="Sales ÷ Conversions." /></TableHead>
+                    <TableHead className="text-right">ROAS <Info short="Revenue attributed ÷ Ad spend (last-click, same-day)." long="ROAS: Revenue attributed ÷ Ad spend (current attribution: last-click, same-day)." /></TableHead>
+                    <TableHead className="text-right">CPA <Info short="Ad spend ÷ Conversions (orders)." long="CPA: Ad spend ÷ Conversions (orders)." /></TableHead>
+                    <TableHead className="text-right">AOV <Info short="Sales ÷ Conversions." long="AOV: Sales ÷ Conversions." /></TableHead>
                     <TableHead className="text-right">Price</TableHead>
-                    <TableHead className="text-right">Price index <Info short="Our price ÷ Rival average; 1.00 = parity, >1 pricier." /></TableHead>
+                    <TableHead className="text-right">Price index <Info short="Our price ÷ Rival average; 1.00 = parity, >1 pricier." long="Price index: Our price ÷ Rival average; 1.00 = parity, >1 = we’re pricier." /></TableHead>
                     <TableHead className="text-right">Rating</TableHead>
                     <TableHead>Stock</TableHead>
-                    <TableHead className="text-right">OOS% <Info short="% time unavailable while ads were on (7d)." /></TableHead>
-                    <TableHead className="text-right">Shelf share <Info short="% of top-10 placements for target searches (city-weighted)." /></TableHead>
-                    <TableHead className="text-right">Search share <Info short="% impressions on tracked keywords." /></TableHead>
-                    <TableHead className="text-right">Content score <Info short="Checklist score for images, bullets, video, title, attributes." /></TableHead>
-                    <TableHead className="text-right">NTB% <Info short="% orders from first-time brand buyers." /></TableHead>
+                    <TableHead className="text-right">OOS% <Info short="% time unavailable while ads were on (7d)." long="OOS%: % time a SKU was unavailable in a city while ads were on." /></TableHead>
+                    <TableHead className="text-right">Shelf share <Info short="% of top-10 placements for target searches (city-weighted)." long="Share of shelf: % of top-10 placements your SKUs hold for target queries (city-weighted)." /></TableHead>
+                    <TableHead className="text-right">Search share <Info short="% impressions on tracked keywords." long="Share of search: % of impressions your SKUs receive for tracked keywords." /></TableHead>
+                    <TableHead className="text-right">Content score <Info short="Checklist score for images, bullets, video, title, attributes." long="Content score: Checklist-based score for images, bullets, video, title, attributes." /></TableHead>
+                    <TableHead className="text-right">NTB% <Info short="% orders from first-time brand buyers." long="NTB%: % orders from first-time buyers of the brand (platform or modeled)." /></TableHead>
                     <TableHead>Mode</TableHead>
                     <TableHead>Promo</TableHead>
                     <TableHead>Actions</TableHead>

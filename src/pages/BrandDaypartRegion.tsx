@@ -37,10 +37,10 @@ const BrandDaypartRegion: React.FC = () => {
       <DashboardLayout title="Daypart × Region Planner" subtitle="Right product, right moment, right city.">
         {/* Row 1: Objective & quick stats */}
         <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <KPI label="Objective" value="Max Conversions" info={{ short: "What the optimizer maximizes (Conversions or ROAS)." }} />
-          <KPI label="Visibility floor" value="≥15%" info={{ short: "Minimum impression share to maintain presence." }} />
-          <KPI label="Platform cap" value="≤60%" info={{ short: "Max % of budget allowed on one platform." }} />
-          <KPI label="OOS guard" value="Pause on 2 checks" info={{ short: "Auto-pause if availability hits 0 in a city." }} />
+          <KPI label="Objective" value="Max Conversions" info={{ short: "What the optimizer maximizes (Conversions or ROAS).", long: "Objective: What the optimizer maximizes (Conversions or ROAS). Balance = conversions with a ROAS floor." }} />
+          <KPI label="Visibility floor" value="≥15%" info={{ short: "Minimum impression share to maintain presence.", long: "Visibility floor: Minimum impression share to maintain presence." }} />
+          <KPI label="Platform cap" value="≤60%" info={{ short: "Max % of budget allowed on one platform.", long: "Platform cap: Max % of budget allowed on any one platform (risk diversification)." }} />
+          <KPI label="OOS guard" value="Pause on 2 checks" info={{ short: "Auto-pause if availability hits 0 in a city.", long: "OOS guard: Auto-pause ads if SKU availability hits 0 in the city." }} />
         </section>
 
         {/* Row 2: Heatmaps + Actions */}
@@ -53,14 +53,14 @@ const BrandDaypartRegion: React.FC = () => {
               <div className="rounded-md border p-3 text-sm">
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   <span>SKU × Daypart</span>
-                  <Info short="Cell shows metric and Δ vs last 4w; hatched outline = significant change (p≤0.05)." />
+                  <Info short="Cell shows metric and Δ vs last 4w; hatched outline = significant change (p≤0.05)." long="Significance hatch: Change vs baseline that passes a statistical test (p≤0.05, min N)." />
                 </div>
                 <div className="mt-2 text-muted-foreground">Heatmap placeholder with seeded values.</div>
               </div>
               <div className="rounded-md border p-3 text-sm">
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   <span>City × SKU availability & shelf share</span>
-                  <Info short="Two sub-cells: In-stock% and Shelf share%; red if OOS risk >10% or share <25%." />
+                  <Info short="Two sub-cells: In-stock% and Shelf share%; red if OOS risk >10% or share <25%." long="City × SKU availability & shelf share: Two sub-cells — In-stock% and Shelf share%; red if OOS risk >10% or share <25%." />
                 </div>
                 <div className="mt-2 text-muted-foreground">Availability matrix placeholder.</div>
               </div>

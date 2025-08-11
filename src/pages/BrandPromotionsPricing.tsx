@@ -30,21 +30,21 @@ const BrandPromotionsPricing: React.FC = () => {
       <DashboardLayout title="Promotions & Pricing Efficacy" subtitle="Did the promo work? What next?">
         {/* KPI belt */}
         <section className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
-          <KPI label="Incremental Sales" value="+₹12.5L" info={{ short: "Modeled extra revenue vs matched control during promo window (CUPED-adjusted)." }} />
-          <KPI label="Incremental Gross Margin" value="+₹7.1L" info={{ short: "Incremental sales × (1 − discount% − COGS%) minus ad spend." }} />
-          <KPI label="Lift vs Control" value="+18.4%" info={{ short: "(Treatment − Control) ÷ Control over the window." }} />
-          <KPI label="Promo ROAS" value="5.2x" info={{ short: "Incremental sales ÷ Promo ad spend (excludes baseline)." }} />
-          <KPI label="Cannibalization" value="11%" info={{ short: "Share of uplift that replaced other SKUs/pack sizes." }} />
-          <KPI label="Halo Sales" value="+₹2.3L" info={{ short: "Extra sales in adjacent SKUs/categories attributed to the promo." }} />
-          <KPI label="Avg Discount Depth" value="9.5%" info={{ short: "Average % off during promo window." }} />
-          <KPI label="Significance" value="p=0.03 • Power=84%" info={{ short: "p-value and statistical power; α=0.05, target 80%." }} />
+          <KPI label="Incremental Sales" value="+₹12.5L" info={{ short: "Modeled extra revenue vs matched control during promo window (CUPED-adjusted).", long: "Incremental Sales: Modeled extra revenue vs matched control during promo window (CUPED-adjusted)." }} />
+          <KPI label="Incremental Gross Margin" value="+₹7.1L" info={{ short: "Incremental sales × (1 − discount% − COGS%) minus ad spend.", long: "Incremental Gross Margin: Incremental sales × (1 − discount% − COGS%) minus ad spend." }} />
+          <KPI label="Lift vs Control" value="+18.4%" info={{ short: "(Treatment − Control) ÷ Control over the window.", long: "Lift vs Control: (Treatment − Control) ÷ Control over the window." }} />
+          <KPI label="Promo ROAS" value="5.2x" info={{ short: "Incremental sales ÷ Promo ad spend (excludes baseline).", long: "Promo ROAS: Incremental sales ÷ Promo ad spend (excludes baseline sales)." }} />
+          <KPI label="Cannibalization" value="11%" info={{ short: "Share of uplift that replaced other SKUs/pack sizes.", long: "Cannibalization: Share of uplift that replaced other SKUs/pack sizes (estimated from category/brand shifts)." }} />
+          <KPI label="Halo Sales" value="+₹2.3L" info={{ short: "Extra sales in adjacent SKUs/categories attributed to the promo.", long: "Halo Sales: Extra sales in adjacent SKUs/categories attributed to the promo." }} />
+          <KPI label="Avg Discount Depth" value="9.5%" info={{ short: "Average % off during promo window.", long: "Avg Discount Depth: Average % off during promo window." }} />
+          <KPI label="Significance" value="p=0.03 • Power=84%" info={{ short: "p-value and statistical power; α=0.05, target 80%.", long: "Significance & Power: p-value (probability result is by chance) and test power (probability to detect true effect); default α=0.05, power target 80%." }} />
         </section>
 
         {/* Charts row: DiD + Waterfall + Elasticity */}
         <section className="grid gap-4 md:grid-cols-12">
           <Card className="md:col-span-8">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Difference‑in‑Differences</CardTitle>
+              <CardTitle className="text-sm">Difference‑in‑Differences <Info short="Compares change over time vs matched control to isolate promo impact." long="Diff-in-Diff: Compares change over time vs matched control to isolate promo impact." /></CardTitle>
             </CardHeader>
             <CardContent className="h-56">
               <ChartContainer config={{ t: { label: "Treatment" }, c: { label: "Control" } }} className="h-full">
@@ -69,7 +69,7 @@ const BrandPromotionsPricing: React.FC = () => {
           </Card>
           <Card className="md:col-span-4">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Uplift waterfall</CardTitle>
+              <CardTitle className="text-sm">Uplift waterfall <Info short="Baseline → Traffic → CVR → AOV → Cannibalization → Halo → Net." long="Uplift Waterfall: Baseline → Traffic lift → CVR lift → AOV change → Cannibalization → Halo → Net uplift. Each bar shows ₹ and % contribution." /></CardTitle>
             </CardHeader>
             <CardContent className="h-56">
               <ChartContainer config={{ v: { label: "₹ L" } }} className="h-full">
@@ -93,7 +93,7 @@ const BrandPromotionsPricing: React.FC = () => {
           </Card>
           <Card className="md:col-span-4 md:col-start-9">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Elasticity: Spend → Sales</CardTitle>
+              <CardTitle className="text-sm">Elasticity: Spend → Sales <Info short="Slope of sales vs spend; higher slope = higher marginal ROI." long="Elasticity: Slope of sales vs spend around current point; higher slope = higher marginal ROI." /></CardTitle>
             </CardHeader>
             <CardContent>
               <ChartContainer
@@ -118,7 +118,7 @@ const BrandPromotionsPricing: React.FC = () => {
         <section className="grid gap-4 md:grid-cols-12">
           <Card className="md:col-span-8">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Comp set: Price index vs rivals</CardTitle>
+              <CardTitle className="text-sm">Comp set: Price index vs rivals <Info short="Price parity: 100 = parity, >100 = we’re pricier." long="Comp-set price index: Price parity measure (100 = parity, >100 = we’re pricier)." /></CardTitle>
             </CardHeader>
             <CardContent className="overflow-hidden rounded-lg border bg-card p-0">
               <Table>
@@ -167,7 +167,7 @@ const BrandPromotionsPricing: React.FC = () => {
         <section>
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Retention after promo</CardTitle>
+              <CardTitle className="text-sm">Retention after promo <Info short="Repeat rate of promo buyers vs non‑promo baseline." long="Retention chart: Repeat purchase rate of promo buyers vs non‑promo baseline." /></CardTitle>
             </CardHeader>
             <CardContent className="h-56">
               <ChartContainer config={{ promo: { label: "Promo cohort" }, base: { label: "Non‑promo cohort" } }} className="h-full">
