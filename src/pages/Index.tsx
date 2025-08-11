@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
-import { routesByPersona, PersonaKey } from "@/routes";
+import { routesByPersona, PersonaKey, appRoutes } from "@/routes";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -43,6 +43,47 @@ const Index = () => {
     { who: "Raghav", what: "Shifted ₹50k to Blinkit Snacks", when: "09:48" },
   ];
   const isEmpty = false;
+  const [activeTab, setActiveTab] = React.useState<string>("Performance");
+  const [queryText, setQueryText] = React.useState<string>("");
+  const [showCount, setShowCount] = React.useState<number>(8);
+  const [favorites, setFavorites] = React.useState<number[]>(() => {
+    try {
+      const raw = localStorage.getItem("synapse:favorites");
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  });
+  React.useEffect(() => {
+    try {
+      localStorage.setItem("synapse:favorites", JSON.stringify(favorites));
+    } catch {}
+  }, [favorites]);
+
+  const tabToPersona: Record<string, PersonaKey | "Favorites" | "All"> = {
+    Favorites: "Favorites",
+    Performance: "Performance Marketing",
+    CMO: "CMO / Leadership",
+    Brand: "Brand / Category Manager",
+    Creative: "Creative / Content",
+    Supply: "Supply Chain / Channel Ops",
+    Finance: "Finance / FP&A",
+    Admin: "Data / IT Admin",
+  };
+
+  const filteredRoutes = React.useMemo(() => {
+    const base = activeTab === "Favorites"
+      ? appRoutes.filter((r) => favorites.includes(r.id))
+      : activeTab in tabToPersona
+        ? (routesByPersona[tabToPersona[activeTab] as PersonaKey] || [])
+        : appRoutes;
+    const q = queryText.trim().toLowerCase();
+    return base.filter((r) => !q || r.title.toLowerCase().includes(q));
+  }, [activeTab, favorites, queryText]);
+
+  const toggleFavorite = (id: number) => {
+    setFavorites((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
+  };
 
   return (
     <>
@@ -84,13 +125,24 @@ const Index = () => {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex flex-wrap gap-2 text-xs">
                     {['Favorites','Performance','CMO','Brand','Creative','Supply','Finance','Admin'].map((t) => (
-                      <button key={t} className="rounded-md bg-muted/40 px-2 py-1">{t}</button>
+                      <button
+                        key={t}
+                        onClick={() => setActiveTab(t)}
+                        className={`rounded-md px-2 py-1 ${activeTab === t ? 'bg-secondary' : 'bg-muted/40 hover:bg-muted'}`}
+                        aria-pressed={activeTab === t}
+                      >{t}</button>
                     ))}
                   </div>
-                  <input placeholder="Find a view…" className="h-8 w-56 rounded-md border bg-background px-2 text-sm" />
+                  <input
+                    placeholder="Find a view…"
+                    className="h-8 w-56 rounded-md border bg-background px-2 text-sm"
+                    value={queryText}
+                    onChange={(e) => setQueryText(e.target.value)}
+                    aria-label="Find a view"
+                  />
                 </div>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {personas.flatMap((p) => routesByPersona[p]).slice(0, 8).map((v) => (
+                  {filteredRoutes.slice(0, showCount).map((v) => (
                     <Card key={v.id} className="rounded-xl">
                       <CardHeader className="pb-2">
                         <CardTitle className="text-sm">{v.title}</CardTitle>
@@ -98,15 +150,17 @@ const Index = () => {
                       <CardContent className="text-xs text-muted-foreground space-y-2">
                         <div className="inline-flex items-center gap-2"><span className="rounded-md bg-muted/40 px-2 py-0.5">{v.persona}</span></div>
                         <div className="flex items-center justify-between">
-                          <button className="rounded-md bg-primary text-primary-foreground px-2 py-1 text-xs">Open</button>
-                          <button className="rounded-md border px-2 py-1 text-xs">☆</button>
+                          <Button size="sm" onClick={() => navigate(v.path)}>Open</Button>
+                          <Button size="sm" variant="outline" onClick={() => toggleFavorite(v.id)} aria-pressed={favorites.includes(v.id)}>{favorites.includes(v.id) ? '★' : '☆'}</Button>
                         </div>
                       </CardContent>
                     </Card>
                   ))}
                 </div>
                 <div className="text-center">
-                  <button className="text-xs rounded-md border px-3 py-1">Show 8 more</button>
+                  {showCount < filteredRoutes.length && (
+                    <button className="text-xs rounded-md border px-3 py-1" onClick={() => setShowCount((n) => n + 8)}>Show 8 more</button>
+                  )}
                 </div>
               </CardContent>
             </Card>
