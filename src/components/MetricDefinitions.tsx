@@ -3,9 +3,10 @@ import { Info } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const defs: { key: string; desc: string }[] = [
-  { key: "ROAS", desc: "Return on Ad Spend. Revenue ÷ Ad Spend." },
-  { key: "CPA", desc: "Cost per Acquisition. Ad Spend ÷ Conversions." },
-  { key: "NTB%", desc: "New-to-brand percentage: share of conversions from first-time buyers." },
+  { key: "ROAS", desc: "Revenue attributed ÷ Ad spend (same-day attribution unless changed)." },
+  { key: "CPA", desc: "Ad spend ÷ Conversions (orders)." },
+  { key: "Pacing %", desc: "Spend today vs plan; hover for time-aligned pacing." },
+  { key: "NTB%", desc: "% of orders from first-time brand buyers (platform reported or modeled)." },
   { key: "Share of shelf", desc: "Share of visible placements for SKU/category on a platform." },
   { key: "Share of search", desc: "Share of top results for key queries on a platform." },
 ];
