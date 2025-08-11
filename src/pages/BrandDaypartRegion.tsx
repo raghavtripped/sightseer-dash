@@ -13,6 +13,7 @@ import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, CartesianGrid, AreaChart, A
 
 const cities = ["Delhi", "Mumbai", "Bengaluru", "Pune", "Hyderabad"];
 const dayparts = ["Breakfast", "Lunch", "Snacks", "Dinner"];
+const skus = ["Aloo Tikki 500g", "Veg Nuggets 500g", "Fries 750g", "Wedges 750g"];
 
 type Matrix = Record<string, Record<string, number>>
 
@@ -27,6 +28,26 @@ const BrandDaypartRegion: React.FC = () => {
   const [matrix, setMatrix] = React.useState<Matrix>(initMatrix)
   const cityTotal = (c: string) => Object.values(matrix[c]).reduce((a, b) => a + b, 0)
   const overall = cities.reduce((sum, c) => sum + cityTotal(c), 0)
+  // Seeded measurements for heatmaps
+  const skuDaypartRoas: Record<string, Record<string, { roas: number; delta: number; sig: boolean }>> = skus.reduce((acc, s, si) => {
+    const inner = dayparts.reduce((m, d, di) => {
+      const base = 4 + ((si + di) % 3) * 0.4
+      const delta = ((si * 2 + di) % 4 === 0 ? 0.5 : -0.2)
+      return { ...m, [d]: { roas: Number((base + (di === 2 ? 0.6 : 0)).toFixed(1)), delta, sig: (si + di) % 3 === 0 } }
+    }, {} as Record<string, { roas: number; delta: number; sig: boolean }>)
+    acc[s] = inner
+    return acc
+  }, {} as Record<string, Record<string, { roas: number; delta: number; sig: boolean }>>)
+
+  const availabilityMatrix: { city: string; sku: string; instock: number; shelf: number; risk: number }[] = []
+  cities.forEach((city, ci) => {
+    skus.forEach((s, si) => {
+      const instock = 70 + ((ci + si * 7) % 30)
+      const shelf = 20 + ((ci * 5 + si * 9) % 55)
+      const risk = Math.max(0, 100 - instock - (shelf > 35 ? 10 : 0))
+      availabilityMatrix.push({ city, sku: s, instock, shelf, risk })
+    })
+  })
   return (
     <>
       <Helmet>
@@ -55,14 +76,70 @@ const BrandDaypartRegion: React.FC = () => {
                   <span>SKU × Daypart</span>
                   <Info short="Cell shows metric and Δ vs last 4w; hatched outline = significant change (p≤0.05)." long="Significance hatch: Change vs baseline that passes a statistical test (p≤0.05, min N)." />
                 </div>
-                <div className="mt-2 text-muted-foreground">Heatmap placeholder with seeded values.</div>
+                <div className="mt-2 overflow-x-auto">
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr>
+                        <th className="text-left p-2">SKU</th>
+                        {dayparts.map((d) => (<th key={d} className="p-2 text-center">{d}</th>))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {skus.map((s) => (
+                        <tr key={s}>
+                          <td className="p-2 font-medium whitespace-nowrap">{s}</td>
+                          {dayparts.map((d) => {
+                            const cell = skuDaypartRoas[s][d]
+                            const ratio = Math.max(0, Math.min(1, (cell.roas - 3) / 3))
+                            const bg = `rgba(16, 185, 129, ${0.12 + ratio * 0.45})`
+                            return (
+                              <td key={d} className={`p-2 text-center rounded-md border ${cell.sig ? 'border-dashed' : 'border-transparent'}`} style={{ backgroundColor: bg }}>
+                                <div className="font-medium">{cell.roas.toFixed(1)}x</div>
+                                <div className={`text-[10px] ${cell.delta>=0?'text-emerald-700':'text-red-600'}`}>{cell.delta>0?'+':''}{cell.delta.toFixed(1)}x</div>
+                              </td>
+                            )
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <div className="rounded-md border p-3 text-sm">
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   <span>City × SKU availability & shelf share</span>
                   <Info short="Two sub-cells: In-stock% and Shelf share%; red if OOS risk >10% or share <25%." long="City × SKU availability & shelf share: Two sub-cells — In-stock% and Shelf share%; red if OOS risk >10% or share <25%." />
                 </div>
-                <div className="mt-2 text-muted-foreground">Availability matrix placeholder.</div>
+                <div className="mt-2 overflow-x-auto">
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr>
+                        <th className="text-left p-2">City</th>
+                        {skus.map((s) => (<th key={s} className="p-2 text-center whitespace-nowrap">{s}</th>))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {cities.map((city) => (
+                        <tr key={city}>
+                          <td className="p-2 font-medium whitespace-nowrap">{city}</td>
+                          {skus.map((s) => {
+                            const cell = availabilityMatrix.find((r) => r.city === city && r.sku === s)!
+                            const riskTone = cell.risk > 20 ? 'text-red-600' : cell.risk > 10 ? 'text-amber-600' : 'text-muted-foreground'
+                            return (
+                              <td key={s} className="p-1 align-middle">
+                                <div className="grid grid-cols-2 gap-0.5 rounded-md border p-1">
+                                  <div className={`text-center rounded-sm ${cell.instock<90?'bg-amber-50':''}`}>{cell.instock}%<div className="text-[10px] text-muted-foreground">In</div></div>
+                                  <div className={`text-center rounded-sm ${cell.shelf<25?'bg-red-50':''}`}>{cell.shelf}%<div className="text-[10px] text-muted-foreground">Shelf</div></div>
+                                </div>
+                                <div className={`text-[10px] text-right ${riskTone}`}>Risk {cell.risk}%</div>
+                              </td>
+                            )
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </CardContent>
           </Card>

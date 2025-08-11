@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
+import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, BarChart, Bar } from "recharts";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -16,7 +18,7 @@ const running: TestRow[] = [
 ];
 
 const PerfExperiments: React.FC = () => {
-  const { toast } = (useToast as any)();
+  const { toast } = useToast();
   return (
     <>
       <Helmet>
@@ -112,8 +114,30 @@ const PerfExperiments: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Outcome archive</CardTitle>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              Learnings library & reusable templates placeholder.
+            <CardContent className="grid gap-4">
+              <div className="h-40">
+                <ChartContainer config={{ lift: { label: "Median lift%", color: "hsl(var(--primary))" } }} className="h-full">
+                  <BarChart data={[{m:'CTR',lift:8.2},{m:'CVR',lift:4.1},{m:'ROAS',lift:6.5}] }>
+                    <CartesianGrid vertical={false} />
+                    <XAxis dataKey="m" />
+                    <YAxis />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Bar dataKey="lift" radius={3} />
+                  </BarChart>
+                </ChartContainer>
+              </div>
+              <div className="h-40">
+                <ChartContainer config={{ t: { label: "Treatment" }, c: { label: "Control" } }} className="h-full">
+                  <LineChart data={[{w:1,t:100,c:100},{w:2,t:96,c:98},{w:3,t:92,c:97},{w:4,t:90,c:96}] }>
+                    <CartesianGrid vertical={false} />
+                    <XAxis dataKey="w" />
+                    <YAxis />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Line type="monotone" dataKey="t" stroke="hsl(var(--primary))" dot={false} />
+                    <Line type="monotone" dataKey="c" stroke="hsl(var(--muted-foreground))" dot={false} />
+                  </LineChart>
+                </ChartContainer>
+              </div>
             </CardContent>
           </Card>
         </section>
