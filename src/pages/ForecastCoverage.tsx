@@ -53,7 +53,7 @@ const InfoLabel: React.FC<{ label: string; tip?: string }> = ({ label, tip }) =>
 );
 
 const ForecastCoverage: React.FC = () => {
-  const { toast } = (useToast as any)();
+  const { toast } = useToast();
   const [selected, setSelected] = React.useState<typeof cityCoverage[number] | null>(null);
   const [whatIf, setWhatIf] = React.useState({ spend: 0, price: 0, inventory: 0, exploration: 10 });
 
