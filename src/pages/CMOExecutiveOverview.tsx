@@ -9,6 +9,7 @@ import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartToo
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Line, LineChart, ReferenceDot, ReferenceLine, ComposedChart } from "recharts";
 import { Badge } from "@/components/ui/badge";
 import { Info, TrendingUp, TrendingDown } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useFilters } from "@/context/FiltersContext";
 import { useNavigate } from "react-router-dom";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -90,6 +91,20 @@ const ExecutiveOverview: React.FC = () => {
   const [smooth, setSmooth] = React.useState(true);
   const [budgetTab, setBudgetTab] = React.useState<"current" | "last" | "plan">("current");
 
+  const InfoLabel: React.FC<{ label: string; tip?: string }> = ({ label, tip }) => (
+    <div className="inline-flex items-center gap-1">
+      <span>{label}</span>
+      {tip && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button aria-label={`Info about ${label}`} className="text-muted-foreground hover:text-foreground"><Info size={14} /></button>
+          </TooltipTrigger>
+          <TooltipContent className="max-w-xs">{tip}</TooltipContent>
+        </Tooltip>
+      )}
+    </div>
+  );
+
   return (
     <>
       <Helmet>
@@ -99,15 +114,15 @@ const ExecutiveOverview: React.FC = () => {
       </Helmet>
 
       <DashboardLayout title="Executive Overview" subtitle="Are we winning, where, and why — and what should we do next?">
-        <section className="grid gap-4 md:grid-cols-4">
-          <Kpi title="Overall ROAS" value="4.6x" delta="+0.3 vs prev" tooltip="ROAS = Revenue attributed ÷ Ad spend (current attribution window: Last click, same-day, change in Settings)." state="good" />
-          <Kpi title="Q-comm ROAS" value="5.1x" delta="+0.4" tooltip="ROAS = Revenue attributed ÷ Ad spend." state="good" />
-          <Kpi title="Trad e-com ROAS" value="3.9x" delta="-0.2" tooltip="ROAS = Revenue attributed ÷ Ad spend." state="warn" />
-          <Kpi title="Attributable Sales" value="₹48.3L" delta="+₹3.1L" tooltip="Attributed sales in ₹ under current window." />
-          <Kpi title="Spend (7d)" value="₹48.3L" delta="+₹2.0L" tooltip="Masked unless Finance role. Shows 7d spend." />
-          <Kpi title="CPA" value="₹128" delta="-₹6" tooltip="CPA = Ad spend ÷ Orders." />
-          <Kpi title="NTB%" value="41%" delta="+2%" tooltip="NTB% = % orders from first-time buyers (platform or modeled)." />
-          <Kpi title="Share of Wallet" value="26%" delta="+1%" tooltip="SoW = Brand sales ÷ Category sales (same scope). If unavailable, shows —." />
+        <section className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-4">
+          <Kpi title={<InfoLabel label="Overall ROAS" tip="ROAS = Revenue attributed ÷ Ad spend (current attribution window: Last click, same-day, change in Settings)." />} value="4.6x" delta="+0.3 vs prev" state="good" />
+          <Kpi title={<InfoLabel label="Q-comm ROAS" tip="ROAS = Revenue attributed ÷ Ad spend." />} value="5.1x" delta="+0.4" state="good" />
+          <Kpi title={<InfoLabel label="Trad e-com ROAS" tip="ROAS = Revenue attributed ÷ Ad spend." />} value="3.9x" delta="-0.2" state="warn" />
+          <Kpi title={<InfoLabel label="Attributable Sales" tip="Attributed sales in ₹ under current window." />} value="₹48.3L" delta="+₹3.1L" />
+          <Kpi title={<InfoLabel label="Spend (7d)" tip="Masked unless Finance role. Shows 7d spend." />} value="₹48.3L" delta="+₹2.0L" />
+          <Kpi title={<InfoLabel label="CPA" tip="CPA = Ad spend ÷ Orders." />} value="₹128" delta="-₹6" />
+          <Kpi title={<InfoLabel label="NTB%" tip="% orders from first-time buyers (platform or modeled)." />} value="41%" delta="+2%" />
+          <Kpi title={<InfoLabel label="Share of Wallet" tip="Brand sales ÷ Category sales (same scope)." />} value="26%" delta="+1%" />
         </section>
 
         <section className="grid gap-4 md:grid-cols-12">
@@ -226,8 +241,8 @@ const ExecutiveOverview: React.FC = () => {
                   <ChartLegend content={<ChartLegendContent />} />
                   <Line type={smooth ? "monotone" : "linear"} dataKey="spendIdx" stroke="var(--color-spendIdx)" strokeWidth={2} dot={!smooth} />
                   <Line type={smooth ? "monotone" : "linear"} dataKey="salesIdx" stroke="var(--color-salesIdx)" strokeWidth={2} dot={!smooth} />
-                  <Line type="dashed" dataKey="planSpend" stroke="var(--color-plan)" strokeDasharray="4 4" dot={false} />
-                  <Line type="dashed" dataKey="planSales" stroke="var(--color-plan)" strokeDasharray="2 6" dot={false} />
+                  <Line type={smooth ? "monotone" : "linear"} dataKey="planSpend" stroke="var(--color-plan)" strokeDasharray="4 4" dot={false} />
+                  <Line type={smooth ? "monotone" : "linear"} dataKey="planSales" stroke="var(--color-plan)" strokeDasharray="2 6" dot={false} />
                   <ReferenceDot x={"W3"} y={spendSalesTrend[2].salesIdx} r={4} fill="#f59e0b" stroke="none" />
                   <ReferenceDot x={"W6"} y={spendSalesTrend[5].spendIdx} r={4} fill="#10b981" stroke="none" />
                 </ComposedChart>
@@ -331,22 +346,10 @@ const ExecutiveOverview: React.FC = () => {
   );
 };
 
-const Kpi: React.FC<{ title: string; value: string; delta?: string; tooltip?: string; state?: "good" | "warn" | "bad" }> = ({ title, value, delta, tooltip, state }) => (
-  <Card>
+const Kpi: React.FC<{ title: React.ReactNode; value: string; delta?: string; state?: "good" | "warn" | "bad" }> = ({ title, value, delta, state }) => (
+  <Card className="rounded-xl">
     <CardHeader className="pb-1">
-      <div className="flex items-center justify-between">
-        <CardTitle className="text-xs text-muted-foreground font-normal">{title}</CardTitle>
-        {tooltip && (
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-6 w-6" aria-label={`Info about ${title}`}>
-                <Info size={14} />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent align="end" className="max-w-xs text-xs">{tooltip}</PopoverContent>
-          </Popover>
-        )}
-      </div>
+      <CardTitle className="text-xs text-muted-foreground font-normal">{title}</CardTitle>
     </CardHeader>
     <CardContent>
       <div className={"text-xl font-semibold " + (state === "good" ? "text-success" : state === "bad" ? "text-destructive" : state === "warn" ? "text-amber-600" : "")}>{value}</div>

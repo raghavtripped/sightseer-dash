@@ -4,7 +4,7 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { Line, LineChart, CartesianGrid, XAxis, YAxis, ReferenceArea, Area } from "recharts";
+import { Line, LineChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
@@ -44,7 +44,7 @@ const sigMatrix: Record<string, Record<string, boolean>> = {
 };
 
 const StrategicHeatmaps: React.FC = () => {
-  const { toast } = (useToast as any)();
+  const { toast } = useToast();
   const weeks = Array.from({ length: 8 }).map((_, i) => `W${i + 1}`);
   const series = weeks.map((w, i) => ({ week: w, roas: 3.5 + (i * 0.2) + (i % 3 === 0 ? 0.3 : -0.1), cpa: 160 - i * 3, sow: 24 + (i % 2 === 0 ? 2 : -1), ntb: 38 + (i % 3 === 0 ? 3 : -1) }));
 
@@ -81,7 +81,7 @@ const StrategicHeatmaps: React.FC = () => {
               {metrics.map((m) => <SelectItem key={m} value={m}>{m}</SelectItem>)}
             </SelectContent>
           </Select>
-          <Select value={compare} onValueChange={(v) => setCompare(v as any)}>
+          <Select value={compare} onValueChange={(v) => setCompare(v as typeof comparators[number])}>
             <SelectTrigger className="w-[180px]"><SelectValue placeholder="Compare vs" /></SelectTrigger>
             <SelectContent>
               {Array.from(comparators).map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
@@ -114,9 +114,10 @@ const StrategicHeatmaps: React.FC = () => {
                           const v = roasMatrix[p][d];
                           const delta = deltaMatrix[p][d];
                           const sig = sigMatrix[p][d];
-                          const tone = v >= 5 ? "bg-green-500/20" : v >= 4 ? "bg-amber-500/20" : "bg-red-500/20";
+                          const ratio = Math.max(0, Math.min(1, (v - 3) / 3));
+                          const bg = `rgba(16, 185, 129, ${0.12 + ratio * 0.45})`;
                           return (
-                            <td key={d} className={`p-2 ${tone} text-center rounded-md border ${sig ? "border-dashed" : "border-transparent"}`} onClick={() => openCell(p, d)}>
+                            <td key={d} className={`p-2 text-center rounded-md border ${sig ? "border-dashed" : "border-transparent"}`} style={{ backgroundColor: bg }} onClick={() => openCell(p, d)}>
                               <div className="font-medium">{v.toFixed(1)}{metric === "ROAS" ? "x" : ""}</div>
                               <div className={`text-[10px] ${delta >= 0 ? "text-emerald-600" : "text-red-600"}`}>{delta >= 0 ? "+" : ""}{metric === "ROAS" ? delta.toFixed(1) + "x" : `${delta}%`}</div>
                             </td>
