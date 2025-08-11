@@ -7,14 +7,16 @@ import { Button } from "@/components/ui/button";
 import ExportBar from "@/components/ExportBar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
-import { MoreHorizontal, Pause, Play, DollarSign, ArrowUpRight, ArrowDownRight, RefreshCcw } from "lucide-react";
+import { MoreHorizontal, Pause, Play, DollarSign, ArrowUpRight, ArrowDownRight, RefreshCcw, AlertTriangle, TriangleAlert, Zap } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface CampaignRow {
   id: string;
   name: string;
   platform: string;
-  status: "Active" | "Paused";
+  status: "Active" | "Paused" | "Limited" | "OOS-hold" | "Error";
   spendToday: number;
   pacing: number; // % of plan
   impr: number;
@@ -24,12 +26,13 @@ interface CampaignRow {
   cpa: number;
   budgetLeft: number;
   mode: "AI" | "Manual";
+  issues?: Array<"OOS" | "Fatigue" | "API" | "PriceGap">;
 }
 
 const rows: CampaignRow[] = [
-  { id: "C-001", name: "Blinkit | Snacks | Delhi", platform: "Blinkit", status: "Active", spendToday: 82000, pacing: 92, impr: 142000, clicks: 3500, conv: 410, roas: 6.2, cpa: 118, budgetLeft: 120000, mode: "AI" },
+  { id: "C-001", name: "Blinkit | Snacks | Delhi", platform: "Blinkit", status: "Active", spendToday: 82000, pacing: 92, impr: 142000, clicks: 3500, conv: 410, roas: 6.2, cpa: 118, budgetLeft: 120000, mode: "AI", issues: ["Fatigue"] },
   { id: "C-002", name: "Zepto | Late Night | Mumbai", platform: "Zepto", status: "Active", spendToday: 54000, pacing: 76, impr: 103400, clicks: 2600, conv: 240, roas: 4.1, cpa: 132, budgetLeft: 80000, mode: "AI" },
-  { id: "C-003", name: "Instamart | Breakfast | BLR", platform: "Instamart", status: "Paused", spendToday: 12000, pacing: 35, impr: 22000, clicks: 540, conv: 40, roas: 2.9, cpa: 168, budgetLeft: 45000, mode: "Manual" },
+  { id: "C-003", name: "Instamart | Breakfast | BLR", platform: "Instamart", status: "Limited", spendToday: 12000, pacing: 35, impr: 22000, clicks: 540, conv: 40, roas: 2.9, cpa: 168, budgetLeft: 45000, mode: "Manual", issues: ["OOS"] },
   { id: "C-004", name: "Amazon | Sponsored | IN", platform: "Amazon", status: "Active", spendToday: 63000, pacing: 83, impr: 165000, clicks: 4200, conv: 380, roas: 3.8, cpa: 145, budgetLeft: 100000, mode: "Manual" },
   { id: "C-005", name: "Flipkart | Promo | Pune", platform: "Flipkart", status: "Active", spendToday: 28000, pacing: 64, impr: 66000, clicks: 1500, conv: 130, roas: 4.4, cpa: 126, budgetLeft: 60000, mode: "AI" },
   { id: "C-006", name: "Blinkit | Dinner | Hyd", platform: "Blinkit", status: "Active", spendToday: 41000, pacing: 98, impr: 88000, clicks: 2100, conv: 220, roas: 5.5, cpa: 121, budgetLeft: 52000, mode: "AI" },
@@ -40,6 +43,7 @@ const currency = (n: number) => `₹${(n/1000).toFixed(1)}k`;
 const LiveOps: React.FC = () => {
   const { toast } = useToast();
   const [query, setQuery] = React.useState("");
+  const [autoRefresh, setAutoRefresh] = React.useState(true);
   const conversionsToday = 1420;
   const conversionsYesterday = 1310;
   const diff = conversionsToday - conversionsYesterday;
@@ -117,6 +121,7 @@ const LiveOps: React.FC = () => {
                   <TableHead className="text-right">ROAS</TableHead>
                   <TableHead className="hidden md:table-cell text-right">CPA</TableHead>
                   <TableHead className="hidden md:table-cell text-right">Budget left</TableHead>
+                  <TableHead className="hidden md:table-cell">Issues</TableHead>
                   <TableHead className="w-10"> </TableHead>
                 </TableRow>
               </TableHeader>
@@ -129,13 +134,34 @@ const LiveOps: React.FC = () => {
                       <span className={
                         r.status === 'Active'
                           ? 'rounded-md bg-success/10 px-2 py-1 text-xs text-success ring-1 ring-success/20'
+                          : r.status === 'Limited'
+                          ? 'rounded-md bg-amber-500/10 px-2 py-1 text-xs text-amber-600 ring-1 ring-amber-500/20'
+                          : r.status === 'Error'
+                          ? 'rounded-md bg-destructive/10 px-2 py-1 text-xs text-destructive ring-1 ring-destructive/20'
                           : 'rounded-md bg-muted px-2 py-1 text-xs text-muted-foreground'
                       }>
                         {r.status}
                       </span>
                     </TableCell>
                     <TableCell className="text-right">{currency(r.spendToday)}</TableCell>
-                    <TableCell className="hidden lg:table-cell text-right">{r.pacing}%</TableCell>
+                    <TableCell className="hidden lg:table-cell text-right">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span className={
+                              (r.pacing >= 90 && r.pacing <= 110)
+                                ? 'text-success'
+                                : (r.pacing >= 75 && r.pacing < 90) || (r.pacing > 110 && r.pacing <= 125)
+                                ? 'text-amber-600'
+                                : 'text-destructive'
+                            }>
+                              {r.pacing}%
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent>Time-aligned: {(r.pacing * 0.95).toFixed(0)}%</TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </TableCell>
                     <TableCell className="hidden lg:table-cell text-right">{r.impr.toLocaleString()}</TableCell>
                     <TableCell className="hidden lg:table-cell text-right">{r.clicks.toLocaleString()}</TableCell>
                     <TableCell className="text-right">{r.conv.toLocaleString()}</TableCell>
@@ -144,6 +170,13 @@ const LiveOps: React.FC = () => {
                     </TableCell>
                     <TableCell className="hidden md:table-cell text-right">₹{r.cpa}</TableCell>
                     <TableCell className="hidden md:table-cell text-right">{currency(r.budgetLeft)}</TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      <div className="flex items-center gap-1 text-muted-foreground">
+                        {r.issues?.includes('OOS') && <AlertTriangle size={16} className="text-amber-600" title="OOS" />}
+                        {r.issues?.includes('Fatigue') && <TriangleAlert size={16} className="text-amber-600" title="Fatigue" />}
+                        {r.issues?.includes('API') && <Zap size={16} className="text-muted-foreground" title="API" />}
+                      </div>
+                    </TableCell>
                     <TableCell className="text-right">
                       <RowActions row={r} onAct={act} />
                     </TableCell>
