@@ -5,7 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from "recharts";
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, AreaChart, Area, ReferenceArea, ReferenceLine, Tooltip as RTooltip, BarChart, Bar } from "recharts";
+import Info from "@/components/Info";
+import KPI from "@/components/KPI";
 import { useToast } from "@/hooks/use-toast";
 
 const response = Array.from({ length: 6 }).map((_, i) => ({ spend: i * 10, blinkit: 20 + i * 8, zepto: 18 + i * 7 }))
@@ -26,29 +28,70 @@ const BrandPromotionsPricing: React.FC = () => {
         <link rel="canonical" href="/promotions-pricing" />
       </Helmet>
       <DashboardLayout title="Promotions & Pricing Efficacy" subtitle="Did the promo work? What next?">
-        <section className="grid gap-4 md:grid-cols-2">
-          <Card>
+        {/* KPI belt */}
+        <section className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
+          <KPI label="Incremental Sales" value="+₹12.5L" info={{ short: "Modeled extra revenue vs matched control during promo window (CUPED-adjusted)." }} />
+          <KPI label="Incremental Gross Margin" value="+₹7.1L" info={{ short: "Incremental sales × (1 − discount% − COGS%) minus ad spend." }} />
+          <KPI label="Lift vs Control" value="+18.4%" info={{ short: "(Treatment − Control) ÷ Control over the window." }} />
+          <KPI label="Promo ROAS" value="5.2x" info={{ short: "Incremental sales ÷ Promo ad spend (excludes baseline)." }} />
+          <KPI label="Cannibalization" value="11%" info={{ short: "Share of uplift that replaced other SKUs/pack sizes." }} />
+          <KPI label="Halo Sales" value="+₹2.3L" info={{ short: "Extra sales in adjacent SKUs/categories attributed to the promo." }} />
+          <KPI label="Avg Discount Depth" value="9.5%" info={{ short: "Average % off during promo window." }} />
+          <KPI label="Significance" value="p=0.03 • Power=84%" info={{ short: "p-value and statistical power; α=0.05, target 80%." }} />
+        </section>
+
+        {/* Charts row: DiD + Waterfall + Elasticity */}
+        <section className="grid gap-4 md:grid-cols-12">
+          <Card className="md:col-span-8">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Uplift vs control</CardTitle>
+              <CardTitle className="text-sm">Difference‑in‑Differences</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-3 gap-3 text-sm">
-                <div className="rounded-md border p-3">
-                  <div className="text-xs text-muted-foreground">Incremental sales</div>
-                  <div className="text-lg font-semibold">+₹12.5L</div>
-                </div>
-                <div className="rounded-md border p-3">
-                  <div className="text-xs text-muted-foreground">Lift vs control</div>
-                  <div className="text-lg font-semibold">+18.4%</div>
-                </div>
-                <div className="rounded-md border p-3">
-                  <div className="text-xs text-muted-foreground">Promo ROAS</div>
-                  <div className="text-lg font-semibold">5.2x</div>
-                </div>
-              </div>
+            <CardContent className="h-56">
+              <ChartContainer config={{ t: { label: "Treatment" }, c: { label: "Control" } }} className="h-full">
+                <LineChart data={[
+                  { d: 0, t: 42, c: 41 },
+                  { d: 1, t: 44, c: 42 },
+                  { d: 2, t: 46, c: 42 },
+                  { d: 3, t: 55, c: 45 }, // promo window starts
+                  { d: 4, t: 58, c: 46 },
+                  { d: 5, t: 60, c: 47 },
+                ]}>
+                  <CartesianGrid vertical={false} />
+                  <XAxis dataKey="d" tickLine={false} axisLine={false} />
+                  <YAxis tickLine={false} axisLine={false} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <ReferenceArea x1={3} x2={5} fill="hsl(var(--muted))" fillOpacity={0.3} />
+                  <Line type="monotone" dataKey="t" stroke="hsl(var(--primary))" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="c" stroke="hsl(var(--muted-foreground))" strokeWidth={2} dot={false} />
+                </LineChart>
+              </ChartContainer>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="md:col-span-4">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm">Uplift waterfall</CardTitle>
+            </CardHeader>
+            <CardContent className="h-56">
+              <ChartContainer config={{ v: { label: "₹ L" } }} className="h-full">
+                <BarChart data={[
+                  { k: "Baseline", v: 0 },
+                  { k: "Traffic", v: 3.2 },
+                  { k: "CVR", v: 1.1 },
+                  { k: "AOV", v: 0.6 },
+                  { k: "Cannibalization", v: -0.9 },
+                  { k: "Halo", v: 0.7 },
+                  { k: "Net", v: 4.7 },
+                ]}>
+                  <CartesianGrid vertical={false} />
+                  <XAxis dataKey="k" tickLine={false} axisLine={false} />
+                  <YAxis tickLine={false} axisLine={false} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar dataKey="v" fill="hsl(var(--primary))" radius={3} />
+                </BarChart>
+              </ChartContainer>
+            </CardContent>
+          </Card>
+          <Card className="md:col-span-4 md:col-start-9">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Elasticity: Spend → Sales</CardTitle>
             </CardHeader>
@@ -70,8 +113,10 @@ const BrandPromotionsPricing: React.FC = () => {
             </CardContent>
           </Card>
         </section>
-        <section className="grid gap-4 md:grid-cols-2">
-          <Card>
+
+        {/* Row 3: Comp set + Actions */}
+        <section className="grid gap-4 md:grid-cols-12">
+          <Card className="md:col-span-8">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Comp set: Price index vs rivals</CardTitle>
             </CardHeader>
@@ -80,9 +125,12 @@ const BrandPromotionsPricing: React.FC = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead>City</TableHead>
-                    <TableHead className="text-right">Ours</TableHead>
+                    <TableHead className="text-right">Our index</TableHead>
                     <TableHead className="text-right">Rival A</TableHead>
                     <TableHead className="text-right">Rival B</TableHead>
+                    <TableHead className="text-right">Price gap</TableHead>
+                    <TableHead className="text-right">CVR</TableHead>
+                    <TableHead className="text-right">ROAS</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -92,21 +140,54 @@ const BrandPromotionsPricing: React.FC = () => {
                       <TableCell className="text-right">{r.ours}</TableCell>
                       <TableCell className="text-right">{r.rivalA}</TableCell>
                       <TableCell className="text-right">{r.rivalB}</TableCell>
+                      <TableCell className="text-right">{((r.ours - Math.min(r.rivalA, r.rivalB)) / Math.min(r.rivalA, r.rivalB) * 100).toFixed(0)}%</TableCell>
+                      <TableCell className="text-right">{(3.5 + Math.random()).toFixed(1)}%</TableCell>
+                      <TableCell className="text-right">{(4.6 + Math.random()).toFixed(1)}x</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="md:col-span-4">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Actions</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-wrap gap-2">
-              <Button variant="secondary" onClick={() => toast({ title: "Promo queued", description: "Repeat best performer city-wide" })}>Repeat</Button>
-              <Button onClick={() => toast({ title: "Scaled", description: "Replicated to top 5 cities" })}>Scale to cities</Button>
-              <Button variant="outline" onClick={() => toast({ title: "Coupon set", description: "Switched 10% off → ₹30 coupon" })}>Switch to coupon</Button>
-              <Button variant="destructive" onClick={() => toast({ title: "Stopped", description: "Discount removed from low-ROI cities" })}>Stop discount</Button>
+              <Button variant="secondary" onClick={() => toast({ title: "Repeat", description: "+₹6.1L sales • ROAS 4.8x • Risk: Low" })}>Repeat</Button>
+              <Button onClick={() => toast({ title: "Scale to cities", description: "+₹9.3L • ROAS 5.0x • Risk: Medium (OOS 7%)" })}>Scale to cities</Button>
+              <Button variant="outline" onClick={() => toast({ title: "Switch to coupon", description: "−₹1.2L sales • ROAS 5.6x • Margin +₹0.5L" })}>Switch to coupon</Button>
+              <Button variant="destructive" onClick={() => toast({ title: "Stop discount", description: "Sales −₹3.2L • Margin neutral • SoW −1.3pp" })}>Stop discount</Button>
+              <Button onClick={() => toast({ title: "Test bundle", description: "Expected ROAS 5.4x • NTB% +4pp" })}>Test bundle</Button>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Row 4: Retention after promo */}
+        <section>
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm">Retention after promo</CardTitle>
+            </CardHeader>
+            <CardContent className="h-56">
+              <ChartContainer config={{ promo: { label: "Promo cohort" }, base: { label: "Non‑promo cohort" } }} className="h-full">
+                <LineChart data={[
+                  { w: 0, promo: 100, base: 100 },
+                  { w: 1, promo: 42, base: 36 },
+                  { w: 2, promo: 30, base: 24 },
+                  { w: 3, promo: 24, base: 18 },
+                  { w: 4, promo: 19, base: 15 },
+                  { w: 5, promo: 15, base: 12 },
+                  { w: 6, promo: 12, base: 10 },
+                ]}>
+                  <CartesianGrid vertical={false} />
+                  <XAxis dataKey="w" tickLine={false} axisLine={false} />
+                  <YAxis tickLine={false} axisLine={false} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Line type="monotone" dataKey="promo" stroke="hsl(var(--primary))" dot={false} />
+                  <Line type="monotone" dataKey="base" stroke="hsl(var(--muted-foreground))" dot={false} />
+                </LineChart>
+              </ChartContainer>
             </CardContent>
           </Card>
         </section>
