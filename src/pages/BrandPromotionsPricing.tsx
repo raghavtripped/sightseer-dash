@@ -19,7 +19,7 @@ const comp = [
 ]
 
 const BrandPromotionsPricing: React.FC = () => {
-  const { toast } = (useToast as any)();
+  const { toast } = useToast();
   return (
     <>
       <Helmet>

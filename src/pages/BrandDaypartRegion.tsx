@@ -23,7 +23,7 @@ const initMatrix: Matrix = cities.reduce((acc, c) => {
 }, {} as Matrix)
 
 const BrandDaypartRegion: React.FC = () => {
-  const { toast } = (useToast as any)();
+  const { toast } = useToast();
   const [matrix, setMatrix] = React.useState<Matrix>(initMatrix)
   const cityTotal = (c: string) => Object.values(matrix[c]).reduce((a, b) => a + b, 0)
   const overall = cities.reduce((sum, c) => sum + cityTotal(c), 0)

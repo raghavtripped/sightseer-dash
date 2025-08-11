@@ -243,7 +243,7 @@ const BrandSkuPerformance: React.FC = () => {
                     <XAxis dataKey="sales" name="Sales (L)" type="number" />
                     <YAxis dataKey="roas" name="ROAS" type="number" />
                     <ZAxis dataKey="ntbPct" range={[60, 260]} name="NTB%" />
-                    <RTooltip cursor={{ strokeDasharray: "3 3" }} formatter={(v: any, n: any) => [typeof v === "number" ? v.toFixed(2) : v, n]} />
+                     <RTooltip cursor={{ strokeDasharray: "3 3" }} formatter={(v: unknown, n: unknown) => [typeof v === "number" ? v.toFixed(2) : String(v), String(n)]} />
                     <ReferenceLine y={4.5} stroke="hsl(var(--muted-foreground))" strokeDasharray="4 4" />
                     <Scatter data={rows.map(r => ({ ...r, fill: `hsl(var(--primary))` }))} fill="var(--color-sku)" />
                   </ScatterChart>
