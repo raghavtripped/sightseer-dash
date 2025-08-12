@@ -3,7 +3,8 @@ import { GlobalFilters } from "@/components/GlobalFilters";
 import { useLocation, Link, NavLink as RRNavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Home, Activity } from "lucide-react";
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarSeparator, SidebarTrigger } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { appRoutes, routesByPersona, PersonaKey } from "@/routes";
 import MetricDefinitions from "@/components/MetricDefinitions";
 
@@ -20,28 +21,32 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, show
   const [spot, setSpot] = React.useState({ x: 50, y: 50 });
 
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={false}>
       {!hideSidebar && (
         <Sidebar variant="inset">
           <SidebarContent>
-            {Object.keys(routesByPersona).map((persona) => (
-              <SidebarGroup key={persona}>
-                <SidebarGroupLabel>{persona}</SidebarGroupLabel>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    {routesByPersona[persona as PersonaKey].map((r) => (
-                      <SidebarMenuItem key={r.id}>
-                        <SidebarMenuButton asChild isActive={location.pathname === r.path}>
-                          <RRNavLink to={r.path}>
-                            <span>{r.title}</span>
-                          </RRNavLink>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </SidebarGroup>
-            ))}
+            <Accordion type="single" collapsible className="px-2">
+              {Object.keys(routesByPersona).map((persona) => (
+                <AccordionItem key={persona} value={persona} className="border-none">
+                  <AccordionTrigger className="px-2 text-xs text-muted-foreground">
+                    {persona}
+                  </AccordionTrigger>
+                  <AccordionContent className="pt-0">
+                    <SidebarMenu>
+                      {routesByPersona[persona as PersonaKey].map((r) => (
+                        <SidebarMenuItem key={r.id}>
+                          <SidebarMenuButton asChild isActive={location.pathname === r.path}>
+                            <RRNavLink to={r.path}>
+                              <span>{r.title}</span>
+                            </RRNavLink>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                    </SidebarMenu>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </SidebarContent>
         </Sidebar>
       )}
@@ -60,12 +65,12 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, show
         }}
       >
         <nav className="container flex items-center justify-between py-3 px-4 sm:px-6">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            {!hideSidebar && <SidebarTrigger />}
             <div className="h-8 w-8 rounded-md bg-primary/10 ring-1 ring-primary/30" />
             <Link to="/" className="font-semibold">Synapse dashboard</Link>
           </div>
           <div className="flex items-center gap-1">
-            {!hideSidebar && <SidebarTrigger />}
             <div className="hidden sm:flex items-center gap-1">
               <NavLink to="/" icon={<Home size={16} />} active={location.pathname === "/"}>Home</NavLink>
               <NavLink to="/live-ops" icon={<Activity size={16} />} active={location.pathname.startsWith("/live-ops")}>Live ops</NavLink>
