@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { routesByPersona, PersonaKey, appRoutes } from "@/routes";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import Info from "@/components/Info";
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from "@/components/ui/command";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useFilters } from "@/context/FiltersContext";
@@ -173,6 +174,7 @@ const Index = () => {
   ];
   const isEmpty = false;
   const [openCommand, setOpenCommand] = React.useState<boolean>(false);
+  const [aiMode, setAiMode] = React.useState<{ enabled: boolean; explorationPct: number }>({ enabled: true, explorationPct: 10 });
 
 
 
@@ -317,6 +319,26 @@ const Index = () => {
             />
           </section>
 
+          {/* AI Mode + Safety bar */}
+          <section className="rounded-xl border bg-card p-3 sm:p-4">
+            <div className="flex flex-wrap items-center gap-3 justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium">Mode:</span>
+                <span className="inline-flex items-center gap-2 rounded-md bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200 px-2 py-1 text-xs">
+                  AI Majority
+                  <Info short="AI controls budgets within guardrails; you can override anytime." long={"The optimizer uses a bandit (Thompson Sampling) to reallocate budgets by platform × city × daypart.\n\nSafety:\n• Change caps: ±20% per push (larger needs approval)\n• Exploration cap: <= 10–15%\n• Circuit breaker: pauses on stale data or high API errors\n• Audit: every change is logged with before/after, reason, confidence"} />
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium">Exploration</span>
+                <span className="inline-flex items-center gap-2 rounded-md bg-slate-50 text-slate-700 ring-1 ring-slate-200 px-2 py-1 text-xs">
+                  {aiMode.explorationPct}%
+                  <Info short="Small test budget to keep learning." long={"Exploration allocates a small share of spend (typically 5–15%) to test new cells.\nThis prevents overfitting and adapts to shifts (promos, seasonality)."} />
+                </span>
+              </div>
+            </div>
+          </section>
+
           {/* Search and Navigation */}
           <section className="space-y-6">
             <div className="flex items-center justify-between">
@@ -350,10 +372,16 @@ const Index = () => {
 
           <Separator className="my-2" />
           <footer className="flex items-center justify-between text-xs text-muted-foreground">
-            <div>Data fresh as of 10:24 IST</div>
+            <div className="inline-flex items-center gap-1">
+              <span>Data fresh as of 10:24 IST</span>
+              <Info short="Time since last successful sync from each source." long={"Data freshness reflects the most recent successful sync.\n• Amazon: near real-time via API/Marketing Stream\n• Q-commerce portals: agreed cadence (e.g., hourly/daily)\n\nWhen freshness or error rate breaches SLOs, optimizers enter Safe Mode (read-only)."} />
+            </div>
             <div className="flex items-center gap-3">
               {['Blinkit','Zepto','Instamart','Amazon','Flipkart'].map((p) => (
-                <span key={p} className="inline-flex items-center gap-1 rounded-md bg-muted/40 px-2 py-1"><span className="h-2 w-2 rounded-full bg-green-500" /> {p}</span>
+                <span key={p} className="inline-flex items-center gap-1 rounded-md bg-muted/40 px-2 py-1">
+                  <span className="h-2 w-2 rounded-full bg-green-500" /> {p}
+                  <Info short={`${p}: source`} long={`${p} source: ${p === 'Amazon' ? 'Official Ads API (programmatic)' : 'Portal-based (RPA/AM-assisted)'}\nRetries, backoff, and screenshots are captured for portal automations.`} />
+                </span>
               ))}
             </div>
           </footer>
