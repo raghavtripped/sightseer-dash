@@ -105,7 +105,7 @@ const LiveOps: React.FC = () => {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-lg border bg-card">
+          <div className="overflow-x-auto rounded-lg border bg-card">
             <Table>
               <TableHeader>
                 <TableRow>

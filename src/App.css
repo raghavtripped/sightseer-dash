@@ -1,8 +1,9 @@
+/* Remove hard max-width/padding to allow responsive layout to control spacing */
 #root {
-  max-width: 1280px;
+  max-width: none;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding: 0;
+  text-align: initial;
 }
 
 .logo {

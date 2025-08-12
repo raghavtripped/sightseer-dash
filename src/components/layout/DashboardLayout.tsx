@@ -47,7 +47,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, show
       )}
       <SidebarInset>
         <header
-        className="border-b bg-card/70 backdrop-blur supports-[backdrop-filter]:bg-card/60"
+        className="sticky top-0 z-30 border-b bg-card/70 backdrop-blur supports-[backdrop-filter]:bg-card/60"
         onMouseMove={(e) => {
           const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
           const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -59,24 +59,26 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, show
           transition: 'background-image var(--transition-smooth, 150ms ease-out)'
         }}
       >
-        <nav className="container flex items-center justify-between py-4">
+        <nav className="container flex items-center justify-between py-3 px-4 sm:px-6">
           <div className="flex items-center gap-3">
             <div className="h-8 w-8 rounded-md bg-primary/10 ring-1 ring-primary/30" />
             <Link to="/" className="font-semibold">Synapse dashboard</Link>
           </div>
           <div className="flex items-center gap-1">
             {!hideSidebar && <SidebarTrigger />}
-            <NavLink to="/" icon={<Home size={16} />} active={location.pathname === "/"}>Home</NavLink>
-            <NavLink to="/live-ops" icon={<Activity size={16} />} active={location.pathname.startsWith("/live-ops")}>Live ops</NavLink>
+            <div className="hidden sm:flex items-center gap-1">
+              <NavLink to="/" icon={<Home size={16} />} active={location.pathname === "/"}>Home</NavLink>
+              <NavLink to="/live-ops" icon={<Activity size={16} />} active={location.pathname.startsWith("/live-ops")}>Live ops</NavLink>
+            </div>
           </div>
         </nav>
       </header>
 
-      <main className="container py-6 space-y-4">
+      <main className="container py-4 sm:py-6 px-4 sm:px-6 space-y-4">
         {title && (
           <div className="space-y-1">
-            <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
-            {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+            <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">{title}</h1>
+            {subtitle && <p className="text-xs sm:text-sm text-muted-foreground">{subtitle}</p>}
           </div>
         )}
         {showFilters && (

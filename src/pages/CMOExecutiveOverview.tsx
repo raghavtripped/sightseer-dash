@@ -170,7 +170,7 @@ const ExecutiveOverview: React.FC = () => {
                 <CardTitle className="text-sm">City leaderboard</CardTitle>
                 <ExportBar />
               </CardHeader>
-              <CardContent className="overflow-hidden rounded-lg border bg-card p-0">
+              <CardContent className="overflow-x-auto rounded-lg border bg-card p-0">
                 <Table>
                   <TableHeader>
                     <TableRow>

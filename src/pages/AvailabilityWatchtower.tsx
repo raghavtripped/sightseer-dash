@@ -122,7 +122,7 @@ const AvailabilityWatchtower: React.FC = () => {
                   <Button size="sm" variant="outline">Export CSV</Button>
                 </div>
               </CardHeader>
-              <CardContent className="overflow-hidden rounded-lg border bg-card p-0">
+              <CardContent className="overflow-x-auto rounded-lg border bg-card p-0">
                 <Table>
                   <TableHeader>
                     <TableRow>

@@ -74,7 +74,7 @@ const PerfAlertsActionLog: React.FC = () => {
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm">Action log</CardTitle>
               </CardHeader>
-              <CardContent className="overflow-hidden rounded-lg border bg-card p-0">
+              <CardContent className="overflow-x-auto rounded-lg border bg-card p-0">
                 <Table>
                   <TableHeader>
                     <TableRow>

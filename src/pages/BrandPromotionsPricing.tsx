@@ -120,7 +120,7 @@ const BrandPromotionsPricing: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Comp set: Price index vs rivals <Info short="Price parity: 100 = parity, >100 = we’re pricier." long="Comp-set price index: Price parity measure (100 = parity, >100 = we’re pricier)." /></CardTitle>
             </CardHeader>
-            <CardContent className="overflow-hidden rounded-lg border bg-card p-0">
+            <CardContent className="overflow-x-auto rounded-lg border bg-card p-0">
               <Table>
                 <TableHeader>
                   <TableRow>
