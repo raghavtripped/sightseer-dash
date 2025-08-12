@@ -108,16 +108,16 @@ const ExecutiveOverview: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Executive Overview – Synapse</title>
+        <title>Executive overview — Synapse</title>
         <meta name="description" content="High-level performance snapshot: ROAS, spend, sales, and contribution." />
         <link rel="canonical" href="/executive-overview" />
       </Helmet>
 
-      <DashboardLayout title="Executive Overview" subtitle="Are we winning, where, and why — and what should we do next?">
+      <DashboardLayout title="Executive overview" subtitle="Are we winning, where, and why?">
         <section className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-4">
           <Kpi title={<InfoLabel label="Overall ROAS" tip="ROAS = Revenue attributed ÷ Ad spend (current attribution window: Last click, same-day, change in Settings)." />} value="4.6x" delta="+0.3 vs prev" state="good" />
-          <Kpi title={<InfoLabel label="Q-comm ROAS" tip="ROAS = Revenue attributed ÷ Ad spend." />} value="5.1x" delta="+0.4" state="good" />
-          <Kpi title={<InfoLabel label="Trad e-com ROAS" tip="ROAS = Revenue attributed ÷ Ad spend." />} value="3.9x" delta="-0.2" state="warn" />
+          <Kpi title={<InfoLabel label="Quick commerce ROAS" tip="ROAS = Revenue attributed ÷ Ad spend." />} value="5.1x" delta="+0.4" state="good" />
+          <Kpi title={<InfoLabel label="Traditional e-commerce ROAS" tip="ROAS = Revenue attributed ÷ Ad spend." />} value="3.9x" delta="-0.2" state="warn" />
           <Kpi title={<InfoLabel label="Attributable Sales" tip="Attributed sales in ₹ under current window." />} value="₹48.3L" delta="+₹3.1L" />
           <Kpi title={<InfoLabel label="Spend (7d)" tip="Masked unless Finance role. Shows 7d spend." />} value="₹48.3L" delta="+₹2.0L" />
           <Kpi title={<InfoLabel label="CPA" tip="CPA = Ad spend ÷ Orders." />} value="₹128" delta="-₹6" />
@@ -156,7 +156,7 @@ const ExecutiveOverview: React.FC = () => {
                   <div key={c.channel} className="flex items-center justify-between rounded-md border p-2 text-xs">
                     <span className="font-medium cursor-pointer" onClick={() => handlePlatformClick(c.channel)}>{c.channel}</span>
                     <Badge variant={c.efficiency >= 1 ? "default" : "destructive"}>
-                      {c.efficiency >= 1 ? "Efficiency +" : "Efficiency −"} {c.efficiency.toFixed(2)}x
+                      {c.efficiency >= 1 ? "Efficiency +" : "Efficiency −"} {c.efficiency.toFixed(2)}×
                     </Badge>
                   </div>
                 ))}
@@ -187,7 +187,7 @@ const ExecutiveOverview: React.FC = () => {
                       <TableRow key={c.city} className="cursor-pointer" onClick={() => navigate(`/sku-performance?city=${encodeURIComponent(c.city)}`)}>
                         <TableCell className="font-medium">{c.city}</TableCell>
                         <TableCell className={"text-right " + (c.roas >= 4.5 ? "text-success" : c.roas >= 4 ? "text-amber-600" : "text-destructive")}>
-                          {c.roas.toFixed(1)}x
+                          {c.roas.toFixed(1)}×
                         </TableCell>
                         <TableCell className="text-right">{c.ntb}%</TableCell>
                         <TableCell className="text-right">{c.sales.toFixed(1)}</TableCell>

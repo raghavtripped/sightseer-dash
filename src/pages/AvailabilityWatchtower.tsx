@@ -91,11 +91,11 @@ const AvailabilityWatchtower: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Availability & OOS Watchtower – Synapse</title>
+        <title>Availability & OOS watchtower — Synapse</title>
         <meta name="description" content="Visibility into stock status to avoid wasted spend and coordinate ops." />
         <link rel="canonical" href="/availability-watchtower" />
       </Helmet>
-      <DashboardLayout title="Availability & OOS Watchtower" subtitle="Spot stock gaps before they burn spend.">
+      <DashboardLayout title="Availability & OOS watchtower" subtitle="Don’t spend on thin air.">
         {/* KPI belt */}
         <section className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-4">
           {kpis.map((k) => (
@@ -185,7 +185,7 @@ const AvailabilityWatchtower: React.FC = () => {
                   <div className="text-xs text-muted-foreground mb-1">Top 5 risky cities</div>
                   <ul className="text-sm space-y-1">
                     {[{city:'Mumbai', risk:62, spend:'₹84k'},{city:'Pune', risk:41, spend:'₹41k'},{city:'Hyderabad', risk:35, spend:'₹33k'}].map((c)=> (
-                      <li key={c.city} className="flex items-center justify-between"><span>{c.city}</span><span className="text-muted-foreground">{c.risk}% · {c.spend}</span></li>
+                      <li key={c.city} className="flex items-center justify-between"><span>{c.city}</span><span className="text-muted-foreground">{c.risk}% — {c.spend}</span></li>
                     ))}
                   </ul>
                 </div>
@@ -234,8 +234,8 @@ const AvailabilityWatchtower: React.FC = () => {
           <DrawerContent>
             {selected && (
               <>
-                <DrawerHeader>
-                  <DrawerTitle>{selected.sku} · {selected.city}</DrawerTitle>
+                 <DrawerHeader>
+                  <DrawerTitle>{selected.sku} — {selected.city}</DrawerTitle>
                   <DrawerDescription>Hourly availability, paused campaigns, and cause.</DrawerDescription>
                 </DrawerHeader>
                 <div className="px-4 pb-2 grid gap-3 text-sm">
@@ -254,21 +254,21 @@ const AvailabilityWatchtower: React.FC = () => {
                   </div>
                   <div className="rounded-md border p-3">
                     <div className="text-xs text-muted-foreground mb-1">Paused campaigns</div>
-                    <ul className="list-disc pl-4 space-y-1">
-                      <li>{selected.platforms_live.join(', ')} · Prospecting · City={selected.city}</li>
-                      <li>{selected.platforms_live[0]} · Retargeting · SKU={selected.sku}</li>
+                     <ul className="list-disc pl-4 space-y-1">
+                      <li>{selected.platforms_live.join(', ')} — Prospecting — City={selected.city}</li>
+                      <li>{selected.platforms_live[0]} — Retargeting — SKU={selected.sku}</li>
                     </ul>
                   </div>
                   <div className="rounded-md border p-3">
                     <div className="text-xs text-muted-foreground mb-1">Competitor shelf presence</div>
-                    <div className="text-muted-foreground">Blinkit: Present · Zepto: Missing</div>
+                    <div className="text-muted-foreground">Blinkit: Present — Zepto: Missing</div>
                   </div>
                 </div>
                 <DrawerFooter>
-                  <div className="flex flex-wrap gap-2">
-                    <Button size="sm" variant="secondary" onClick={() => actionAndLog(`Unpause until ETA for ${selected.city} · ${selected.sku}`)}>Unpause until ETA</Button>
-                    <Button size="sm" variant="outline" onClick={() => actionAndLog(`Route to backup SKU only for ${selected.city} · ${selected.sku}`)}>Route to backup only</Button>
-                    <Button size="sm" variant="destructive" onClick={() => actionAndLog(`Raise incident for ${selected.city} · ${selected.sku}`)}>Raise incident</Button>
+                    <div className="flex flex-wrap gap-2">
+                    <Button size="sm" variant="secondary" onClick={() => actionAndLog(`Unpause until ETA for ${selected.city} — ${selected.sku}`)}>Unpause until ETA</Button>
+                    <Button size="sm" variant="outline" onClick={() => actionAndLog(`Route to backup only for ${selected.city} — ${selected.sku}`)}>Route to backup only</Button>
+                    <Button size="sm" variant="destructive" onClick={() => actionAndLog(`Raise incident for ${selected.city} — ${selected.sku}`)}>Raise incident</Button>
                   </div>
                 </DrawerFooter>
               </>

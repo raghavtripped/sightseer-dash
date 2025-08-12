@@ -51,24 +51,24 @@ const BrandDaypartRegion: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Daypart × Region Planner – Synapse</title>
+        <title>Daypart × region planner — Synapse</title>
         <meta name="description" content="Plan budgets by city and daypart with availability matrix and guardrails." />
         <link rel="canonical" href="/daypart-region-planner" />
       </Helmet>
-      <DashboardLayout title="Daypart × Region Planner" subtitle="Right product, right moment, right city.">
+      <DashboardLayout title="Daypart × region planner" subtitle="Right product, right moment, right city.">
         {/* Row 1: Objective & quick stats */}
         <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <KPI label="Objective" value="Max Conversions" info={{ short: "What the optimizer maximizes (Conversions or ROAS).", long: "Objective: What the optimizer maximizes (Conversions or ROAS). Balance = conversions with a ROAS floor." }} />
           <KPI label="Visibility floor" value="≥15%" info={{ short: "Minimum impression share to maintain presence.", long: "Visibility floor: Minimum impression share to maintain presence." }} />
           <KPI label="Platform cap" value="≤60%" info={{ short: "Max % of budget allowed on one platform.", long: "Platform cap: Max % of budget allowed on any one platform (risk diversification)." }} />
-          <KPI label="OOS guard" value="Pause on 2 checks" info={{ short: "Auto-pause if availability hits 0 in a city.", long: "OOS guard: Auto-pause ads if SKU availability hits 0 in the city." }} />
+          <KPI label="Out-of-stock guard" value="Pause on 2 checks" info={{ short: "Auto-pause if availability hits 0 in a city.", long: "Out-of-stock guard: Auto-pause ads if SKU availability hits 0 in the city." }} />
         </section>
 
         {/* Row 2: Heatmaps + Actions */}
         <section className="grid gap-4 md:grid-cols-12">
           <Card className="md:col-span-8">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Heatmaps</CardTitle>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm">Heatmaps</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-4">
               <div className="rounded-md border p-3 text-sm">
@@ -94,8 +94,8 @@ const BrandDaypartRegion: React.FC = () => {
                             const bg = `rgba(16, 185, 129, ${0.12 + ratio * 0.45})`
                             return (
                               <td key={d} className={`p-2 text-center rounded-md border ${cell.sig ? 'border-dashed' : 'border-transparent'}`} style={{ backgroundColor: bg }}>
-                                <div className="font-medium">{cell.roas.toFixed(1)}x</div>
-                                <div className={`text-[10px] ${cell.delta>=0?'text-emerald-700':'text-red-600'}`}>{cell.delta>0?'+':''}{cell.delta.toFixed(1)}x</div>
+                                <div className="font-medium">{cell.roas.toFixed(1)}×</div>
+                                <div className={`text-[10px] ${cell.delta>=0?'text-emerald-700':'text-red-600'}`}>{cell.delta>0?'+':''}{cell.delta.toFixed(1)}×</div>
                               </td>
                             )
                           })}
@@ -143,10 +143,10 @@ const BrandDaypartRegion: React.FC = () => {
               </div>
             </CardContent>
           </Card>
-          <Card className="md:col-span-4">
+           <Card className="md:col-span-4">
             <CardHeader className="pb-2 flex-row items-center justify-between">
-              <CardTitle className="text-sm">Actions & Guardrails</CardTitle>
-              <Button size="sm" onClick={() => toast({ title: "Plan generated", description: `₹${(overall * 1.2).toFixed(0)}k across ${cities.length} cities` })}>Generate next-week plan</Button>
+              <CardTitle className="text-sm">Actions & guardrails</CardTitle>
+              <Button size="sm" onClick={() => toast({ title: "Plan generated.", description: `₹${(overall * 1.2).toFixed(0)}k across ${cities.length} cities` })}>Generate plan</Button>
             </CardHeader>
             <CardContent className="space-y-2 text-sm">
               <div>• Visibility floor ≥ 15%</div>
@@ -197,7 +197,7 @@ const BrandDaypartRegion: React.FC = () => {
                   ))}
                 </div>
               ))}
-              <div className="pt-2 text-right text-xs text-muted-foreground">Overall plan: ₹{(overall * 1.2).toFixed(0)}k</div>
+                  <div className="pt-2 text-right text-xs text-muted-foreground">Plan total: ₹{(overall * 1.2).toFixed(0)}k</div>
             </CardContent>
           </Card>
           <Card className="md:col-span-4">

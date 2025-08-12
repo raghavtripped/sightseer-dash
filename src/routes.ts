@@ -15,27 +15,27 @@ export interface AppRouteDef {
 }
 
 export const appRoutes: AppRouteDef[] = [
-  { id: 6, title: "Live Ops Console", path: "/live-ops", persona: "Performance Marketing" },
+  { id: 6, title: "Live ops console", path: "/live-ops", persona: "Performance Marketing" },
 
-  { id: 1, title: "Executive Overview", path: "/executive-overview", persona: "CMO / Leadership" },
-  { id: 2, title: "Strategic Heatmaps & Trends", path: "/strategic-heatmaps", persona: "CMO / Leadership" },
+  { id: 1, title: "Executive overview", path: "/executive-overview", persona: "CMO / Leadership" },
+  { id: 2, title: "Strategic heatmaps & trends", path: "/strategic-heatmaps", persona: "CMO / Leadership" },
 
-  { id: 3, title: "SKU Performance Drilldown", path: "/sku-performance", persona: "Brand / Category Manager" },
-  { id: 4, title: "Daypart × Region Planner", path: "/daypart-region-planner", persona: "Brand / Category Manager" },
-  { id: 5, title: "Promotions & Pricing Efficacy", path: "/promotions-pricing", persona: "Brand / Category Manager" },
+  { id: 3, title: "SKU performance drilldown", path: "/sku-performance", persona: "Brand / Category Manager" },
+  { id: 4, title: "Daypart × region planner", path: "/daypart-region-planner", persona: "Brand / Category Manager" },
+  { id: 5, title: "Promotions & pricing efficacy", path: "/promotions-pricing", persona: "Brand / Category Manager" },
 
-  { id: 7, title: "Alerts & Action Log", path: "/alerts-action-log", persona: "Performance Marketing" },
-  { id: 8, title: "Experiments / A/B & Holdouts", path: "/experiments", persona: "Performance Marketing" },
+  { id: 7, title: "Alerts & action log", path: "/alerts-action-log", persona: "Performance Marketing" },
+  { id: 8, title: "Experiments (A/B & holdouts)", path: "/experiments", persona: "Performance Marketing" },
 
-  { id: 9, title: "Creative Performance & Fatigue", path: "/creative-performance", persona: "Creative / Content" },
-  { id: 10, title: "Listing Content QA & Readiness", path: "/listing-qa", persona: "Creative / Content" },
+  { id: 9, title: "Creative performance & fatigue", path: "/creative-performance", persona: "Creative / Content" },
+  { id: 10, title: "Listing content QA & readiness", path: "/listing-qa", persona: "Creative / Content" },
 
-  { id: 11, title: "Availability & OOS Watchtower", path: "/availability-watchtower", persona: "Supply Chain / Channel Ops" },
-  { id: 12, title: "Forecast & Coverage", path: "/forecast-coverage", persona: "Supply Chain / Channel Ops" },
+  { id: 11, title: "Availability & OOS watchtower", path: "/availability-watchtower", persona: "Supply Chain / Channel Ops" },
+  { id: 12, title: "Forecast & coverage", path: "/forecast-coverage", persona: "Supply Chain / Channel Ops" },
 
-  { id: 13, title: "Budget, Spend & ROI Ledger", path: "/finance-ledger", persona: "Finance / FP&A" },
+  { id: 13, title: "Budget, spend & ROI ledger", path: "/finance-ledger", persona: "Finance / FP&A" },
 
-  { id: 14, title: "Integrations & System Health", path: "/integrations-health", persona: "Data / IT Admin" },
+  { id: 14, title: "Integrations & system health", path: "/integrations-health", persona: "Data / IT Admin" },
 ];
 
 export const routesByPersona: Record<PersonaKey, AppRouteDef[]> = appRoutes.reduce((acc, r) => {

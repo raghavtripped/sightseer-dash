@@ -133,11 +133,11 @@ const CreativePerformance: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Creative Performance & Fatigue – Synapse</title>
+        <title>Creative performance & fatigue — Synapse</title>
         <meta name="description" content="Understand which assets drive performance and which need refresh." />
         <link rel="canonical" href="/creative-performance" />
       </Helmet>
-      <DashboardLayout title="Creative Performance & Fatigue" subtitle="Which assets to scale, refresh, or retire.">
+      <DashboardLayout title="Creative performance & fatigue" subtitle="Which assets to scale, refresh, or retire.">
         {/* Row 1: KPI belt */}
         <section className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-4">
           {kpis.map((k) => (
@@ -164,13 +164,13 @@ const CreativePerformance: React.FC = () => {
                 </div>
                 <div className="p-4 space-y-3">
                   <div className="flex items-center justify-between">
-                    <div className="font-medium text-sm">{c.platform} · {c.variant}</div>
+                    <div className="font-medium text-sm">{c.platform} — {c.variant}</div>
                     <span className="text-xs text-muted-foreground">Age {c.ageDays}d</span>
                   </div>
                   <div className="text-xs text-muted-foreground flex flex-wrap gap-x-3 gap-y-1">
                     <InfoLabel label={`CTR ${c.ctr.toFixed(2)}%`} tip={tooltipCopy.CTR} />
                     <InfoLabel label={`CVR ${c.cvr.toFixed(1)}%`} tip={tooltipCopy.CVR} />
-                    <InfoLabel label={`ROAS ${c.roas.toFixed(1)}x`} tip={tooltipCopy.ROAS} />
+                    <InfoLabel label={`ROAS ${c.roas.toFixed(1)}×`} tip={tooltipCopy.ROAS} />
                     <InfoLabel label={`CPC ₹${c.cpc.toFixed(1)}`} tip={tooltipCopy.CPC} />
                     <InfoLabel label={`CPM ₹${c.cpm.toFixed(0)}`} tip={tooltipCopy.CPM} />
                   </div>
@@ -184,7 +184,7 @@ const CreativePerformance: React.FC = () => {
                     </div>
                   </div>
                   <div className="text-xs text-muted-foreground">Last refreshed {c.lastRefreshedDays}d ago</div>
-                  <div className="text-xs">Best slot: <span className="font-medium">{c.bestSlot}</span>, ROAS {c.bestSlotRoas.toFixed(1)}x ({c.bestSlotDelta > 0 ? "+" : ""}{c.bestSlotDelta.toFixed(1)}x vs avg)</div>
+                  <div className="text-xs">Best slot: <span className="font-medium">{c.bestSlot}</span>, ROAS {c.bestSlotRoas.toFixed(1)}× ({c.bestSlotDelta > 0 ? "+" : ""}{c.bestSlotDelta.toFixed(1)}× vs avg)</div>
                   <div className="flex flex-wrap gap-2 pt-1">
                     <ConfirmAction
                       trigger={<Button size="sm" variant="secondary">Refresh variants</Button>}
@@ -212,7 +212,7 @@ const CreativePerformance: React.FC = () => {
                       onConfirm={() => onActionConfirmed(`${c.platform} · ${c.variant}: Pause`)}
                     />
                   </div>
-                  <div className="text-[11px] text-muted-foreground inline-flex items-center gap-1"><Sparkles size={12} /> Best slot hint is based on daypart x creative heatmap.</div>
+                   <div className="text-[11px] text-muted-foreground inline-flex items-center gap-1"><Sparkles size={12} /> Best slot is based on daypart × creative performance.</div>
                   <div className="text-[11px] text-muted-foreground">Fatigue rule: If CTR ↓ ≥35% vs 3-day MA and Impr ≥ 60k → Amber; ≥50% → Red; throttle serve −20%.</div>
                 </div>
               </div>
@@ -296,8 +296,8 @@ const CreativePerformance: React.FC = () => {
                 <ul className="space-y-2">
                   {creatives.slice().sort((a,b)=>b.roas - a.roas).slice(0,5).map((i) => (
                     <li key={i.id} className="flex items-center justify-between cursor-pointer" onClick={() => handleGoToCard(i.id)}>
-                      <span className="text-muted-foreground">{i.platform} · {i.variant}</span>
-                      <span className="font-medium">{i.roas.toFixed(1)}x</span>
+                      <span className="text-muted-foreground">{i.platform} — {i.variant}</span>
+                      <span className="font-medium">{i.roas.toFixed(1)}×</span>
                     </li>
                   ))}
                 </ul>
@@ -307,7 +307,7 @@ const CreativePerformance: React.FC = () => {
                 <ul className="space-y-2">
                   {creatives.slice().sort((a,b)=>b.ctr - a.ctr).slice(0,5).map((i) => (
                     <li key={i.id} className="flex items-center justify-between cursor-pointer" onClick={() => handleGoToCard(i.id)}>
-                      <span className="text-muted-foreground">{i.platform} · {i.variant}</span>
+                      <span className="text-muted-foreground">{i.platform} — {i.variant}</span>
                       <span className="font-medium">{i.ctr.toFixed(2)}%</span>
                     </li>
                   ))}
@@ -344,9 +344,9 @@ const CreativePerformance: React.FC = () => {
                               <div
                                 className={`rounded-md border text-[11px] ${cell.significant ? 'border-dashed' : ''}`}
                                 style={{ backgroundColor: bg }}
-                                title={`ROAS ${cell.roas}x (Δ ${cell.delta > 0 ? '+' : ''}${cell.delta.toFixed(1)}x)`}
+                                title={`ROAS ${cell.roas}× (Δ ${cell.delta > 0 ? '+' : ''}${cell.delta.toFixed(1)}×)`}
                               >
-                                <div className="px-2 py-1">{cell.roas}x <span className={`ml-1 ${cell.delta>=0? 'text-emerald-700':'text-red-600'}`}>({cell.delta>0?'+':''}{cell.delta.toFixed(1)}x)</span></div>
+                                <div className="px-2 py-1">{cell.roas}× <span className={`ml-1 ${cell.delta>=0? 'text-emerald-700':'text-red-600'}`}>({cell.delta>0?'+':''}{cell.delta.toFixed(1)}×)</span></div>
                               </div>
                             </td>
                           );

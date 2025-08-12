@@ -57,7 +57,7 @@ const Index = () => {
   const kpis: KPI[] = [
     { key: "Conversions", today: 1420, yday: 1310, fmt: (n: number) => n.toLocaleString(), icon: <Users className="w-4 h-4" /> },
     { key: "Spend", today: 270000, yday: 255000, fmt: (n: number) => `₹${(n / 1000).toFixed(1)}k`, icon: <BarChart3 className="w-4 h-4" /> },
-    { key: "ROAS", today: 4.6, yday: 4.3, fmt: (n: number) => `${n.toFixed(1)}x`, icon: <TrendingUp className="w-4 h-4" /> },
+    { key: "ROAS", today: 4.6, yday: 4.3, fmt: (n: number) => `${n.toFixed(1)}×`, icon: <TrendingUp className="w-4 h-4" /> },
     { key: "CPA", today: 128, yday: 132, fmt: (n: number) => `₹${n}`, icon: <TrendingDown className="w-4 h-4" /> },
     { key: "NTB%", today: 41, yday: 39, fmt: (n: number) => `${n}%`, icon: <Users className="w-4 h-4" /> },
   ];
@@ -67,8 +67,8 @@ const Index = () => {
     { severity: "Low", title: "API retry: Amazon product feed", entity: "Amazon IN", time: "2h", auto: "Recovered" },
   ];
   const savedViews = [
-    { name: "Q-comm Snacks Delhi", when: "2d ago" },
-    { name: "Amazon Sponsored – BLR", when: "5d ago" },
+    { name: "Quick commerce snacks — Delhi", when: "2 days ago" },
+    { name: "Amazon Sponsored – BLR", when: "5 days ago" },
   ];
   const recent = [
     { who: "AI", what: "Paused C-002", when: "10:05" },
@@ -229,11 +229,11 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Synapse Dashboard – ITC Performance Marketing</title>
+        <title>Synapse dashboard — ITC Performance Marketing</title>
         <meta name="description" content="AI-powered & agentic performance marketing dashboard for ITC Foods with role-based views and global filters." />
         <link rel="canonical" href="/" />
       </Helmet>
-      <DashboardLayout title="AI-Powered Performance Marketing" subtitle="Choose a view to begin." hideSidebar>
+      <DashboardLayout title="AI-powered performance marketing" subtitle="Choose a view to begin." hideSidebar>
         <div className="max-w-7xl mx-auto px-6 space-y-8">
           {/* KPI grid with trends */}
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -309,8 +309,8 @@ const Index = () => {
                 <CardHeader className="pb-2"><CardTitle className="text-sm">Quick stats</CardTitle></CardHeader>
                 <CardContent className="space-y-3 text-sm">
                   <div className="flex items-center justify-between"><span className="text-muted-foreground">Active campaigns</span><span className="font-medium">24</span></div>
-                  <div className="flex items-center justify-between"><span className="text-muted-foreground">Total spend (MTD)</span><span className="font-medium">₹12.4L</span></div>
-                  <div className="flex items-center justify-between"><span className="text-muted-foreground">Avg. ROAS</span><span className="font-medium text-emerald-600">4.2x</span></div>
+                   <div className="flex items-center justify-between"><span className="text-muted-foreground">Total spend (MTD)</span><span className="font-medium">₹12.4L</span></div>
+                  <div className="flex items-center justify-between"><span className="text-muted-foreground">Avg. ROAS</span><span className="font-medium text-emerald-600">4.2×</span></div>
                   <div className="flex items-center justify-between"><span className="text-muted-foreground">Platforms connected</span><span className="font-medium">5</span></div>
                 </CardContent>
               </Card>
@@ -345,12 +345,12 @@ const Index = () => {
           </section>
 
           {isEmpty && (
-            <div className="rounded-md border bg-card p-4 text-sm text-muted-foreground">No data for filters. Try expanding date range.</div>
+            <div className="rounded-md border bg-card p-4 text-sm text-muted-foreground">No data for these filters. Try expanding the date range.</div>
           )}
 
           <Separator className="my-2" />
           <footer className="flex items-center justify-between text-xs text-muted-foreground">
-            <div>Data fresh as of 10:24 Asia/Kolkata</div>
+            <div>Data fresh as of 10:24 IST</div>
             <div className="flex items-center gap-3">
               {['Blinkit','Zepto','Instamart','Amazon','Flipkart'].map((p) => (
                 <span key={p} className="inline-flex items-center gap-1 rounded-md bg-muted/40 px-2 py-1"><span className="h-2 w-2 rounded-full bg-green-500" /> {p}</span>

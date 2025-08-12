@@ -11,11 +11,11 @@ const IntegrationsHealth: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Integrations & System Health – Synapse</title>
+        <title>Integrations & system health — Synapse</title>
         <meta name="description" content="Connector uptime, RPA jobs, and security posture with actions." />
         <link rel="canonical" href="/integrations-health" />
       </Helmet>
-      <DashboardLayout title="Integrations & System Health" subtitle="Pipes, bots, and auth are green.">
+      <DashboardLayout title="Integrations & system health" subtitle="Pipes, bots, and auth are green.">
         <section className="grid gap-4 md:grid-cols-3">
           <Card>
             <CardHeader className="pb-2">
@@ -23,8 +23,8 @@ const IntegrationsHealth: React.FC = () => {
             </CardHeader>
             <CardContent className="text-sm">
               <div>Uptime: 99.9%</div>
-              <div>Avg latency: 420ms</div>
-              <div>Last sync: 15m ago</div>
+              <div>Avg latency: 420 ms</div>
+              <div>Last sync: 15 min ago</div>
             </CardContent>
           </Card>
           <Card>
@@ -43,8 +43,8 @@ const IntegrationsHealth: React.FC = () => {
             </CardHeader>
             <CardContent className="text-sm">
               <div>Users: 23</div>
-              <div>Last privileged action: 2d ago</div>
-              <div>Token expiry: 12d</div>
+              <div>Last privileged action: 2 days ago</div>
+              <div>Token expiry: 12 days</div>
             </CardContent>
           </Card>
         </section>

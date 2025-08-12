@@ -68,11 +68,11 @@ const StrategicHeatmaps: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Strategic Heatmaps & Trends – Synapse</title>
+        <title>Strategic heatmaps & trends — Synapse</title>
         <meta name="description" content="Heatmaps and trends to guide budget allocation by platform and daypart with geo insights." />
         <link rel="canonical" href="/strategic-heatmaps" />
       </Helmet>
-      <DashboardLayout title="Strategic Heatmaps & Trends" subtitle="Where to push/pull budgets now and get approval in one click?">
+      <DashboardLayout title="Strategic heatmaps & trends" subtitle="Where to push or pull budgets next?">
         {/* Row 1: Filters are global + metric and comparator */}
         <section className="flex flex-wrap items-center gap-2">
           <Select value={metric} onValueChange={(v) => setMetric(v as MetricKey)}>
@@ -118,8 +118,8 @@ const StrategicHeatmaps: React.FC = () => {
                           const bg = `rgba(16, 185, 129, ${0.12 + ratio * 0.45})`;
                           return (
                             <td key={d} className={`p-2 text-center rounded-md border ${sig ? "border-dashed" : "border-transparent"}`} style={{ backgroundColor: bg }} onClick={() => openCell(p, d)}>
-                              <div className="font-medium">{v.toFixed(1)}{metric === "ROAS" ? "x" : ""}</div>
-                              <div className={`text-[10px] ${delta >= 0 ? "text-emerald-600" : "text-red-600"}`}>{delta >= 0 ? "+" : ""}{metric === "ROAS" ? delta.toFixed(1) + "x" : `${delta}%`}</div>
+                              <div className="font-medium">{v.toFixed(1)}{metric === "ROAS" ? "×" : ""}</div>
+                              <div className={`text-[10px] ${delta >= 0 ? "text-emerald-600" : "text-red-600"}`}>{delta >= 0 ? "+" : ""}{metric === "ROAS" ? `${delta.toFixed(1)}×` : `${delta}%`}</div>
                             </td>
                           );
                         })}
@@ -178,7 +178,7 @@ const StrategicHeatmaps: React.FC = () => {
                 {[{ city: "Delhi", roas: 5.2, ntb: 44, sow: 28, oos: 3 }, { city: "Mumbai", roas: 4.8, ntb: 40, sow: 25, oos: 4 }, { city: "Bengaluru", roas: 4.6, ntb: 39, sow: 22, oos: 5 }, { city: "Pune", roas: 4.1, ntb: 35, sow: 20, oos: 6 }].map((c) => (
                   <div key={c.city} className="rounded-md border p-3">
                     <div className="text-sm font-medium">{c.city}</div>
-                    <div className="text-xs text-muted-foreground">ROAS {c.roas.toFixed(1)}x · NTB {c.ntb}% · SoW {c.sow}% · OOS {c.oos}%</div>
+                    <div className="text-xs text-muted-foreground">ROAS {c.roas.toFixed(1)}× · NTB {c.ntb}% · SoW {c.sow}% · OOS {c.oos}%</div>
                   </div>
                 ))}
               </div>
@@ -278,7 +278,7 @@ const StrategicHeatmaps: React.FC = () => {
               <div>
                 <div className="mb-1 text-xs text-muted-foreground">Total shift</div>
                 <Slider defaultValue={[simAmount]} max={10} step={1} onValueChange={(v) => setSimAmount(v[0])} />
-                <div className="mt-1 text-xs">₹{simAmount}L → ΔROAS +{(simAmount * 0.1).toFixed(1)}x, risk: low</div>
+                <div className="mt-1 text-xs">₹{simAmount}L → ΔROAS +{(simAmount * 0.1).toFixed(1)}×, risk: Low</div>
               </div>
               <div className="flex items-center justify-end gap-2">
                 <Button variant="secondary">Save draft</Button>

@@ -11,11 +11,11 @@ const PerfLiveOpsTicker: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Live Ops Ticker – Synapse</title>
+        <title>Live ops ticker — Synapse</title>
         <meta name="description" content="Quick ticker with conversions and budget burn." />
         <link rel="canonical" href="/live-ops-ticker" />
       </Helmet>
-      <DashboardLayout title="Live Ops Ticker" subtitle="Today vs yesterday conversions; budget burn rate.">
+      <DashboardLayout title="Live ops ticker" subtitle="Today vs yesterday conversions; budget burn rate.">
         <section className="grid gap-4 md:grid-cols-2">
           <Card>
             <CardHeader className="pb-2">

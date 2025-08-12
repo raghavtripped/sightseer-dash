@@ -202,7 +202,7 @@ const BrandSkuPerformance: React.FC = () => {
                       <TableCell className="text-right">{r.cvr.toFixed(2)}%</TableCell>
                       <TableCell className="text-right">{r.sales.toFixed(1)}</TableCell>
                       <TableCell className={"text-right " + (r.roas >= 4.5 ? "text-emerald-600" : r.roas >= 4 ? "text-amber-600" : "text-red-600")}>
-                        {r.roas.toFixed(1)}x
+                        {r.roas.toFixed(1)}×
                       </TableCell>
                       <TableCell className="text-right">₹{r.cpa}</TableCell>
                       <TableCell className="text-right">₹{r.aov}</TableCell>
@@ -328,7 +328,7 @@ const BrandSkuPerformance: React.FC = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 px-4">
               <KPI label="Spend" value={`₹${(active?.spend ?? 0).toFixed(1)}L`} />
               <KPI label="Sales" value={`₹${(active?.sales ?? 0).toFixed(1)}L`} />
-              <KPI label="ROAS" value={`${active?.roas.toFixed(1)}x`} />
+              <KPI label="ROAS" value={`${active?.roas.toFixed(1)}×`} />
               <KPI label="CPA" value={`₹${active?.cpa}`} />
             </div>
             <div className="px-4 py-3">
@@ -361,7 +361,7 @@ const BrandSkuPerformance: React.FC = () => {
                     ].map((c) => (
                       <div key={c.city} className="rounded-md border p-2">
                         <div className="font-medium">{c.city}</div>
-                        <div className="text-muted-foreground">ROAS {c.roas}x • OOS {c.oos}%</div>
+                        <div className="text-muted-foreground">ROAS {c.roas}× • OOS {c.oos}%</div>
                       </div>
                     ))}
                   </div>

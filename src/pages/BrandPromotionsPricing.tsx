@@ -23,17 +23,17 @@ const BrandPromotionsPricing: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Promotions & Pricing Efficacy – Synapse</title>
+        <title>Promotions & pricing efficacy — Synapse</title>
         <meta name="description" content="Measure promo uplift, elasticity, and comp pricing to drive decisions." />
         <link rel="canonical" href="/promotions-pricing" />
       </Helmet>
-      <DashboardLayout title="Promotions & Pricing Efficacy" subtitle="Did the promo work? What next?">
+      <DashboardLayout title="Promotions & pricing efficacy" subtitle="Did the promo work? What next?">
         {/* KPI belt */}
         <section className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
           <KPI label="Incremental Sales" value="+₹12.5L" info={{ short: "Modeled extra revenue vs matched control during promo window (CUPED-adjusted).", long: "Incremental Sales: Modeled extra revenue vs matched control during promo window (CUPED-adjusted)." }} />
           <KPI label="Incremental Gross Margin" value="+₹7.1L" info={{ short: "Incremental sales × (1 − discount% − COGS%) minus ad spend.", long: "Incremental Gross Margin: Incremental sales × (1 − discount% − COGS%) minus ad spend." }} />
           <KPI label="Lift vs Control" value="+18.4%" info={{ short: "(Treatment − Control) ÷ Control over the window.", long: "Lift vs Control: (Treatment − Control) ÷ Control over the window." }} />
-          <KPI label="Promo ROAS" value="5.2x" info={{ short: "Incremental sales ÷ Promo ad spend (excludes baseline).", long: "Promo ROAS: Incremental sales ÷ Promo ad spend (excludes baseline sales)." }} />
+          <KPI label="Promo ROAS" value="5.2×" info={{ short: "Incremental sales ÷ promo ad spend (excludes baseline).", long: "Promo ROAS: Incremental sales ÷ promo ad spend (excludes baseline sales)." }} />
           <KPI label="Cannibalization" value="11%" info={{ short: "Share of uplift that replaced other SKUs/pack sizes.", long: "Cannibalization: Share of uplift that replaced other SKUs/pack sizes (estimated from category/brand shifts)." }} />
           <KPI label="Halo Sales" value="+₹2.3L" info={{ short: "Extra sales in adjacent SKUs/categories attributed to the promo.", long: "Halo Sales: Extra sales in adjacent SKUs/categories attributed to the promo." }} />
           <KPI label="Avg Discount Depth" value="9.5%" info={{ short: "Average % off during promo window.", long: "Avg Discount Depth: Average % off during promo window." }} />
@@ -142,7 +142,7 @@ const BrandPromotionsPricing: React.FC = () => {
                       <TableCell className="text-right">{r.rivalB}</TableCell>
                       <TableCell className="text-right">{((r.ours - Math.min(r.rivalA, r.rivalB)) / Math.min(r.rivalA, r.rivalB) * 100).toFixed(0)}%</TableCell>
                       <TableCell className="text-right">{(3.5 + Math.random()).toFixed(1)}%</TableCell>
-                      <TableCell className="text-right">{(4.6 + Math.random()).toFixed(1)}x</TableCell>
+                      <TableCell className="text-right">{(4.6 + Math.random()).toFixed(1)}×</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

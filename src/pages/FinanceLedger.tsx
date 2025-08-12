@@ -11,11 +11,11 @@ const FinanceLedger: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Budget, Spend & ROI Ledger – Synapse</title>
+        <title>Budget, spend & ROI ledger — Synapse</title>
         <meta name="description" content="Audit-friendly view of budget, spend, sales, and margin with exports." />
         <link rel="canonical" href="/finance-ledger" />
       </Helmet>
-      <DashboardLayout title="Budget, Spend & ROI Ledger" subtitle="Money view, clean enough for audit.">
+      <DashboardLayout title="Budget, spend & ROI ledger" subtitle="Money view, clean enough for audit.">
         <section className="grid gap-4 md:grid-cols-2">
           <Card>
             <CardHeader className="pb-2">
@@ -29,7 +29,7 @@ const FinanceLedger: React.FC = () => {
                   { k: "Deploy", v: "₹82L" },
                   { k: "Spend", v: "₹80L" },
                   { k: "Sales", v: "₹360L" },
-                  { k: "ROAS", v: "4.5x" },
+                  { k: "ROAS", v: "4.5×" },
                 ].map((s) => (
                   <div key={s.k} className="rounded-md border p-3">
                     <div className="text-muted-foreground">{s.k}</div>
@@ -43,8 +43,8 @@ const FinanceLedger: React.FC = () => {
             <CardHeader className="pb-2 flex-row items-center justify-between">
               <CardTitle className="text-sm">Exports</CardTitle>
               <div className="space-x-2">
-                <Button size="sm" variant="outline" onClick={() => toast({ title: "Exported", description: "Ledger exported as CSV" })}>XLS/CSV</Button>
-                <Button size="sm" onClick={() => toast({ title: "Pack generated", description: "Month-end pack prepared" })}>Month-end pack</Button>
+                <Button size="sm" variant="outline" onClick={() => toast({ title: "Exported.", description: "Ledger exported as CSV." })}>Export CSV</Button>
+                <Button size="sm" onClick={() => toast({ title: "Month-end pack prepared.", description: "" })}>Month-end pack</Button>
               </div>
             </CardHeader>
             <CardContent className="text-sm text-muted-foreground">

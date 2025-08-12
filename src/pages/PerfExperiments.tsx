@@ -22,11 +22,11 @@ const PerfExperiments: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Experiments / A/B & Holdouts – Synapse</title>
+        <title>Experiments (A/B & holdouts) — Synapse</title>
         <meta name="description" content="Design, monitor, and archive experiments to prove incrementality." />
         <link rel="canonical" href="/experiments" />
       </Helmet>
-      <DashboardLayout title="Experiments / A/B & Holdouts" subtitle="Prove incrementality, iterate creatives/bids.">
+      <DashboardLayout title="Experiments (A/B & holdouts)" subtitle="Prove incrementality. Iterate creatives and bids.">
         <section className="grid gap-4 md:grid-cols-2">
           <Card>
             <CardHeader className="pb-2">
@@ -106,7 +106,7 @@ const PerfExperiments: React.FC = () => {
                 <Input placeholder="14 days" />
               </div>
               <div className="flex items-end">
-                <Button className="w-full" onClick={() => toast({ title: "Draft created", description: "Experiment saved to backlog" })}>Create draft</Button>
+                <Button className="w-full" onClick={() => toast({ title: "Draft created.", description: "Experiment saved to backlog." })}>Create draft</Button>
               </div>
             </CardContent>
           </Card>

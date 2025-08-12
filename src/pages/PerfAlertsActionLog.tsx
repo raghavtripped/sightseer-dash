@@ -24,11 +24,11 @@ const PerfAlertsActionLog: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Alerts & Action Log – Synapse</title>
+        <title>Alerts & action log — Synapse</title>
         <meta name="description" content="Monitor alerts, review actions, and manage overrides to trust but verify AI." />
         <link rel="canonical" href="/alerts-action-log" />
       </Helmet>
-      <DashboardLayout title="Alerts & Action Log" subtitle="See issues early, trust but verify AI.">
+      <DashboardLayout title="Alerts & action log" subtitle="See issues early. Trust, but verify the AI.">
         <Tabs defaultValue="alerts" className="space-y-4">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
@@ -36,7 +36,7 @@ const PerfAlertsActionLog: React.FC = () => {
               <Badge variant="destructive">High</Badge>
               <Badge variant="secondary">Med</Badge>
               <Badge variant="outline">Low</Badge>
-              <span className="mx-2 text-muted-foreground">·</span>
+              <span className="mx-2 text-muted-foreground">—</span>
               <Badge variant="outline">Open</Badge>
               <Badge variant="outline">Auto-resolved</Badge>
               <Badge variant="outline">Snoozed</Badge>
@@ -107,7 +107,7 @@ const PerfAlertsActionLog: React.FC = () => {
               </CardHeader>
               <CardContent className="space-y-3 text-sm">
                 <div className="flex items-center justify-between">
-                  <span>Approve queued AI changes</span>
+                   <span>Approve queued changes</span>
                   <div className="space-x-2">
                     <Button size="sm" variant="secondary">Approve</Button>
                     <Button size="sm" variant="outline">Reject</Button>

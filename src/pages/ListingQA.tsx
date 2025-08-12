@@ -95,11 +95,11 @@ const ListingQA: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Listing Content QA & Readiness – Synapse</title>
+        <title>Listing content QA & readiness — Synapse</title>
         <meta name="description" content="Ensure PDPs meet content standards before paid activation." />
         <link rel="canonical" href="/listing-qa" />
       </Helmet>
-      <DashboardLayout title="Listing Content QA & Readiness" subtitle="No broken PDPs on paid.">
+      <DashboardLayout title="Listing content QA & readiness" subtitle="No broken PDPs on paid.">
         {/* Row 1: KPI belt */}
         <section className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-4">
           {kpis.map((k) => (
@@ -179,10 +179,10 @@ const ListingQA: React.FC = () => {
               <CardContent className="text-sm space-y-3">
                 <div>
                   <div className="text-xs text-muted-foreground mb-1">Red flags (blockers)</div>
-                  <ul className="space-y-1">
+                   <ul className="space-y-1">
                     {rows.filter(r => !r.compliance || r.images < 2 || r.titleLen === 0).slice(0,3).map((r) => (
                       <li key={r.sku + r.platform} className="flex items-center justify-between">
-                        <span>{r.sku} · {r.platform}</span>
+                        <span>{r.sku} — {r.platform}</span>
                         <span className="text-destructive text-xs">Blocker</span>
                       </li>
                     ))}
@@ -191,9 +191,9 @@ const ListingQA: React.FC = () => {
                 <div>
                   <div className="text-xs text-muted-foreground mb-1">Warnings (prioritized)</div>
                   <ul className="space-y-1">
-                    {rows.filter(r => r.compliance && (r.images < 4 || !r.video || r.bullets < 5)).slice(0,5).map((r) => (
+                     {rows.filter(r => r.compliance && (r.images < 4 || !r.video || r.bullets < 5)).slice(0,5).map((r) => (
                       <li key={r.sku + r.platform} className="flex items-center justify-between">
-                        <span>{r.sku} · {r.platform}</span>
+                        <span>{r.sku} — {r.platform}</span>
                         <span className="text-amber-600 text-xs">Impact: ↑CVR with fixes</span>
                       </li>
                     ))}
@@ -267,8 +267,8 @@ const ListingQA: React.FC = () => {
           <DrawerContent>
             {selected && (
               <>
-                <DrawerHeader>
-                  <DrawerTitle>{selected.sku} · {selected.platform}</DrawerTitle>
+                 <DrawerHeader>
+                  <DrawerTitle>{selected.sku} — {selected.platform}</DrawerTitle>
                   <DrawerDescription>Why score = {selected.score}. Recommended fixes and estimated impact below.</DrawerDescription>
                 </DrawerHeader>
                 <div className="px-4 pb-2 grid gap-3 text-sm">
@@ -285,8 +285,8 @@ const ListingQA: React.FC = () => {
                       <li>Title {selected.titleLen} chars {selected.titleHasKeyword ? "(keyword ok)" : "(keyword missing)"}</li>
                       <li>Bullets {selected.bullets}/≥5</li>
                       <li>Video {selected.video ? "present" : "missing"}</li>
-                      <li>Nutrition {selected.nutrition ? "present" : "missing"} · Compliance {selected.compliance ? "ok" : "missing (blocker)"}</li>
-                      <li>Ratings {selected.ratingsCount} @ {selected.ratingsAvg.toFixed(1)} · Parity {selected.parityFlag ? ">+5%" : "ok"}</li>
+                      <li>Nutrition {selected.nutrition ? "present" : "missing"} — Compliance {selected.compliance ? "ok" : "missing (blocker)"}</li>
+                      <li>Ratings {selected.ratingsCount} @ {selected.ratingsAvg.toFixed(1)} — Parity {selected.parityFlag ? ">+5%" : "ok"}</li>
                     </ul>
                   </div>
                   <div className="rounded-md border p-3">

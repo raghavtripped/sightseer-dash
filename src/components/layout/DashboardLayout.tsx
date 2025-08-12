@@ -62,12 +62,12 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, show
         <nav className="container flex items-center justify-between py-4">
           <div className="flex items-center gap-3">
             <div className="h-8 w-8 rounded-md bg-primary/10 ring-1 ring-primary/30" />
-            <Link to="/" className="font-semibold">Synapse Dashboard</Link>
+            <Link to="/" className="font-semibold">Synapse dashboard</Link>
           </div>
           <div className="flex items-center gap-1">
             {!hideSidebar && <SidebarTrigger />}
             <NavLink to="/" icon={<Home size={16} />} active={location.pathname === "/"}>Home</NavLink>
-            <NavLink to="/live-ops" icon={<Activity size={16} />} active={location.pathname.startsWith("/live-ops")}>Live Ops</NavLink>
+            <NavLink to="/live-ops" icon={<Activity size={16} />} active={location.pathname.startsWith("/live-ops")}>Live ops</NavLink>
           </div>
         </nav>
       </header>

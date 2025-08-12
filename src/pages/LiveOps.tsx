@@ -8,6 +8,7 @@ import ExportBar from "@/components/ExportBar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 import { MoreHorizontal, Pause, Play, DollarSign, ArrowUpRight, ArrowDownRight, RefreshCcw, AlertTriangle, TriangleAlert, Zap } from "lucide-react";
+import { moneyShort, roas as fmtRoas } from "@/lib/format";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -38,7 +39,7 @@ const rows: CampaignRow[] = [
   { id: "C-006", name: "Blinkit | Dinner | Hyd", platform: "Blinkit", status: "Active", spendToday: 41000, pacing: 98, impr: 88000, clicks: 2100, conv: 220, roas: 5.5, cpa: 121, budgetLeft: 52000, mode: "AI" },
 ];
 
-const currency = (n: number) => `₹${(n/1000).toFixed(1)}k`;
+const currency = (n: number) => moneyShort(n);
 
 const LiveOps: React.FC = () => {
   const { toast } = useToast();
@@ -56,16 +57,16 @@ const LiveOps: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Live Ops Console – AI Performance Marketing</title>
+        <title>Live ops console — Synapse</title>
         <meta name="description" content="Real-time pacing, delivery and on-target spend with quick actions for campaigns across Blinkit, Zepto, Instamart, Amazon and Flipkart." />
         <link rel="canonical" href="/live-ops" />
       </Helmet>
 
-      <DashboardLayout title="Live Ops Console" subtitle="Pacing, delivery, and on-target spend right now.">
+      <DashboardLayout title="Live ops console" subtitle="Pacing, delivery, and on-target spend right now.">
         <section className="grid gap-4 md:grid-cols-3">
           <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium">Conversions (Today vs Yesterday)</CardTitle>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium">Conversions (today vs yesterday)</CardTitle>
             </CardHeader>
             <CardContent className="flex items-center gap-3">
               <div className="text-2xl font-semibold">{conversionsToday.toLocaleString()}</div>
@@ -86,14 +87,12 @@ const LiveOps: React.FC = () => {
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium">Mode</CardTitle>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium">Optimization mode</CardTitle>
             </CardHeader>
-            <CardContent className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span className="inline-flex items-center gap-1 rounded-md bg-success/10 px-2 py-1 text-success ring-1 ring-success/20">AI Majority</span>
-              <span>·</span>
-              <span>Overrides allowed</span>
-            </CardContent>
+              <CardContent className="text-sm text-muted-foreground">
+                Optimization mode: AI (overrides allowed)
+              </CardContent>
           </Card>
         </section>
 
@@ -114,7 +113,7 @@ const LiveOps: React.FC = () => {
                   <TableHead className="hidden md:table-cell">Platform</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Spend today</TableHead>
-                  <TableHead className="hidden lg:table-cell text-right">Pacing %</TableHead>
+                  <TableHead className="hidden lg:table-cell text-right">Pacing</TableHead>
                   <TableHead className="hidden lg:table-cell text-right">Impr</TableHead>
                   <TableHead className="hidden lg:table-cell text-right">Clicks</TableHead>
                   <TableHead className="text-right">Conv</TableHead>
@@ -166,7 +165,7 @@ const LiveOps: React.FC = () => {
                     <TableCell className="hidden lg:table-cell text-right">{r.clicks.toLocaleString()}</TableCell>
                     <TableCell className="text-right">{r.conv.toLocaleString()}</TableCell>
                     <TableCell className={"text-right " + (r.roas >= 4 ? "text-success" : "text-destructive")}>
-                      {r.roas.toFixed(1)}x
+                      {fmtRoas(r.roas)}
                     </TableCell>
                     <TableCell className="hidden md:table-cell text-right">₹{r.cpa}</TableCell>
                     <TableCell className="hidden md:table-cell text-right">{currency(r.budgetLeft)}</TableCell>
@@ -186,7 +185,7 @@ const LiveOps: React.FC = () => {
             </Table>
           </div>
           <div className="flex items-center justify-end gap-2 text-xs text-muted-foreground">
-            <RefreshCcw size={14} /> Updated just now
+            <RefreshCcw size={14} /> Updated now
           </div>
         </section>
       </DashboardLayout>

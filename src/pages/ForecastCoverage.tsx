@@ -66,11 +66,11 @@ const ForecastCoverage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Forecast & Coverage – Synapse</title>
+        <title>Forecast & coverage — Synapse</title>
         <meta name="description" content="Demand forecasts and coverage planning by city and daypart." />
         <link rel="canonical" href="/forecast-coverage" />
       </Helmet>
-      <DashboardLayout title="Forecast & Coverage" subtitle="Forecast demand by city & daypart, check coverage, and act early.">
+      <DashboardLayout title="Forecast & coverage" subtitle="Be ready for demand spikes by slot and city.">
         {/* Row 1: KPI belt */}
         <section className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-4">
           {kpis.map((k) => (
@@ -125,7 +125,7 @@ const ForecastCoverage: React.FC = () => {
                   {cityCoverage.map((r) => (
                     <div key={r.city} className="rounded-md border p-3 cursor-pointer" onClick={() => setSelected(r)}>
                       <div className="text-sm font-medium">{r.city}</div>
-                      <div className="text-xs text-muted-foreground">Dark stores: {r.darkstores} · Coverage {Math.round(r.coverage*100)}% · Risk {r.risk} · Lead-time {r.lead}h</div>
+                      <div className="text-xs text-muted-foreground">Dark stores: {r.darkstores} — Coverage {Math.round(r.coverage*100)}% — Risk {r.risk} — Lead-time {r.lead}h</div>
                     </div>
                   ))}
                 </div>
@@ -149,7 +149,7 @@ const ForecastCoverage: React.FC = () => {
                   <label className="flex flex-col">Exploration %<input type="range" min={0} max={20} value={whatIf.exploration} onChange={(e)=>setWhatIf({ ...whatIf, exploration: Number(e.target.value) })} /></label>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  {[{k:'ΔConv', v: deltaConv.toFixed(0)},{k:'ΔSales', v: `₹${(deltaSales*10).toFixed(0)}k`},{k:'ΔROAS', v: `${deltaROAS>0?'+':''}${deltaROAS.toFixed(1)}x`},{k:'Projected OOS', v: projectedOOS}].map((c)=> (
+                  {[{k:'ΔConv', v: deltaConv.toFixed(0)},{k:'ΔSales', v: `₹${(deltaSales*10).toFixed(0)}k`},{k:'ΔROAS', v: `${deltaROAS>0?'+':''}${deltaROAS.toFixed(1)}×`},{k:'Projected OOS', v: projectedOOS}].map((c)=> (
                     <div key={c.k} className="rounded-md border p-3 text-sm"><div className="text-xs text-muted-foreground">{c.k}</div><div className="font-medium">{c.v}</div></div>
                   ))}
                 </div>
@@ -189,7 +189,7 @@ const ForecastCoverage: React.FC = () => {
                     <TableHead>Dark stores online</TableHead>
                     <TableHead>Lead-time (hrs)</TableHead>
                     <TableHead>OOS risk</TableHead>
-                    <TableHead>Guardrails breached?</TableHead>
+                     <TableHead>Guardrails</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
