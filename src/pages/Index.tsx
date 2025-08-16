@@ -299,9 +299,9 @@ const Index = () => {
         <link rel="canonical" href="/" />
       </Helmet>
       <DashboardLayout title="AI-powered performance marketing" subtitle="Choose a view to begin.">
-        <div className="max-w-7xl mx-auto px-6 space-y-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 space-y-6 sm:space-y-8">
           {/* KPI grid with trends */}
-          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-3">
+          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-2 sm:gap-3">
             {kpis.map((k) => <CompactKPICard key={k.key} kpi={k} />)}
             <CompactStatCard 
               title="Active campaigns" 
@@ -321,7 +321,7 @@ const Index = () => {
 
           {/* AI Mode + Safety bar */}
           <section className="rounded-xl border bg-card p-3 sm:p-4">
-            <div className="flex flex-wrap items-center gap-3 justify-between">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-3 justify-between">
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium">Mode:</span>
                 <span className="inline-flex items-center gap-2 rounded-md bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200 px-2 py-1 text-xs">
@@ -340,23 +340,24 @@ const Index = () => {
           </section>
 
           {/* Search and Navigation */}
-          <section className="space-y-6">
-            <div className="flex items-center justify-between">
+          <section className="space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div>
-                <h2 className="text-lg font-semibold">Navigate by Role</h2>
-                <p className="text-sm text-muted-foreground mt-1">Select your role to access relevant dashboards</p>
+                <h2 className="text-base sm:text-lg font-semibold">Navigate by Role</h2>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1">Select your role to access relevant dashboards</p>
               </div>
-              <Button onClick={() => setOpenCommand(true)} variant="outline" className="gap-2">
+              <Button onClick={() => setOpenCommand(true)} variant="outline" className="gap-2 w-full sm:w-auto">
                 <Search className="w-4 h-4" />
-                Search all dashboards
-                <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+                <span className="hidden sm:inline">Search all dashboards</span>
+                <span className="sm:hidden">Search</span>
+                <kbd className="pointer-events-none hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
                   <span className="text-xs">⌘</span>K
                 </kbd>
               </Button>
             </div>
 
             {/* Role Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
               {Object.keys(personaConfig).map((persona) => (
                 <RoleCard key={persona} persona={persona as PersonaKey} />
               ))}
@@ -367,18 +368,18 @@ const Index = () => {
           </section>
 
           {isEmpty && (
-            <div className="rounded-md border bg-card p-4 text-sm text-muted-foreground">No data for these filters. Try expanding the date range.</div>
+            <div className="rounded-md border bg-card p-3 sm:p-4 text-sm text-muted-foreground">No data for these filters. Try expanding the date range.</div>
           )}
 
           <Separator className="my-2" />
-          <footer className="flex items-center justify-between text-xs text-muted-foreground">
+          <footer className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-muted-foreground">
             <div className="inline-flex items-center gap-1">
               <span>Data fresh as of 10:24 IST</span>
               <Info short="Time since last successful sync from each source." long={"Data freshness reflects the most recent successful sync.\n• Amazon: near real-time via API/Marketing Stream\n• Q-commerce portals: agreed cadence (e.g., hourly/daily)\n\nWhen freshness or error rate breaches SLOs, optimizers enter Safe Mode (read-only)."} />
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               {['Blinkit','Zepto','Instamart','Amazon','Flipkart'].map((p) => (
-                <span key={p} className="inline-flex items-center gap-1 rounded-md bg-muted/40 px-2 py-1">
+                <span key={p} className="inline-flex items-center gap-1 rounded-md bg-muted/40 px-2 py-1 text-xs">
                   <span className="h-2 w-2 rounded-full bg-green-500" /> {p}
                   <Info short={`${p}: source`} long={`${p} source: ${p === 'Amazon' ? 'Official Ads API (programmatic)' : 'Portal-based (RPA/AM-assisted)'}\nRetries, backoff, and screenshots are captured for portal automations.`} />
                 </span>

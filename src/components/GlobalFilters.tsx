@@ -5,7 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
-import { CalendarDays, Filter, CheckSquare, Building2, PackageOpen, Clock, SlidersHorizontal } from "lucide-react";
+import { CalendarDays, Filter, CheckSquare, Building2, PackageOpen, Clock, SlidersHorizontal, RotateCcw } from "lucide-react";
 import * as React from "react";
 
 const MultiSelect: React.FC<{
@@ -54,7 +54,7 @@ export const GlobalFilters: React.FC = () => {
 
   return (
     <section aria-label="Global filters" className="w-full rounded-lg border bg-card p-3 sm:p-4 shadow-sm">
-      <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-3 sm:gap-3">
         <div className="flex items-center gap-2 pr-2 text-muted-foreground">
           <Filter size={18} />
           <span className="text-sm">Filters</span>
@@ -62,7 +62,7 @@ export const GlobalFilters: React.FC = () => {
 
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="gap-2">
+            <Button variant="outline" className="gap-2 w-full sm:w-auto">
               <CalendarDays size={18} />
               {dateLabel}
             </Button>
@@ -94,12 +94,12 @@ export const GlobalFilters: React.FC = () => {
           icon={<Building2 size={16} />}
         />
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           <Select
             value={filters.brand}
             onValueChange={(v) => setFilters((f) => ({ ...f, brand: v }))}
           >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue placeholder="Brand" />
             </SelectTrigger>
             <SelectContent>
@@ -112,7 +112,7 @@ export const GlobalFilters: React.FC = () => {
 
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="secondary" className="gap-2">
+            <Button variant="secondary" className="gap-2 w-full sm:w-auto">
               <SlidersHorizontal size={16} />
               More filters
             </Button>
@@ -140,9 +140,14 @@ export const GlobalFilters: React.FC = () => {
           </PopoverContent>
         </Popover>
 
-        <div className="ml-auto flex items-center gap-2">
-          <Button variant="secondary" onClick={reset}>Reset</Button>
-        </div>
+        <Button 
+          variant="outline" 
+          onClick={reset} 
+          className="gap-2 w-full sm:w-auto"
+        >
+          <RotateCcw size={16} />
+          Reset
+        </Button>
       </div>
     </section>
   );

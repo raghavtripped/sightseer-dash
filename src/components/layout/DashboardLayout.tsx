@@ -64,15 +64,15 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, show
           transition: 'background-image var(--transition-smooth, 150ms ease-out)'
         }}
       >
-        <nav className="container flex items-center justify-between py-3 px-4 sm:px-6">
-          <div className="flex items-center gap-2">
+        <nav className="container flex items-center justify-between py-2 sm:py-3 px-3 sm:px-6">
+          <div className="flex items-center gap-2 sm:gap-3">
             {!hideSidebar && <SidebarTrigger />}
             <img 
               src="/10820326.png" 
               alt="Synapse Logo" 
-              className="h-8 w-8 rounded-md object-cover"
+              className="h-6 w-6 sm:h-8 sm:w-8 rounded-md object-cover flex-shrink-0"
             />
-            <Link to="/" className="font-semibold">Synapse dashboard</Link>
+            <Link to="/" className="font-semibold text-sm sm:text-base truncate">Synapse dashboard</Link>
           </div>
           <div className="flex items-center gap-1">
             <div className="hidden sm:flex items-center gap-1">
@@ -83,10 +83,10 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, show
         </nav>
       </header>
 
-      <main className="container py-4 sm:py-6 px-4 sm:px-6 space-y-4">
+      <main className="container py-3 sm:py-4 lg:py-6 px-3 sm:px-4 lg:px-6 space-y-3 sm:space-y-4">
         {title && (
           <div className="space-y-1">
-            <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">{title}</h1>
+            <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold tracking-tight">{title}</h1>
             {subtitle && <p className="text-xs sm:text-sm text-muted-foreground">{subtitle}</p>}
           </div>
         )}
@@ -101,10 +101,10 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, show
         {children}
       </main>
       
-      <footer className="border-t bg-card/50 py-4 mt-8">
-        <div className="container px-4 sm:px-6">
+      <footer className="border-t bg-card/50 py-3 sm:py-4 mt-6 sm:mt-8">
+        <div className="container px-3 sm:px-4 lg:px-6">
           <div className="flex items-center justify-center">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-muted-foreground text-center">
               Created by{" "}
               <a 
                 href="https://raghavtripathi.vercel.app" 
