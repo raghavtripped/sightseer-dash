@@ -95,14 +95,14 @@ const BrandPromotionsPricing: React.FC = () => {
 
         {/* Elasticity chart in its own row for better layout */}
         <section className="grid gap-4 md:grid-cols-12">
-          <Card className="md:col-span-4 md:col-start-5 min-w-0">
+          <Card className="md:col-span-4 md:col-start-5 min-w-0 overflow-hidden">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Elasticity: Spend → Sales <Info short="Slope of sales vs spend; higher slope = higher marginal ROI." long="Elasticity: Slope of sales vs spend around current point; higher slope = higher marginal ROI." /></CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="h-56 overflow-hidden">
               <ChartContainer
                 config={{ blinkit: { label: "Blinkit", color: "hsl(var(--primary))" }, zepto: { label: "Zepto", color: "hsl(var(--muted-foreground))" } }}
-                className="w-full h-56 aspect-auto"
+                className="w-full h-full aspect-auto"
               >
                 <LineChart data={response}>
                   <CartesianGrid vertical={false} />
