@@ -141,10 +141,10 @@ const BrandSkuPerformance: React.FC = () => {
       </Helmet>
       <DashboardLayout title="SKU Performance Drilldown" subtitle="Which SKUs to back off / double down?">
         {/* Row 1: KPI strip */}
-        <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <section className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
           <KPI label="Avg ROAS 7d" value={kpis.avgRoas} info={{ short: "Revenue attributed ÷ Ad spend (last 7 days).", long: "ROAS: Revenue attributed ÷ Ad spend (current attribution: last-click, same-day)." }} intent="good" />
-          <KPI label="Hero SKUs" value={kpis.hero} info={{ short: "ROAS ≥ 4.5 & Conv ≥ 100 & OOS% < 5%.", long: "Hero/Laggard rules: See “Thresholds” help.\n\nHero: ROAS ≥ 4.5 AND Conv ≥ 100 (7d) AND OOS% < 5%.\nLaggard: ROAS < 4.0 AND Conv ≥ 50 OR OOS% ≥ 15%.\nThin data: Conv < 30 (7d) → show ⚠︎ and suppress strict categorization." }} />
-          <KPI label="Laggard SKUs" value={kpis.laggard} info={{ short: "ROAS < 4.0 or OOS% ≥ 15% with sufficient data.", long: "Hero/Laggard rules: See “Thresholds” help." }} intent="bad" />
+          <KPI label="Hero SKUs" value={kpis.hero} info={{ short: "ROAS ≥ 4.5 & Conv ≥ 100 & OOS% < 5%.", long: "Hero/Laggard rules: See 'Thresholds' help.\n\nHero: ROAS ≥ 4.5 AND Conv ≥ 100 (7d) AND OOS% < 5%.\nLaggard: ROAS < 4.0 AND Conv ≥ 50 OR OOS% ≥ 15%.\nThin data: Conv < 30 (7d) → show ⚠︎ and suppress strict categorization." }} />
+          <KPI label="Laggard SKUs" value={kpis.laggard} info={{ short: "ROAS < 4.0 or OOS% ≥ 15% with sufficient data.", long: "Hero/Laggard rules: See 'Thresholds' help." }} intent="bad" />
           <KPI label="OOS SKUs (any city)" value={kpis.oosSkus} info={{ short: "% of SKUs with any city OOS in last 24h.", long: "OOS%: % time a SKU was unavailable in a city while ads were on." }} intent="warn" />
           <KPI label="Spend (7d)" value={kpis.spend} info={{ short: "Total ad spend last 7 days." }} />
           <KPI label="Sales (7d)" value={kpis.sales} info={{ short: "Attributed revenue last 7 days." }} />
@@ -154,90 +154,92 @@ const BrandSkuPerformance: React.FC = () => {
 
         {/* Row 2: Table + Charts */}
         <section className="grid gap-4 md:grid-cols-12">
-          <Card className="md:col-span-8">
+          <Card className="md:col-span-8 min-w-0">
             <CardHeader className="pb-2 flex-row items-center justify-between">
               <CardTitle className="text-sm flex items-center gap-2">SKU table</CardTitle>
               <div className="flex items-center gap-2">
                 <ExportBar />
               </div>
             </CardHeader>
-            <CardContent className="overflow-x-auto rounded-lg border bg-card p-0">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>SKU</TableHead>
-                    <TableHead className="text-right">Impr</TableHead>
-                    <TableHead className="text-right">Clicks</TableHead>
-                    <TableHead className="text-right">CTR <Info short="Clicks ÷ Impressions." long="CVR/CTR formulae: CTR = Clicks ÷ Impressions. CVR = Conversions ÷ Clicks." /></TableHead>
-                    <TableHead className="text-right">Detail views</TableHead>
-                    <TableHead className="text-right">Conv</TableHead>
-                    <TableHead className="text-right">CVR <Info short="Conversions ÷ Clicks." long="CVR: Conversions ÷ Clicks." /></TableHead>
-                    <TableHead className="text-right">Sales (₹ L)</TableHead>
-                    <TableHead className="text-right">ROAS <Info short="Revenue attributed ÷ Ad spend (last-click, same-day)." long="ROAS: Revenue attributed ÷ Ad spend (current attribution: last-click, same-day)." /></TableHead>
-                    <TableHead className="text-right">CPA <Info short="Ad spend ÷ Conversions (orders)." long="CPA: Ad spend ÷ Conversions (orders)." /></TableHead>
-                    <TableHead className="text-right">AOV <Info short="Sales ÷ Conversions." long="AOV: Sales ÷ Conversions." /></TableHead>
-                    <TableHead className="text-right">Price</TableHead>
-                    <TableHead className="text-right">Price index <Info short="Our price ÷ Rival average; 1.00 = parity, >1 pricier." long="Price index: Our price ÷ Rival average; 1.00 = parity, >1 = we’re pricier." /></TableHead>
-                    <TableHead className="text-right">Rating</TableHead>
-                    <TableHead>Stock</TableHead>
-                    <TableHead className="text-right">OOS% <Info short="% time unavailable while ads were on (7d)." long="OOS%: % time a SKU was unavailable in a city while ads were on." /></TableHead>
-                    <TableHead className="text-right">Shelf share <Info short="% of top-10 placements for target searches (city-weighted)." long="Share of shelf: % of top-10 placements your SKUs hold for target queries (city-weighted)." /></TableHead>
-                    <TableHead className="text-right">Search share <Info short="% impressions on tracked keywords." long="Share of search: % of impressions your SKUs receive for tracked keywords." /></TableHead>
-                    <TableHead className="text-right">Content score <Info short="Checklist score for images, bullets, video, title, attributes." long="Content score: Checklist-based score for images, bullets, video, title, attributes." /></TableHead>
-                    <TableHead className="text-right">NTB% <Info short="% orders from first-time brand buyers." long="NTB%: % orders from first-time buyers of the brand (platform or modeled)." /></TableHead>
-                    <TableHead>Mode</TableHead>
-                    <TableHead>Promo</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {rows.map((r) => (
-                    <TableRow key={r.sku} className="cursor-pointer" onClick={() => { setActive(r); setOpen(true); }}>
-                      <TableCell className="font-medium">{r.sku}</TableCell>
-                      <TableCell className="text-right">{r.impr.toLocaleString()}</TableCell>
-                      <TableCell className="text-right">{r.clicks.toLocaleString()}</TableCell>
-                      <TableCell className="text-right">{r.ctr.toFixed(2)}%</TableCell>
-                      <TableCell className="text-right">{r.details?.toLocaleString() ?? "-"}</TableCell>
-                      <TableCell className="text-right">{r.conv.toLocaleString()}</TableCell>
-                      <TableCell className="text-right">{r.cvr.toFixed(2)}%</TableCell>
-                      <TableCell className="text-right">{r.sales.toFixed(1)}</TableCell>
-                      <TableCell className={"text-right " + (r.roas >= 4.5 ? "text-emerald-600" : r.roas >= 4 ? "text-amber-600" : "text-red-600")}>
-                        {r.roas.toFixed(1)}×
-                      </TableCell>
-                      <TableCell className="text-right">₹{r.cpa}</TableCell>
-                      <TableCell className="text-right">₹{r.aov}</TableCell>
-                      <TableCell className="text-right">₹{r.price}</TableCell>
-                      <TableCell className="text-right">{r.priceIndex.toFixed(2)}</TableCell>
-                      <TableCell className="text-right">{r.rating.toFixed(1)}</TableCell>
-                      <TableCell>{r.stock}</TableCell>
-                      <TableCell className="text-right">{r.oosPct}%</TableCell>
-                      <TableCell className="text-right">{r.shelfShare}%</TableCell>
-                      <TableCell className="text-right">{r.searchShare}%</TableCell>
-                      <TableCell className="text-right">{r.contentScore}</TableCell>
-                      <TableCell className="text-right">{r.ntbPct}%</TableCell>
-                      <TableCell>{r.mode}</TableCell>
-                      <TableCell>{r.promo || "-"}</TableCell>
-                      <TableCell className="space-x-2">
-                        <Badge variant={r.roas >= 4.5 && r.conv >= 100 && r.oosPct < 5 ? "default" : "secondary"}>{r.roas >= 4.5 && r.conv >= 100 && r.oosPct < 5 ? "Hero" : r.roas < 4 || r.oosPct >= 15 ? "Laggard" : "—"}</Badge>
-                        <Button size="sm" variant="secondary">Hero</Button>
-                        <Button size="sm" variant="outline">Nurture</Button>
-                        <Button size="sm" variant="ghost">Fix content</Button>
-                        <Button size="sm">Trial promo</Button>
-                      </TableCell>
+            <CardContent className="p-0">
+              <div className="overflow-x-auto rounded-lg border bg-card">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>SKU</TableHead>
+                      <TableHead className="text-right">Impr</TableHead>
+                      <TableHead className="text-right">Clicks</TableHead>
+                      <TableHead className="text-right">CTR <Info short="Clicks ÷ Impressions." long="CVR/CTR formulae: CTR = Clicks ÷ Impressions. CVR = Conversions ÷ Clicks." /></TableHead>
+                      <TableHead className="text-right">Detail views</TableHead>
+                      <TableHead className="text-right">Conv</TableHead>
+                      <TableHead className="text-right">CVR <Info short="Conversions ÷ Clicks." long="CVR: Conversions ÷ Clicks." /></TableHead>
+                      <TableHead className="text-right">Sales (₹ L)</TableHead>
+                      <TableHead className="text-right">ROAS <Info short="Revenue attributed ÷ Ad spend (last-click, same-day)." long="ROAS: Revenue attributed ÷ Ad spend (current attribution: last-click, same-day)." /></TableHead>
+                      <TableHead className="text-right">CPA <Info short="Ad spend ÷ Conversions (orders)." long="CPA: Ad spend ÷ Conversions (orders)." /></TableHead>
+                      <TableHead className="text-right">AOV <Info short="Sales ÷ Conversions." long="AOV: Sales ÷ Conversions." /></TableHead>
+                      <TableHead className="text-right">Price</TableHead>
+                      <TableHead className="text-right">Price index <Info short="Our price ÷ Rival average; 1.00 = parity, >1 pricier." long="Price index: Our price ÷ Rival average; 1.00 = parity, >1 = we're pricier." /></TableHead>
+                      <TableHead className="text-right">Rating</TableHead>
+                      <TableHead>Stock</TableHead>
+                      <TableHead className="text-right">OOS% <Info short="% time unavailable while ads were on (7d)." long="OOS%: % time a SKU was unavailable in a city while ads were on." /></TableHead>
+                      <TableHead className="text-right">Shelf share <Info short="% of top-10 placements for target searches (city-weighted)." long="Share of shelf: % of top-10 placements your SKUs hold for target queries (city-weighted)." /></TableHead>
+                      <TableHead className="text-right">Search share <Info short="% impressions on tracked keywords." long="Share of search: % of impressions your SKUs receive for tracked keywords." /></TableHead>
+                      <TableHead className="text-right">Content score <Info short="Checklist score for images, bullets, video, title, attributes." long="Content score: Checklist-based score for images, bullets, video, title, attributes." /></TableHead>
+                      <TableHead className="text-right">NTB% <Info short="% orders from first-time brand buyers." long="NTB%: % orders from first-time buyers of the brand (platform or modeled)." /></TableHead>
+                      <TableHead>Mode</TableHead>
+                      <TableHead>Promo</TableHead>
+                      <TableHead>Actions</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {rows.map((r) => (
+                      <TableRow key={r.sku} className="cursor-pointer" onClick={() => { setActive(r); setOpen(true); }}>
+                        <TableCell className="font-medium">{r.sku}</TableCell>
+                        <TableCell className="text-right">{r.impr.toLocaleString()}</TableCell>
+                        <TableCell className="text-right">{r.clicks.toLocaleString()}</TableCell>
+                        <TableCell className="text-right">{r.ctr.toFixed(2)}%</TableCell>
+                        <TableCell className="text-right">{r.details?.toLocaleString() ?? "-"}</TableCell>
+                        <TableCell className="text-right">{r.conv.toLocaleString()}</TableCell>
+                        <TableCell className="text-right">{r.cvr.toFixed(2)}%</TableCell>
+                        <TableCell className="text-right">{r.sales.toFixed(1)}</TableCell>
+                        <TableCell className={"text-right " + (r.roas >= 4.5 ? "text-emerald-600" : r.roas >= 4 ? "text-amber-600" : "text-red-600")}>
+                          {r.roas.toFixed(1)}×
+                        </TableCell>
+                        <TableCell className="text-right">₹{r.cpa}</TableCell>
+                        <TableCell className="text-right">₹{r.aov}</TableCell>
+                        <TableCell className="text-right">₹{r.price}</TableCell>
+                        <TableCell className="text-right">{r.priceIndex.toFixed(2)}</TableCell>
+                        <TableCell className="text-right">{r.rating.toFixed(1)}</TableCell>
+                        <TableCell>{r.stock}</TableCell>
+                        <TableCell className="text-right">{r.oosPct}%</TableCell>
+                        <TableCell className="text-right">{r.shelfShare}%</TableCell>
+                        <TableCell className="text-right">{r.searchShare}%</TableCell>
+                        <TableCell className="text-right">{r.contentScore}</TableCell>
+                        <TableCell className="text-right">{r.ntbPct}%</TableCell>
+                        <TableCell>{r.mode}</TableCell>
+                        <TableCell>{r.promo || "-"}</TableCell>
+                        <TableCell className="space-x-2">
+                          <Badge variant={r.roas >= 4.5 && r.conv >= 100 && r.oosPct < 5 ? "default" : "secondary"}>{r.roas >= 4.5 && r.conv >= 100 && r.oosPct < 5 ? "Hero" : r.roas < 4 || r.oosPct >= 15 ? "Laggard" : "—"}</Badge>
+                          <Button size="sm" variant="secondary">Hero</Button>
+                          <Button size="sm" variant="outline">Nurture</Button>
+                          <Button size="sm" variant="ghost">Fix content</Button>
+                          <Button size="sm">Trial promo</Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             </CardContent>
           </Card>
-          <Card className="md:col-span-4">
+          <Card className="md:col-span-4 min-w-0">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Charts</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 overflow-hidden">
               {/* Quadrant scatter */}
               <div className="h-56">
-                <ChartContainer config={{ sku: { label: "SKU" } }} className="h-full">
+                <ChartContainer config={{ sku: { label: "SKU" } }} className="w-full h-full aspect-auto">
                   <ScatterChart>
                     <CartesianGrid />
                     <XAxis dataKey="sales" name="Sales (L)" type="number" />
@@ -253,7 +255,7 @@ const BrandSkuPerformance: React.FC = () => {
               <div className="h-44">
                 <ChartContainer
                   config={{ sales: { label: "Sales (L)", color: "hsl(var(--primary))" }, roas: { label: "ROAS", color: "hsl(var(--muted-foreground))" } }}
-                  className="h-full"
+                  className="w-full h-full aspect-auto"
                 >
                   <BarChart data={[...rows].sort((a,b)=>b.sales-a.sales).slice(0,5)}>
                     <CartesianGrid vertical={false} />

@@ -42,7 +42,7 @@ const BrandPromotionsPricing: React.FC = () => {
 
         {/* Charts row: DiD + Waterfall + Elasticity */}
         <section className="grid gap-4 md:grid-cols-12">
-          <Card className="md:col-span-8">
+          <Card className="md:col-span-8 min-w-0">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Difference‑in‑Differences <Info short="Compares change over time vs matched control to isolate promo impact." long="Diff-in-Diff: Compares change over time vs matched control to isolate promo impact." /></CardTitle>
             </CardHeader>
@@ -67,12 +67,12 @@ const BrandPromotionsPricing: React.FC = () => {
               </ChartContainer>
             </CardContent>
           </Card>
-          <Card className="md:col-span-4">
+          <Card className="md:col-span-4 min-w-0">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Uplift waterfall <Info short="Baseline → Traffic → CVR → AOV → Cannibalization → Halo → Net." long="Uplift Waterfall: Baseline → Traffic lift → CVR lift → AOV change → Cannibalization → Halo → Net uplift. Each bar shows ₹ and % contribution." /></CardTitle>
             </CardHeader>
-            <CardContent className="h-56">
-              <ChartContainer config={{ v: { label: "₹ L" } }} className="h-full">
+            <CardContent className="h-56 overflow-hidden">
+              <ChartContainer config={{ v: { label: "₹ L" } }} className="w-full h-full aspect-auto">
                 <BarChart data={[
                   { k: "Baseline", v: 0 },
                   { k: "Traffic", v: 3.2 },
@@ -91,14 +91,18 @@ const BrandPromotionsPricing: React.FC = () => {
               </ChartContainer>
             </CardContent>
           </Card>
-          <Card className="md:col-span-4 md:col-start-9">
+        </section>
+
+        {/* Elasticity chart in its own row for better layout */}
+        <section className="grid gap-4 md:grid-cols-12">
+          <Card className="md:col-span-4 md:col-start-5 min-w-0">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Elasticity: Spend → Sales <Info short="Slope of sales vs spend; higher slope = higher marginal ROI." long="Elasticity: Slope of sales vs spend around current point; higher slope = higher marginal ROI." /></CardTitle>
             </CardHeader>
             <CardContent>
               <ChartContainer
                 config={{ blinkit: { label: "Blinkit", color: "hsl(var(--primary))" }, zepto: { label: "Zepto", color: "hsl(var(--muted-foreground))" } }}
-                className="h-56"
+                className="w-full h-56 aspect-auto"
               >
                 <LineChart data={response}>
                   <CartesianGrid vertical={false} />
@@ -116,40 +120,42 @@ const BrandPromotionsPricing: React.FC = () => {
 
         {/* Row 3: Comp set + Actions */}
         <section className="grid gap-4 md:grid-cols-12">
-          <Card className="md:col-span-8">
+          <Card className="md:col-span-8 min-w-0">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Comp set: Price index vs rivals <Info short="Price parity: 100 = parity, >100 = we’re pricier." long="Comp-set price index: Price parity measure (100 = parity, >100 = we’re pricier)." /></CardTitle>
+              <CardTitle className="text-sm">Comp set: Price index vs rivals <Info short="Price parity: 100 = parity, >100 = we're pricier." long="Comp-set price index: Price parity measure (100 = parity, >100 = we're pricier)." /></CardTitle>
             </CardHeader>
-            <CardContent className="overflow-x-auto rounded-lg border bg-card p-0">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>City</TableHead>
-                    <TableHead className="text-right">Our index</TableHead>
-                    <TableHead className="text-right">Rival A</TableHead>
-                    <TableHead className="text-right">Rival B</TableHead>
-                    <TableHead className="text-right">Price gap</TableHead>
-                    <TableHead className="text-right">CVR</TableHead>
-                    <TableHead className="text-right">ROAS</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {comp.map((r) => (
-                    <TableRow key={r.city}>
-                      <TableCell className="font-medium">{r.city}</TableCell>
-                      <TableCell className="text-right">{r.ours}</TableCell>
-                      <TableCell className="text-right">{r.rivalA}</TableCell>
-                      <TableCell className="text-right">{r.rivalB}</TableCell>
-                      <TableCell className="text-right">{((r.ours - Math.min(r.rivalA, r.rivalB)) / Math.min(r.rivalA, r.rivalB) * 100).toFixed(0)}%</TableCell>
-                      <TableCell className="text-right">{(3.5 + Math.random()).toFixed(1)}%</TableCell>
-                      <TableCell className="text-right">{(4.6 + Math.random()).toFixed(1)}×</TableCell>
+            <CardContent className="p-0">
+              <div className="overflow-x-auto rounded-lg border bg-card">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>City</TableHead>
+                      <TableHead className="text-right">Our index</TableHead>
+                      <TableHead className="text-right">Rival A</TableHead>
+                      <TableHead className="text-right">Rival B</TableHead>
+                      <TableHead className="text-right">Price gap</TableHead>
+                      <TableHead className="text-right">CVR</TableHead>
+                      <TableHead className="text-right">ROAS</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {comp.map((r) => (
+                      <TableRow key={r.city}>
+                        <TableCell className="font-medium">{r.city}</TableCell>
+                        <TableCell className="text-right">{r.ours}</TableCell>
+                        <TableCell className="text-right">{r.rivalA}</TableCell>
+                        <TableCell className="text-right">{r.rivalB}</TableCell>
+                        <TableCell className="text-right">{((r.ours - Math.min(r.rivalA, r.rivalB)) / Math.min(r.rivalA, r.rivalB) * 100).toFixed(0)}%</TableCell>
+                        <TableCell className="text-right">{(3.5 + Math.random()).toFixed(1)}%</TableCell>
+                        <TableCell className="text-right">{(4.6 + Math.random()).toFixed(1)}×</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             </CardContent>
           </Card>
-          <Card className="md:col-span-4">
+          <Card className="md:col-span-4 min-w-0">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Actions</CardTitle>
             </CardHeader>
