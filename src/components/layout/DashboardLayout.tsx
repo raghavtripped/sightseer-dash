@@ -96,6 +96,24 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, show
         )}
         {children}
       </main>
+      
+      <footer className="border-t bg-card/50 py-4 mt-8">
+        <div className="container px-4 sm:px-6">
+          <div className="flex items-center justify-center">
+            <p className="text-sm text-muted-foreground">
+              Created by{" "}
+              <a 
+                href="https://raghavtripathi.vercel.app" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80 underline underline-offset-2 transition-colors"
+              >
+                Raghav Tripathi
+              </a>
+            </p>
+          </div>
+        </div>
+      </footer>
       </SidebarInset>
     </SidebarProvider>
   );
