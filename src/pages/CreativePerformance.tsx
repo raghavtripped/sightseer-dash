@@ -157,10 +157,14 @@ const CreativePerformance: React.FC = () => {
         {/* Row 2: Creative grid + Diagnostics */}
         <section className="grid grid-cols-12 gap-6">
           <div className="col-span-12 lg:col-span-8 grid gap-4 sm:grid-cols-2">
-            {creatives.map((c) => (
+            {creatives.map((c, index) => (
               <div key={c.id} ref={(el) => (cardRefs.current[c.id] = el)} className="bg-card rounded-2xl border overflow-hidden">
                 <div className="h-28 bg-muted flex items-center justify-center">
-                  <img src="/placeholder.svg" alt="thumb" className="h-16" />
+                  <img 
+                    src={index === 0 ? "/download.jpeg" : index === 1 ? "/images (1).jpeg" : index === 2 ? "/images (2).jpeg" : "/images.jpeg"} 
+                    alt={`${c.platform} ${c.variant} creative`} 
+                    className="h-full w-full object-cover" 
+                  />
                 </div>
                 <div className="p-4 space-y-3">
                   <div className="flex items-center justify-between">
