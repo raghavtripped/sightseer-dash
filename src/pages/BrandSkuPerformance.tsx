@@ -192,7 +192,7 @@ const BrandSkuPerformance: React.FC = () => {
                 </TableHeader>
                 <TableBody>
                   {rows.map((r) => (
-                    <TableRow key={r.sku} className="cursor-pointer" onClick={() => { setActive(r); setOpen(true); }}>
+                    <TableRow key={r.sku} className="cursor-pointer hover:bg-muted/50 transition-colors duration-200" onClick={() => { setActive(r); setOpen(true); }}>
                       <TableCell className="font-medium">{r.sku}</TableCell>
                       <TableCell className="text-right">{r.impr.toLocaleString()}</TableCell>
                       <TableCell className="text-right">{r.clicks.toLocaleString()}</TableCell>
@@ -219,10 +219,10 @@ const BrandSkuPerformance: React.FC = () => {
                       <TableCell>{r.promo || "-"}</TableCell>
                       <TableCell className="space-x-2">
                         <Badge variant={r.roas >= 4.5 && r.conv >= 100 && r.oosPct < 5 ? "default" : "secondary"}>{r.roas >= 4.5 && r.conv >= 100 && r.oosPct < 5 ? "Hero" : r.roas < 4 || r.oosPct >= 15 ? "Laggard" : "—"}</Badge>
-                        <Button size="sm" variant="secondary">Hero</Button>
-                        <Button size="sm" variant="outline">Nurture</Button>
-                        <Button size="sm" variant="ghost">Fix content</Button>
-                        <Button size="sm">Trial promo</Button>
+                        <Button size="sm" variant="secondary" className="hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500">Hero</Button>
+                        <Button size="sm" variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500">Nurture</Button>
+                        <Button size="sm" variant="ghost" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500">Fix content</Button>
+                        <Button size="sm" className="hover:bg-primary/90 transition-colors duration-200 border-2 border-green-500">Trial promo</Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -384,7 +384,7 @@ const BrandSkuPerformance: React.FC = () => {
             <DrawerFooter>
               <div className="text-xs text-muted-foreground px-1">Recommendation: Increase Zepto Dinner +₹40k → +210 conv (±60), ROAS 5.3x; Risk: low (stock ≥95%).</div>
               <DrawerClose asChild>
-                <Button variant="secondary">Close</Button>
+                <Button variant="secondary" className="hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500">Close</Button>
               </DrawerClose>
             </DrawerFooter>
           </DrawerContent>

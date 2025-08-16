@@ -47,7 +47,7 @@ const PerfExperiments: React.FC = () => {
                 </TableHeader>
                 <TableBody>
                   {running.map((r) => (
-                    <TableRow key={r.id}>
+                    <TableRow key={r.id} className="hover:bg-muted/50 transition-colors duration-200">
                       <TableCell className="font-medium">{r.id}</TableCell>
                       <TableCell>{r.name}</TableCell>
                       <TableCell>{r.platform}</TableCell>
@@ -67,11 +67,11 @@ const PerfExperiments: React.FC = () => {
             </CardHeader>
             <CardContent className="text-sm">
               <ul className="space-y-2">
-                <li className="rounded-md border p-2 flex items-center justify-between">
+                <li className="rounded-md border p-2 flex items-center justify-between hover:bg-muted/50 transition-colors duration-200">
                   <span className="text-muted-foreground">Instamart breakfast bid curve</span>
                   <span>Starts Mon</span>
                 </li>
-                <li className="rounded-md border p-2 flex items-center justify-between">
+                <li className="rounded-md border p-2 flex items-center justify-between hover:bg-muted/50 transition-colors duration-200">
                   <span className="text-muted-foreground">Blinkit PDP video vs image</span>
                   <span>Next Thu</span>
                 </li>
@@ -106,7 +106,7 @@ const PerfExperiments: React.FC = () => {
                 <Input placeholder="14 days" />
               </div>
               <div className="flex items-end">
-                <Button className="w-full" onClick={() => toast({ title: "Draft created.", description: "Experiment saved to backlog." })}>Create draft</Button>
+                <Button className="w-full hover:bg-primary/90 transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Draft created.", description: "Experiment saved to backlog." })}>Create draft</Button>
               </div>
             </CardContent>
           </Card>

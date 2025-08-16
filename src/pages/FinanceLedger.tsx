@@ -43,8 +43,8 @@ const FinanceLedger: React.FC = () => {
             <CardHeader className="pb-2 flex-row items-center justify-between">
               <CardTitle className="text-sm">Exports</CardTitle>
               <div className="space-x-2">
-                <Button size="sm" variant="outline" onClick={() => toast({ title: "Exported.", description: "Ledger exported as CSV." })}>Export CSV</Button>
-                <Button size="sm" onClick={() => toast({ title: "Month-end pack prepared.", description: "" })}>Month-end pack</Button>
+                <Button size="sm" variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Exported.", description: "Ledger exported as CSV." })}>Export CSV</Button>
+                <Button size="sm" className="hover:bg-primary/90 transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Month-end pack prepared.", description: "" })}>Month-end pack</Button>
               </div>
             </CardHeader>
             <CardContent className="text-sm text-muted-foreground">

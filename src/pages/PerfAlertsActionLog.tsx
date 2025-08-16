@@ -56,13 +56,13 @@ const PerfAlertsActionLog: React.FC = () => {
               </CardHeader>
               <CardContent className="space-y-2">
                 {alerts.map((a, i) => (
-                  <div key={i} className="rounded-md border p-3 text-sm cursor-pointer">
+                  <div key={i} className="rounded-md border p-3 text-sm cursor-pointer hover:bg-muted/30 transition-colors duration-200">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Badge variant={a.pri === 'High' ? 'destructive' : a.pri === 'Medium' ? 'secondary' : 'outline'}>{a.pri}</Badge>
                         <div className="font-medium">{a.msg}</div>
                       </div>
-                      <Button size="sm" variant="outline">Open</Button>
+                      <Button size="sm" variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500">Open</Button>
                     </div>
                   </div>
                 ))}
@@ -87,7 +87,7 @@ const PerfAlertsActionLog: React.FC = () => {
                   </TableHeader>
                   <TableBody>
                     {actions.map((r, i) => (
-                      <TableRow key={i}>
+                      <TableRow key={i} className="hover:bg-muted/50 transition-colors duration-200">
                         <TableCell>{r.time}</TableCell>
                         <TableCell>{r.agent}</TableCell>
                         <TableCell>{r.action}</TableCell>
@@ -109,8 +109,8 @@ const PerfAlertsActionLog: React.FC = () => {
                 <div className="flex items-center justify-between">
                    <span>Approve queued changes</span>
                   <div className="space-x-2">
-                    <Button size="sm" variant="secondary">Approve</Button>
-                    <Button size="sm" variant="outline">Reject</Button>
+                    <Button size="sm" variant="secondary" className="hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500">Approve</Button>
+                    <Button size="sm" variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500">Reject</Button>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">

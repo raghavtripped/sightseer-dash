@@ -117,7 +117,7 @@ const StrategicHeatmaps: React.FC = () => {
                           const ratio = Math.max(0, Math.min(1, (v - 3) / 3));
                           const bg = `rgba(16, 185, 129, ${0.12 + ratio * 0.45})`;
                           return (
-                            <td key={d} className={`p-2 text-center rounded-md border ${sig ? "border-dashed" : "border-transparent"}`} style={{ backgroundColor: bg }} onClick={() => openCell(p, d)}>
+                            <td key={d} className={`p-2 text-center rounded-md border cursor-pointer hover:scale-105 hover:bg-muted/30 transition-all duration-200 border-2 border-green-500 ${sig ? "border-dashed" : "border-transparent"}`} style={{ backgroundColor: bg }} onClick={() => openCell(p, d)}>
                               <div className="font-medium">{v.toFixed(1)}{metric === "ROAS" ? "×" : ""}</div>
                               <div className={`text-[10px] ${delta >= 0 ? "text-emerald-600" : "text-red-600"}`}>{delta >= 0 ? "+" : ""}{metric === "ROAS" ? `${delta.toFixed(1)}×` : `${delta}%`}</div>
                             </td>
@@ -137,8 +137,8 @@ const StrategicHeatmaps: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="mb-2 flex items-center gap-2 text-xs">
-                <Button size="sm" variant={trendToggle === "ROAS_CPA" ? "default" : "outline"} onClick={() => setTrendToggle("ROAS_CPA")}>ROAS & CPA</Button>
-                <Button size="sm" variant={trendToggle === "SOW_NTB" ? "default" : "outline"} onClick={() => setTrendToggle("SOW_NTB")}>SoW & NTB%</Button>
+                <Button size="sm" variant={trendToggle === "ROAS_CPA" ? "default" : "outline"} className="hover:bg-primary/90 transition-colors duration-200 border-2 border-green-500" onClick={() => setTrendToggle("ROAS_CPA")}>ROAS & CPA</Button>
+                <Button size="sm" variant={trendToggle === "SOW_NTB" ? "default" : "outline"} className="hover:bg-primary/90 transition-colors duration-200 border-2 border-green-500" onClick={() => setTrendToggle("SOW_NTB")}>SoW & NTB%</Button>
               </div>
               <ChartContainer
                 config={{ roas: { label: "ROAS", color: "hsl(var(--primary))" }, cpa: { label: "CPA", color: "hsl(var(--muted-foreground))" }, sow: { label: "SoW", color: "#0ea5e9" }, ntb: { label: "NTB%", color: "#16a34a" } }}
@@ -187,7 +187,7 @@ const StrategicHeatmaps: React.FC = () => {
           <Card>
             <CardHeader className="pb-2 flex-row items-center justify-between">
               <CardTitle className="text-sm">Insights</CardTitle>
-              <Button size="sm" onClick={recommend}>Recommend reallocation</Button>
+              <Button size="sm" className="hover:bg-primary/90 transition-colors duration-200 border-2 border-green-500" onClick={recommend}>Recommend reallocation</Button>
             </CardHeader>
             <CardContent className="space-y-2 text-sm">
               <div>
@@ -245,7 +245,7 @@ const StrategicHeatmaps: React.FC = () => {
                 <div className="text-muted-foreground">No fatigue flagged</div>
               </div>
               <div className="space-y-1">
-                <Button variant="secondary">View similar cells</Button>
+                <Button variant="secondary" className="hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500">View similar cells</Button>
               </div>
             </div>
           </DrawerContent>
@@ -281,8 +281,8 @@ const StrategicHeatmaps: React.FC = () => {
                 <div className="mt-1 text-xs">₹{simAmount}L → ΔROAS +{(simAmount * 0.1).toFixed(1)}×, risk: Low</div>
               </div>
               <div className="flex items-center justify-end gap-2">
-                <Button variant="secondary">Save draft</Button>
-                <Button onClick={() => { toast({ title: "Approved", description: "Shift plan deployed and logged to Action Log" }); setOpenRecommend(false); }}>Approve</Button>
+                <Button variant="secondary" className="hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500">Save draft</Button>
+                <Button className="hover:bg-primary/90 transition-colors duration-200 border-2 border-green-500" onClick={() => { toast({ title: "Approved", description: "Shift plan deployed and logged to Action Log" }); setOpenRecommend(false); }}>Approve</Button>
               </div>
             </div>
           </DialogContent>

@@ -93,7 +93,7 @@ const BrandDaypartRegion: React.FC = () => {
                             const ratio = Math.max(0, Math.min(1, (cell.roas - 3) / 3))
                             const bg = `rgba(16, 185, 129, ${0.12 + ratio * 0.45})`
                             return (
-                              <td key={d} className={`p-2 text-center rounded-md border ${cell.sig ? 'border-dashed' : 'border-transparent'}`} style={{ backgroundColor: bg }}>
+                              <td key={d} className={`p-2 text-center rounded-md border cursor-pointer hover:scale-105 transition-transform duration-200 ${cell.sig ? 'border-dashed' : 'border-transparent'}`} style={{ backgroundColor: bg }}>
                                 <div className="font-medium">{cell.roas.toFixed(1)}×</div>
                                 <div className={`text-[10px] ${cell.delta>=0?'text-emerald-700':'text-red-600'}`}>{cell.delta>0?'+':''}{cell.delta.toFixed(1)}×</div>
                               </td>
@@ -127,7 +127,7 @@ const BrandDaypartRegion: React.FC = () => {
                             const riskTone = cell.risk > 20 ? 'text-red-600' : cell.risk > 10 ? 'text-amber-600' : 'text-muted-foreground'
                             return (
                               <td key={s} className="p-1 align-middle">
-                                <div className="grid grid-cols-2 gap-0.5 rounded-md border p-1">
+                                <div className="grid grid-cols-2 gap-0.5 rounded-md border p-1 cursor-pointer hover:bg-muted/30 transition-colors duration-200">
                                   <div className={`text-center rounded-sm ${cell.instock<90?'bg-amber-50':''}`}>{cell.instock}%<div className="text-[10px] text-muted-foreground">In</div></div>
                                   <div className={`text-center rounded-sm ${cell.shelf<25?'bg-red-50':''}`}>{cell.shelf}%<div className="text-[10px] text-muted-foreground">Shelf</div></div>
                                 </div>
@@ -146,7 +146,7 @@ const BrandDaypartRegion: React.FC = () => {
            <Card className="md:col-span-4">
             <CardHeader className="pb-2 flex-row items-center justify-between">
               <CardTitle className="text-sm">Actions & guardrails</CardTitle>
-              <Button size="sm" onClick={() => toast({ title: "Plan generated.", description: `₹${(overall * 1.2).toFixed(0)}k across ${cities.length} cities` })}>Generate plan</Button>
+              <Button size="sm" className="hover:bg-primary/90 transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Plan generated.", description: `₹${(overall * 1.2).toFixed(0)}k across ${cities.length} cities` })}>Generate plan</Button>
             </CardHeader>
             <CardContent className="space-y-2 text-sm">
               <div>• Visibility floor ≥ 15%</div>

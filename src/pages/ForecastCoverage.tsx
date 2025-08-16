@@ -163,10 +163,10 @@ const ForecastCoverage: React.FC = () => {
             <Card>
               <CardHeader className="pb-2"><CardTitle className="text-sm">Primary CTAs</CardTitle></CardHeader>
               <CardContent className="flex flex-wrap gap-2">
-                <Button variant="secondary" onClick={() => toast({ title: "Pre-position planned", description: "Suggesting units per city × SKU for 3–5 days" })}>Pre-position stock</Button>
-                <Button variant="outline" onClick={() => toast({ title: "Guardrail set", description: "Throttle bids −20% when days-of-cover <2" })}>Throttle bids if projected OOS</Button>
-                <Button onClick={() => toast({ title: "Backup mapping wizard", description: "Primary → Backup1/2 by city/daypart" })}>Create backup SKU mapping</Button>
-                <Button variant="outline" onClick={() => toast({ title: "Plan sent", description: "CSV + Slack sent to Supply Chain" })}>Send plan to Supply Chain</Button>
+                <Button variant="secondary" className="hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Pre-position planned", description: "Suggesting units per city × SKU for 3–5 days" })}>Pre-position stock</Button>
+                <Button variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Guardrail set", description: "Throttle bids −20% when days-of-cover <2" })}>Throttle bids if projected OOS</Button>
+                <Button className="hover:bg-primary/90 transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Backup mapping wizard", description: "Primary → Backup1/2 by city/daypart" })}>Create backup SKU mapping</Button>
+                <Button variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Plan sent", description: "CSV + Slack sent to Supply Chain" })}>Send plan to Supply Chain</Button>
               </CardContent>
             </Card>
           </div>
@@ -194,7 +194,7 @@ const ForecastCoverage: React.FC = () => {
                 </TableHeader>
                 <TableBody>
                   {cityCoverage.map((r) => (
-                    <TableRow key={r.city} onClick={() => setSelected(r)} className="cursor-pointer">
+                    <TableRow key={r.city} onClick={() => setSelected(r)} className="cursor-pointer hover:bg-muted/50 transition-colors duration-200">
                       <TableCell className="font-medium">{r.city}</TableCell>
                       <TableCell className="text-right">{r.forecast.toFixed(1)}</TableCell>
                       <TableCell className="text-right">{Math.round(r.coverage * 100)}%</TableCell>
@@ -249,7 +249,7 @@ const ForecastCoverage: React.FC = () => {
                 </div>
                 <DrawerFooter>
                   <div className="flex gap-2">
-                    <Button variant="secondary">Rebalance stock</Button>
+                    <Button variant="secondary" className="hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500">Rebalance stock</Button>
                   </div>
                 </DrawerFooter>
               </>

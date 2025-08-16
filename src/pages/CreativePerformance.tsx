@@ -185,29 +185,29 @@ const CreativePerformance: React.FC = () => {
                   </div>
                   <div className="text-xs text-muted-foreground">Last refreshed {c.lastRefreshedDays}d ago</div>
                   <div className="text-xs">Best slot: <span className="font-medium">{c.bestSlot}</span>, ROAS {c.bestSlotRoas.toFixed(1)}× ({c.bestSlotDelta > 0 ? "+" : ""}{c.bestSlotDelta.toFixed(1)}× vs avg)</div>
-                  <div className="flex flex-wrap gap-2 pt-1">
+                  <div className="flex flex-wrap gap-2">
                     <ConfirmAction
-                      trigger={<Button size="sm" variant="secondary">Refresh variants</Button>}
-                      text={`Rotate ↑${c.variant} to 30% share for ${c.platform} 18–23h → +220 conv (±70), ROAS 5.4x, risk: Low; auto-revert if ROAS <4.0x in 24h.`}
-                      onConfirm={() => onActionConfirmed(`${c.platform} · ${c.variant}: Refresh variants`)}
+                      trigger={<Button size="sm" variant="secondary" className="hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500">Refresh variants</Button>}
+                      text={`Refresh ${c.variant} from ${c.platform}; exploration 10%.`}
+                      onConfirm={() => onActionConfirmed(`${c.platform} · ${c.variant}: Refresh`)}
                     />
                     <ConfirmAction
-                      trigger={<Button size="sm" variant="outline">Swap headline</Button>}
+                      trigger={<Button size="sm" variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500">Swap headline</Button>}
                       text={`Swap headline on ${c.platform} · ${c.variant}; expected CTR +8–12%.`}
                       onConfirm={() => onActionConfirmed(`${c.platform} · ${c.variant}: Swap headline`)}
                     />
                     <ConfirmAction
-                      trigger={<Button size="sm" variant="outline">Duplicate to other</Button>}
+                      trigger={<Button size="sm" variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500">Duplicate to other</Button>}
                       text={`Duplicate ${c.variant} from ${c.platform} to siblings; exploration 10%.`}
                       onConfirm={() => onActionConfirmed(`${c.platform} · ${c.variant}: Duplicate`)}
                     />
                     <ConfirmAction
-                      trigger={<Button size="sm" variant="outline">Start A/B</Button>}
+                      trigger={<Button size="sm" variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500">Start A/B</Button>}
                       text={`Start A/B for ${c.platform} · ${c.variant}; stop when p<0.05.`}
                       onConfirm={() => onActionConfirmed(`${c.platform} · ${c.variant}: Start A/B`)}
                     />
                     <ConfirmAction
-                      trigger={<Button size="sm" variant="destructive">Pause</Button>}
+                      trigger={<Button size="sm" variant="destructive" className="hover:bg-destructive/90 transition-colors duration-200 border-2 border-green-500">Pause</Button>}
                       text={`Pause ${c.platform} · ${c.variant}; will auto-resume if competitor CPM spikes.`}
                       onConfirm={() => onActionConfirmed(`${c.platform} · ${c.variant}: Pause`)}
                     />
@@ -295,7 +295,7 @@ const CreativePerformance: React.FC = () => {
                 <div className="text-xs text-muted-foreground mb-2">By ROAS</div>
                 <ul className="space-y-2">
                   {creatives.slice().sort((a,b)=>b.roas - a.roas).slice(0,5).map((i) => (
-                    <li key={i.id} className="flex items-center justify-between cursor-pointer" onClick={() => handleGoToCard(i.id)}>
+                    <li key={i.id} className="flex items-center justify-between cursor-pointer hover:bg-muted/50 rounded px-2 py-1 transition-colors duration-200" onClick={() => handleGoToCard(i.id)}>
                       <span className="text-muted-foreground">{i.platform} — {i.variant}</span>
                       <span className="font-medium">{i.roas.toFixed(1)}×</span>
                     </li>
@@ -306,7 +306,7 @@ const CreativePerformance: React.FC = () => {
                 <div className="text-xs text-muted-foreground mb-2">By CTR</div>
                 <ul className="space-y-2">
                   {creatives.slice().sort((a,b)=>b.ctr - a.ctr).slice(0,5).map((i) => (
-                    <li key={i.id} className="flex items-center justify-between cursor-pointer" onClick={() => handleGoToCard(i.id)}>
+                    <li key={i.id} className="flex items-center justify-between cursor-pointer hover:bg-muted/50 rounded px-2 py-1 transition-colors duration-200" onClick={() => handleGoToCard(i.id)}>
                       <span className="text-muted-foreground">{i.platform} — {i.variant}</span>
                       <span className="font-medium">{i.ctr.toFixed(2)}%</span>
                     </li>

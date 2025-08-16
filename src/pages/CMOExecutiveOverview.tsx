@@ -216,9 +216,9 @@ const ExecutiveOverview: React.FC = () => {
                 <CardTitle className="text-sm">Actions</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-wrap gap-2">
-                <Button variant="secondary" onClick={() => window.print()}>Export Board Pack (PDF)</Button>
-                <Button onClick={() => navigate("/strategic-heatmaps?emailSchedule=Mon0900IST")}>Schedule weekly email</Button>
-                <Button onClick={() => navigate("/strategic-heatmaps?reallocate=1")}>Recommend reallocation</Button>
+                <Button variant="secondary" className="border-2 border-green-500" onClick={() => window.print()}>Export Board Pack (PDF)</Button>
+                <Button className="border-2 border-green-500" onClick={() => navigate("/strategic-heatmaps?emailSchedule=Mon0900IST")}>Schedule weekly email</Button>
+                <Button className="border-2 border-green-500" onClick={() => navigate("/strategic-heatmaps?reallocate=1")}>Recommend reallocation</Button>
               </CardContent>
             </Card>
           </div>
@@ -229,8 +229,8 @@ const ExecutiveOverview: React.FC = () => {
             <CardHeader className="pb-2 flex items-center justify-between">
               <CardTitle className="text-sm">Spend vs Sales (8w, indexed)</CardTitle>
               <div className="flex items-center gap-2 text-xs">
-                <Button size="sm" variant={smooth ? "default" : "outline"} onClick={() => setSmooth(true)}>Smooth (7d MA)</Button>
-                <Button size="sm" variant={!smooth ? "default" : "outline"} onClick={() => setSmooth(false)}>Actual</Button>
+                <Button size="sm" variant={smooth ? "default" : "outline"} className="border-2 border-green-500" onClick={() => setSmooth(true)}>Smooth (7d MA)</Button>
+                <Button size="sm" variant={!smooth ? "default" : "outline"} className="border-2 border-green-500" onClick={() => setSmooth(false)}>Actual</Button>
               </div>
             </CardHeader>
             <CardContent>
@@ -306,7 +306,7 @@ const ExecutiveOverview: React.FC = () => {
               <CardTitle className="text-sm">Contribution bridge</CardTitle>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button size="sm" variant="outline" className="gap-2"><Info size={14}/> Methodology</Button>
+                  <Button size="sm" variant="outline" className="gap-2 border-2 border-green-500"><Info size={14}/> Methodology</Button>
                 </PopoverTrigger>
                 <PopoverContent align="end" className="max-w-md text-xs leading-relaxed">
                   Inputs: platform/daypart mix, price/promo, creative CTR, CVR, OOS savings, optimization uplift. Lookback: 28d. Δ bars show change in ROAS and ₹ impact.
@@ -327,7 +327,7 @@ const ExecutiveOverview: React.FC = () => {
               </ChartContainer>
               <div className="mt-4 grid grid-cols-3 gap-3 text-xs">
                 {contributionItems.filter((i) => i.key !== "baseline" && i.key !== "final").map((i) => (
-                  <Button key={i.key} variant="secondary" onClick={() => i.link && navigate(i.link)} className="h-10">
+                  <Button key={i.key} variant="secondary" onClick={() => i.link && navigate(i.link)} className="h-10 border-2 border-green-500">
                     Explore {i.label}
                   </Button>
                 ))}

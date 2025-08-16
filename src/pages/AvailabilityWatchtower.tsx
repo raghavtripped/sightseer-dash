@@ -117,9 +117,9 @@ const AvailabilityWatchtower: React.FC = () => {
               <CardHeader className="pb-2 flex-row items-center justify-between">
                 <CardTitle className="text-sm">City × SKU</CardTitle>
                 <div className="flex items-center gap-2">
-                  <Button size="sm" variant="secondary" onClick={() => actionAndLog("Notify all: risky rows")}>Notify all</Button>
-                  <Button size="sm" variant="outline" onClick={() => actionAndLog("Allow substitution for all risky rows")}>Allow substitution for all</Button>
-                  <Button size="sm" variant="outline">Export CSV</Button>
+                  <Button size="sm" variant="secondary" className="hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500" onClick={() => actionAndLog("Notify all: risky rows")}>Notify all</Button>
+                  <Button size="sm" variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500" onClick={() => actionAndLog("Allow substitution for all risky rows")}>Allow substitution for all</Button>
+                  <Button size="sm" variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-red-500">Export CSV</Button>
                 </div>
               </CardHeader>
               <CardContent className="overflow-x-auto rounded-lg border bg-card p-0">
@@ -142,7 +142,7 @@ const AvailabilityWatchtower: React.FC = () => {
                   </TableHeader>
                   <TableBody>
                     {rows.map((r, i) => (
-                      <TableRow key={i} className="cursor-pointer" onClick={() => setSelected(r)}>
+                      <TableRow key={i} className="cursor-pointer hover:bg-muted/50 transition-colors duration-200" onClick={() => setSelected(r)}>
                         <TableCell className="font-medium">{r.city}</TableCell>
                         <TableCell>{r.sku}</TableCell>
                         <TableCell>{r.platforms_live.join(', ')}</TableCell>
@@ -155,9 +155,9 @@ const AvailabilityWatchtower: React.FC = () => {
                         <TableCell className="text-right">₹{Math.round(r.lost_sales_7d/1000)}k</TableCell>
                         <TableCell className="text-xs">{r.substitution.primary} → {r.substitution.backup1 || '—'}{r.substitution.backup2 ? `/${r.substitution.backup2}` : ''}</TableCell>
                         <TableCell className="space-x-2" onClick={(e) => e.stopPropagation()}>
-                          <Button size="sm" variant="secondary" onClick={() => actionAndLog(`Notify replenishment: ${r.city} · ${r.sku}`)}>Notify replenishment</Button>
-                          <Button size="sm" variant="outline" onClick={() => actionAndLog(`Allow substitution: ${r.city} · ${r.sku}`)}>Allow substitution</Button>
-                          <Button size="sm" onClick={() => actionAndLog(`Lift hold after positive checks: ${r.city} · ${r.sku}`)}>Lift hold</Button>
+                          <Button size="sm" variant="secondary" className="hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500" onClick={() => actionAndLog(`Notify replenishment: ${r.city} · ${r.sku}`)}>Notify replenishment</Button>
+                          <Button size="sm" variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500" onClick={() => actionAndLog(`Allow substitution: ${r.city} · ${r.sku}`)}>Allow substitution</Button>
+                          <Button size="sm" className="hover:bg-primary/90 transition-colors duration-200 border-2 border-green-500" onClick={() => actionAndLog(`Lift hold after positive checks: ${r.city} · ${r.sku}`)}>Lift hold</Button>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -266,9 +266,9 @@ const AvailabilityWatchtower: React.FC = () => {
                 </div>
                 <DrawerFooter>
                     <div className="flex flex-wrap gap-2">
-                    <Button size="sm" variant="secondary" onClick={() => actionAndLog(`Unpause until ETA for ${selected.city} — ${selected.sku}`)}>Unpause until ETA</Button>
-                    <Button size="sm" variant="outline" onClick={() => actionAndLog(`Route to backup only for ${selected.city} — ${selected.sku}`)}>Route to backup only</Button>
-                    <Button size="sm" variant="destructive" onClick={() => actionAndLog(`Raise incident for ${selected.city} — ${selected.sku}`)}>Raise incident</Button>
+                    <Button size="sm" variant="secondary" className="hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500" onClick={() => actionAndLog(`Unpause until ETA for ${selected.city} — ${selected.sku}`)}>Unpause until ETA</Button>
+                    <Button size="sm" variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500" onClick={() => actionAndLog(`Route to backup only for ${selected.city} — ${selected.sku}`)}>Route to backup only</Button>
+                    <Button size="sm" variant="destructive" className="hover:bg-destructive/90 transition-colors duration-200 border-2 border-green-500" onClick={() => actionAndLog(`Raise incident for ${selected.city} — ${selected.sku}`)}>Raise incident</Button>
                   </div>
                 </DrawerFooter>
               </>

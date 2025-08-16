@@ -53,8 +53,8 @@ const IntegrationsHealth: React.FC = () => {
             <CardHeader className="pb-2 flex-row items-center justify-between">
               <CardTitle className="text-sm">Connectors</CardTitle>
               <div className="space-x-2">
-                <Button size="sm" variant="secondary" onClick={() => toast({ title: "Re-ingest started", description: "Pulling last 24h from all connectors" })}>Re-ingest</Button>
-                <Button size="sm" variant="outline" onClick={() => toast({ title: "Rollback queued", description: "Reverting to previous schema" })}>Rollback</Button>
+                <Button size="sm" variant="secondary" className="hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Re-ingest started", description: "Pulling last 24h from all connectors" })}>Re-ingest</Button>
+                <Button size="sm" variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Rollback queued", description: "Reverting to previous schema" })}>Rollback</Button>
               </div>
             </CardHeader>
             <CardContent className="overflow-hidden rounded-lg border bg-card p-0">
@@ -91,8 +91,8 @@ const IntegrationsHealth: React.FC = () => {
               <CardTitle className="text-sm">Actions</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-wrap gap-2">
-              <Button variant="secondary" onClick={() => toast({ title: "Keys rotated", description: "All connectors updated" })}>Rotate keys</Button>
-              <Button onClick={() => toast({ title: "Owner notified", description: "Email sent to data@itc.in" })}>Notify owner</Button>
+              <Button variant="secondary" className="hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Keys rotated", description: "All connectors updated" })}>Rotate keys</Button>
+              <Button className="hover:bg-primary/90 transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Owner notified", description: "Email sent to data@itc.in" })}>Notify owner</Button>
             </CardContent>
           </Card>
         </section>

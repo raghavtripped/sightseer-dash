@@ -144,30 +144,29 @@ const ListingQA: React.FC = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {rows.map((r) => {
-                      const redFlag = !r.compliance || r.images < 2 || r.titleLen === 0;
-                      return (
-                        <TableRow key={r.sku + r.platform} onClick={() => setSelected(r)} className="cursor-pointer">
-                          <TableCell className="font-medium">{r.sku}</TableCell>
-                          <TableCell>{r.platform}</TableCell>
-                          <TableCell>{r.images} {r.images >= 4 ? "✓" : ""}</TableCell>
-                          <TableCell>{r.titleLen >= 50 && r.titleLen <= 80 && r.titleHasKeyword ? "OK" : "Fix"}</TableCell>
-                          <TableCell>{r.bullets >= 5 ? "OK" : "<5"}</TableCell>
-                          <TableCell>{r.video ? "✓" : "–"}</TableCell>
-                          <TableCell>{r.nutrition ? "✓" : "–"}</TableCell>
-                          <TableCell className={!r.compliance ? "text-destructive" : ""}>{r.compliance ? "✓" : "Blocker"}</TableCell>
-                          <TableCell>{r.ratingsCount} @ {r.ratingsAvg.toFixed(1)}</TableCell>
-                          <TableCell className={r.parityFlag ? "text-amber-600" : "text-muted-foreground"}>{r.parityFlag ? ">+5%" : "OK"}</TableCell>
-                          <TableCell className={r.freshnessDays > 90 ? "text-amber-600" : "text-muted-foreground"}>{r.freshnessDays}d</TableCell>
-                          <TableCell className={"text-right " + (r.score >= 80 ? "text-success" : r.score >= 60 ? "text-amber-600" : "text-destructive")}>{r.score}%</TableCell>
-                          <TableCell className="space-x-2" onClick={(e) => e.stopPropagation()}>
-                            <Button size="sm" variant="secondary">Push updated assets</Button>
-                            <Button size="sm" variant="outline">Raise ticket</Button>
-                            <Button size="sm" variant="destructive">Hold ads</Button>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
+                    {rows.map((r) => (
+                      <TableRow key={`${r.sku}-${r.platform}`} className="cursor-pointer hover:bg-muted/50 transition-colors duration-200" onClick={() => setSelected(r)}>
+                        <TableCell className="font-medium">{r.sku}</TableCell>
+                        <TableCell>{r.platform}</TableCell>
+                        <TableCell className={r.images < 2 ? "text-destructive" : r.images < 4 ? "text-amber-600" : ""}>{r.images}</TableCell>
+                        <TableCell className={r.titleLen < 30 ? "text-destructive" : r.titleLen < 50 ? "text-amber-600" : ""}>{r.titleLen}</TableCell>
+                        <TableCell>{r.titleHasKeyword ? "✓" : "✗"}</TableCell>
+                        <TableCell className={r.bullets < 3 ? "text-destructive" : r.bullets < 5 ? "text-amber-600" : ""}>{r.bullets}</TableCell>
+                        <TableCell>{r.video ? "✓" : "✗"}</TableCell>
+                        <TableCell>{r.nutrition ? "✓" : "✗"}</TableCell>
+                        <TableCell className={!r.compliance ? "text-destructive" : ""}>{r.compliance ? "✓" : "✗"}</TableCell>
+                        <TableCell className={r.ratingsCount < 20 ? "text-amber-600" : ""}>{r.ratingsCount}</TableCell>
+                        <TableCell>{r.ratingsAvg.toFixed(1)}</TableCell>
+                        <TableCell className={r.parityFlag ? "text-destructive" : ""}>{r.parityFlag ? "✗" : "✓"}</TableCell>
+                        <TableCell className={r.freshnessDays > 90 ? "text-amber-600" : ""}>{r.freshnessDays}</TableCell>
+                        <TableCell className={r.score < 60 ? "text-destructive" : r.score < 80 ? "text-amber-600" : "text-emerald-600"}>{r.score}</TableCell>
+                        <TableCell className="space-x-2" onClick={(e) => e.stopPropagation()}>
+                          <Button size="sm" variant="secondary" className="hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500">Push updated assets</Button>
+                          <Button size="sm" variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500">Raise ticket</Button>
+                          <Button size="sm" variant="destructive" className="hover:bg-destructive/90 transition-colors duration-200 border-2 border-green-500">Hold ads</Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
                   </TableBody>
                 </Table>
               </CardContent>
@@ -296,9 +295,9 @@ const ListingQA: React.FC = () => {
                 </div>
                 <DrawerFooter>
                   <div className="flex gap-2">
-                    <Button size="sm" variant="secondary">Push assets</Button>
-                    <Button size="sm" variant="outline">Create Jira</Button>
-                    <Button size="sm" variant="destructive">Hold ads</Button>
+                    <Button size="sm" variant="secondary" className="hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500">Push assets</Button>
+                    <Button size="sm" variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500">Create Jira</Button>
+                    <Button size="sm" variant="destructive" className="hover:bg-destructive/90 transition-colors duration-200 border-2 border-green-500">Hold ads</Button>
                   </div>
                 </DrawerFooter>
               </>

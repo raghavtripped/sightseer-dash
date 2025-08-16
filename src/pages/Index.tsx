@@ -265,7 +265,7 @@ const Index = () => {
           <div className="mt-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="secondary" className="w-full justify-between group-hover:shadow-sm" size="sm">
+                <Button variant="secondary" className="w-full justify-between group-hover:shadow-sm hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500" size="sm">
                   <span className="text-xs">{routes.length} dashboards available</span>
                   <ChevronDown className="w-4 h-4 ml-2" />
                 </Button>
@@ -346,7 +346,7 @@ const Index = () => {
                 <h2 className="text-lg font-semibold">Navigate by Role</h2>
                 <p className="text-sm text-muted-foreground mt-1">Select your role to access relevant dashboards</p>
               </div>
-              <Button onClick={() => setOpenCommand(true)} variant="outline" className="gap-2">
+              <Button onClick={() => setOpenCommand(true)} variant="outline" className="gap-2 hover:bg-muted transition-colors duration-200 border-2 border-green-500">
                 <Search className="w-4 h-4" />
                 Search all dashboards
                 <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">

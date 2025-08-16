@@ -154,11 +154,11 @@ const BrandPromotionsPricing: React.FC = () => {
               <CardTitle className="text-sm">Actions</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-wrap gap-2">
-              <Button variant="secondary" onClick={() => toast({ title: "Repeat", description: "+₹6.1L sales • ROAS 4.8x • Risk: Low" })}>Repeat</Button>
-              <Button onClick={() => toast({ title: "Scale to cities", description: "+₹9.3L • ROAS 5.0x • Risk: Medium (OOS 7%)" })}>Scale to cities</Button>
-              <Button variant="outline" onClick={() => toast({ title: "Switch to coupon", description: "−₹1.2L sales • ROAS 5.6x • Margin +₹0.5L" })}>Switch to coupon</Button>
-              <Button variant="destructive" onClick={() => toast({ title: "Stop discount", description: "Sales −₹3.2L • Margin neutral • SoW −1.3pp" })}>Stop discount</Button>
-              <Button onClick={() => toast({ title: "Test bundle", description: "Expected ROAS 5.4x • NTB% +4pp" })}>Test bundle</Button>
+              <Button variant="secondary" className="hover:bg-secondary/80 transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Repeat", description: "+₹6.1L sales • ROAS 4.8x • Risk: Low" })}>Repeat</Button>
+              <Button className="hover:bg-primary/90 transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Scale to cities", description: "+₹9.3L • ROAS 5.0x • Risk: Medium (OOS 7%)" })}>Scale to cities</Button>
+              <Button variant="outline" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Switch to coupon", description: "−₹1.2L sales • ROAS 5.6x • Margin +₹0.5L" })}>Switch to coupon</Button>
+              <Button variant="destructive" className="hover:bg-destructive/90 transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Stop discount", description: "Sales −₹3.2L • Margin neutral • SoW −1.3pp" })}>Stop discount</Button>
+              <Button className="hover:bg-primary/90 transition-colors duration-200 border-2 border-green-500" onClick={() => toast({ title: "Test bundle", description: "Expected ROAS 5.4x • NTB% +4pp" })}>Test bundle</Button>
             </CardContent>
           </Card>
         </section>

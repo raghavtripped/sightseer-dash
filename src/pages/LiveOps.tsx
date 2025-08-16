@@ -126,7 +126,7 @@ const LiveOps: React.FC = () => {
               </TableHeader>
               <TableBody>
                 {rows.filter((r) => r.name.toLowerCase().includes(query.toLowerCase()) || r.platform.toLowerCase().includes(query.toLowerCase())).map((r) => (
-                  <TableRow key={r.id}>
+                  <TableRow key={r.id} className="hover:bg-muted/50 transition-colors duration-200">
                     <TableCell className="font-medium">{r.name}</TableCell>
                     <TableCell className="hidden md:table-cell">{r.platform}</TableCell>
                     <TableCell>
@@ -197,7 +197,7 @@ const RowActions: React.FC<{ row: CampaignRow; onAct: (label: string, row: Campa
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label="Actions for campaign">
+        <Button variant="ghost" size="icon" aria-label="Actions for campaign" className="hover:bg-muted transition-colors duration-200 border-2 border-green-500">
           <MoreHorizontal size={16} />
         </Button>
       </DropdownMenuTrigger>
