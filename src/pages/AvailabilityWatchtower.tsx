@@ -79,7 +79,7 @@ const InfoLabel: React.FC<{ label: string; tip?: string }> = ({ label, tip }) =>
 );
 
 const AvailabilityWatchtower: React.FC = () => {
-  const { toast } = (useToast as any)();
+  const { toast } = useToast();
   const navigate = useNavigate();
   const [selected, setSelected] = React.useState<Row | null>(null);
 
@@ -97,7 +97,7 @@ const AvailabilityWatchtower: React.FC = () => {
       </Helmet>
       <DashboardLayout title="Availability & OOS watchtower" subtitle="Don’t spend on thin air.">
         {/* KPI belt */}
-        <section className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-4">
+        <section className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-2 sm:gap-4">
           {kpis.map((k) => (
             <Card key={k.key} className="rounded-xl">
               <CardHeader className="pb-1">
@@ -111,62 +111,64 @@ const AvailabilityWatchtower: React.FC = () => {
         </section>
 
         {/* Row 2 */}
-        <section className="grid grid-cols-12 gap-6">
-          <div className="col-span-12 lg:col-span-8">
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
+          <div className="lg:col-span-8">
             <Card className="rounded-2xl">
-              <CardHeader className="pb-2 flex-row items-center justify-between">
+              <CardHeader className="pb-2 flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <CardTitle className="text-sm">City × SKU</CardTitle>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <Button size="sm" variant="secondary" onClick={() => actionAndLog("Notify all: risky rows")}>Notify all</Button>
                   <Button size="sm" variant="outline" onClick={() => actionAndLog("Allow substitution for all risky rows")}>Allow substitution for all</Button>
                   <Button size="sm" variant="outline">Export CSV</Button>
                 </div>
               </CardHeader>
-              <CardContent className="overflow-x-auto rounded-lg border bg-card p-0">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>City</TableHead>
-                      <TableHead>SKU</TableHead>
-                      <TableHead>Platforms</TableHead>
-                      <TableHead>Stock</TableHead>
-                      <TableHead><InfoLabel label="Avail%" tip={tooltipCopy.avail} /></TableHead>
-                      <TableHead>Next replenishment</TableHead>
-                      <TableHead>OOS risk (24h)</TableHead>
-                      <TableHead>Ads state</TableHead>
-                      <TableHead className="text-right">Spend 7d</TableHead>
-                      <TableHead className="text-right"><InfoLabel label="Lost sales est. (7d)" tip={tooltipCopy.lost} /></TableHead>
-                      <TableHead>Substitution</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {rows.map((r, i) => (
-                      <TableRow key={i} className="cursor-pointer" onClick={() => setSelected(r)}>
-                        <TableCell className="font-medium">{r.city}</TableCell>
-                        <TableCell>{r.sku}</TableCell>
-                        <TableCell>{r.platforms_live.join(', ')}</TableCell>
-                        <TableCell className={r.stock_state === 'OOS' ? 'text-destructive' : r.stock_state === 'Low' ? 'text-amber-600' : ''}>{r.stock_state}</TableCell>
-                        <TableCell>{r.availability_pct_24h}%</TableCell>
-                        <TableCell>{r.next_eta === '-' ? '-' : new Date(r.next_eta).toLocaleString()}</TableCell>
-                        <TableCell className={r.oos_risk_24h > 0.5 ? 'text-destructive' : r.oos_risk_24h > 0.3 ? 'text-amber-600' : 'text-muted-foreground'}>{Math.round(r.oos_risk_24h * 100)}%</TableCell>
-                        <TableCell>{r.ads_state}</TableCell>
-                        <TableCell className="text-right">₹{Math.round(r.spend_7d/1000)}k</TableCell>
-                        <TableCell className="text-right">₹{Math.round(r.lost_sales_7d/1000)}k</TableCell>
-                        <TableCell className="text-xs">{r.substitution.primary} → {r.substitution.backup1 || '—'}{r.substitution.backup2 ? `/${r.substitution.backup2}` : ''}</TableCell>
-                        <TableCell className="space-x-2" onClick={(e) => e.stopPropagation()}>
-                          <Button size="sm" variant="secondary" onClick={() => actionAndLog(`Notify replenishment: ${r.city} · ${r.sku}`)}>Notify replenishment</Button>
-                          <Button size="sm" variant="outline" onClick={() => actionAndLog(`Allow substitution: ${r.city} · ${r.sku}`)}>Allow substitution</Button>
-                          <Button size="sm" onClick={() => actionAndLog(`Lift hold after positive checks: ${r.city} · ${r.sku}`)}>Lift hold</Button>
-                        </TableCell>
+              <CardContent className="p-0">
+                <div className="overflow-x-auto rounded-lg border bg-card">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>City</TableHead>
+                        <TableHead>SKU</TableHead>
+                        <TableHead>Platforms</TableHead>
+                        <TableHead>Stock</TableHead>
+                        <TableHead><InfoLabel label="Avail%" tip={tooltipCopy.avail} /></TableHead>
+                        <TableHead>Next replenishment</TableHead>
+                        <TableHead>OOS risk (24h)</TableHead>
+                        <TableHead>Ads state</TableHead>
+                        <TableHead className="text-right">Spend 7d</TableHead>
+                        <TableHead className="text-right"><InfoLabel label="Lost sales est. (7d)" tip={tooltipCopy.lost} /></TableHead>
+                        <TableHead>Substitution</TableHead>
+                        <TableHead>Actions</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {rows.map((r, i) => (
+                        <TableRow key={i} className="cursor-pointer" onClick={() => setSelected(r)}>
+                          <TableCell className="font-medium">{r.city}</TableCell>
+                          <TableCell>{r.sku}</TableCell>
+                          <TableCell>{r.platforms_live.join(', ')}</TableCell>
+                          <TableCell className={r.stock_state === 'OOS' ? 'text-destructive' : r.stock_state === 'Low' ? 'text-amber-600' : ''}>{r.stock_state}</TableCell>
+                          <TableCell>{r.availability_pct_24h}%</TableCell>
+                          <TableCell>{r.next_eta === '-' ? '-' : new Date(r.next_eta).toLocaleString()}</TableCell>
+                          <TableCell className={r.oos_risk_24h > 0.5 ? 'text-destructive' : r.oos_risk_24h > 0.3 ? 'text-amber-600' : 'text-muted-foreground'}>{Math.round(r.oos_risk_24h * 100)}%</TableCell>
+                          <TableCell>{r.ads_state}</TableCell>
+                          <TableCell className="text-right">₹{Math.round(r.spend_7d/1000)}k</TableCell>
+                          <TableCell className="text-right">₹{Math.round(r.lost_sales_7d/1000)}k</TableCell>
+                          <TableCell className="text-xs">{r.substitution.primary} → {r.substitution.backup1 || '—'}{r.substitution.backup2 ? `/${r.substitution.backup2}` : ''}</TableCell>
+                          <TableCell className="space-x-2" onClick={(e) => e.stopPropagation()}>
+                            <Button size="sm" variant="secondary" onClick={() => actionAndLog(`Notify replenishment: ${r.city} · ${r.sku}`)}>Notify replenishment</Button>
+                            <Button size="sm" variant="outline" onClick={() => actionAndLog(`Allow substitution: ${r.city} · ${r.sku}`)}>Allow substitution</Button>
+                            <Button size="sm" onClick={() => actionAndLog(`Lift hold after positive checks: ${r.city} · ${r.sku}`)}>Lift hold</Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
               </CardContent>
             </Card>
           </div>
-          <div className="col-span-12 lg:col-span-4 space-y-4">
+          <div className="lg:col-span-4 space-y-4">
             <Card className="rounded-2xl">
               <CardHeader className="pb-2"><CardTitle className="text-sm">Gauges & risks</CardTitle></CardHeader>
               <CardContent className="space-y-4">
