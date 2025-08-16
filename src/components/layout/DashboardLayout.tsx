@@ -67,7 +67,11 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, show
         <nav className="container flex items-center justify-between py-3 px-4 sm:px-6">
           <div className="flex items-center gap-2">
             {!hideSidebar && <SidebarTrigger />}
-            <div className="h-8 w-8 rounded-md bg-primary/10 ring-1 ring-primary/30" />
+            <img 
+              src="/10820326.png" 
+              alt="Synapse Logo" 
+              className="h-8 w-8 rounded-md object-cover"
+            />
             <Link to="/" className="font-semibold">Synapse dashboard</Link>
           </div>
           <div className="flex items-center gap-1">
