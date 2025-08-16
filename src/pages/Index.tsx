@@ -265,7 +265,13 @@ const Index = () => {
           <div className="mt-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="secondary" className="w-full justify-between group-hover:shadow-sm" size="sm">
+                <Button 
+                  variant="secondary" 
+                  className="w-full justify-between group-hover:shadow-sm" 
+                  size="sm"
+                  onTouchStart={(e) => e.stopPropagation()}
+                  onTouchMove={(e) => e.stopPropagation()}
+                >
                   <span className="text-xs">{routes.length} dashboards available</span>
                   <ChevronDown className="w-4 h-4 ml-2" />
                 </Button>
@@ -301,22 +307,31 @@ const Index = () => {
       <DashboardLayout title="AI-powered performance marketing" subtitle="Choose a view to begin.">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 space-y-6 sm:space-y-8">
           {/* KPI grid with trends */}
-          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-2 sm:gap-3">
-            {kpis.map((k) => <CompactKPICard key={k.key} kpi={k} />)}
-            <CompactStatCard 
-              title="Active campaigns" 
-              value="24" 
-              icon={<Users className="w-4 h-4" />}
-              trend="+2 vs last week"
-              trendColor="text-emerald-600"
-            />
-            <CompactStatCard 
-              title="Total spend (MTD)" 
-              value="₹12.4L" 
-              icon={<BarChart3 className="w-4 h-4" />}
-              trend="+12% vs last month"
-              trendColor="text-emerald-600"
-            />
+          <section className="grid grid-cols-2 lg:grid-cols-7 gap-2 sm:gap-3">
+            {/* Show only first 4 KPIs on mobile, all on larger screens */}
+            {kpis.slice(0, 4).map((k) => <CompactKPICard key={k.key} kpi={k} />)}
+            {/* Show additional KPIs and stat cards only on larger screens */}
+            <div className="hidden lg:block">
+              {kpis.slice(4).map((k) => <CompactKPICard key={k.key} kpi={k} />)}
+            </div>
+            <div className="hidden lg:block">
+              <CompactStatCard 
+                title="Active campaigns" 
+                value="24" 
+                icon={<Users className="w-4 h-4" />}
+                trend="+2 vs last week"
+                trendColor="text-emerald-600"
+              />
+            </div>
+            <div className="hidden lg:block">
+              <CompactStatCard 
+                title="Total spend (MTD)" 
+                value="₹12.4L" 
+                icon={<BarChart3 className="w-4 h-4" />}
+                trend="+12% vs last month"
+                trendColor="text-emerald-600"
+              />
+            </div>
           </section>
 
           {/* AI Mode + Safety bar */}
