@@ -133,7 +133,7 @@ const ExecutiveOverview: React.FC = () => {
             <CardContent>
               <ChartContainer
                 config={{ spendIdx: { label: "Spend", color: "hsl(var(--primary))" }, salesIdx: { label: "Sales", color: "hsl(var(--muted-foreground))" } }}
-                className="h-72"
+                className="h-80"
               >
                 <BarChart data={channelMix}>
                   <CartesianGrid vertical={false} />
@@ -151,11 +151,14 @@ const ExecutiveOverview: React.FC = () => {
                   <Bar dataKey="salesIdx" radius={4} onClick={(d) => handlePlatformClick((d as any).channel)} />
                 </BarChart>
               </ChartContainer>
-              <div className="mt-3 grid grid-cols-5 gap-2">
+              <div className="mt-4 grid grid-cols-5 gap-3">
                 {channelMix.map((c) => (
-                  <div key={c.channel} className="flex items-center justify-between rounded-md border p-2 text-xs">
-                    <span className="font-medium cursor-pointer" onClick={() => handlePlatformClick(c.channel)}>{c.channel}</span>
-                    <Badge variant={c.efficiency >= 1 ? "default" : "destructive"}>
+                  <div key={c.channel} className="flex flex-col items-center gap-2 rounded-lg border bg-muted/30 p-3 text-center hover:bg-muted/50 transition-colors">
+                    <span className="font-semibold text-sm cursor-pointer hover:text-primary" onClick={() => handlePlatformClick(c.channel)}>{c.channel}</span>
+                    <Badge 
+                      variant={c.efficiency >= 1 ? "default" : "destructive"}
+                      className="px-3 py-1 text-xs font-medium rounded-full"
+                    >
                       {c.efficiency >= 1 ? "Efficiency +" : "Efficiency −"} {c.efficiency.toFixed(2)}×
                     </Badge>
                   </div>
@@ -168,7 +171,9 @@ const ExecutiveOverview: React.FC = () => {
             <Card>
               <CardHeader className="pb-2 flex-row items-center justify-between">
                 <CardTitle className="text-sm">City leaderboard</CardTitle>
-                <ExportBar />
+                <div className="pr-2">
+                  <ExportBar />
+                </div>
               </CardHeader>
               <CardContent className="overflow-x-auto rounded-lg border bg-card p-0">
                 <Table>
@@ -231,7 +236,7 @@ const ExecutiveOverview: React.FC = () => {
             <CardContent>
               <ChartContainer
                 config={{ spendIdx: { label: "Spend", color: "hsl(var(--primary))" }, salesIdx: { label: "Sales", color: "hsl(var(--muted-foreground))" }, plan: { label: "Plan", color: "#94a3b8" } }}
-                className="h-64"
+                className="h-72"
               >
                 <ComposedChart data={spendSalesTrend}>
                   <CartesianGrid vertical={false} />
@@ -254,7 +259,7 @@ const ExecutiveOverview: React.FC = () => {
             <CardHeader className="pb-2 flex items-center justify-between">
               <CardTitle className="text-sm">Budget mix</CardTitle>
               <Tabs value={budgetTab} onValueChange={(v) => setBudgetTab(v as any)}>
-                <TabsList className="grid grid-cols-3">
+                <TabsList className="grid grid-cols-3 w-full">
                   <TabsTrigger value="current">Current</TabsTrigger>
                   <TabsTrigger value="last">Last</TabsTrigger>
                   <TabsTrigger value="plan">Plan</TabsTrigger>
@@ -264,7 +269,7 @@ const ExecutiveOverview: React.FC = () => {
             <CardContent>
               <ChartContainer
                 config={{ curr: { label: "Allocation", color: "hsl(var(--primary))" } }}
-                className="h-56"
+                className="h-48"
               >
                 <BarChart data={platforms.map((p, i) => ({ platform: p, pct: (budgetVariants as any)[budgetTab][i] }))}>
                   <CartesianGrid vertical={false} />
@@ -275,15 +280,15 @@ const ExecutiveOverview: React.FC = () => {
                 </BarChart>
               </ChartContainer>
               {budgetTab !== "plan" && (
-                <div className="mt-2 grid grid-cols-2 gap-2 text-xs text-muted-foreground">
+                <div className="mt-3 grid grid-cols-1 gap-2 text-xs text-muted-foreground">
                   {platforms.map((p, i) => {
                     const plan = budgetVariants.plan[i];
                     const curr = (budgetVariants as any)[budgetTab][i];
                     const variance = Math.round(curr - plan);
                     const isPos = variance >= 0;
                     return (
-                      <div key={p} className="flex items-center justify-between rounded-md border px-2 py-1">
-                        <span>{p}</span>
+                      <div key={p} className="flex items-center justify-between rounded-md border px-3 py-2">
+                        <span className="font-medium">{p}</span>
                         <Badge variant={isPos ? "default" : "destructive"}>{isPos ? "+" : ""}{variance}% vs plan</Badge>
                       </div>
                     );
@@ -309,7 +314,7 @@ const ExecutiveOverview: React.FC = () => {
               </Popover>
             </CardHeader>
             <CardContent>
-              <ChartContainer config={{ pos: { label: "Δ ROAS +", color: "#16a34a" }, neg: { label: "Δ ROAS −", color: "#ef4444" } }} className="h-64">
+              <ChartContainer config={{ pos: { label: "Δ ROAS +", color: "#16a34a" }, neg: { label: "Δ ROAS −", color: "#ef4444" } }} className="h-72">
                 <ComposedChart data={contributionItems.map((it) => ({ name: it.label, pos: Math.max(it.delta, 0), neg: Math.min(it.delta, 0), roas: it.roas }))}>
                   <CartesianGrid vertical={false} />
                   <XAxis dataKey="name" tickLine={false} axisLine={false} />
@@ -320,9 +325,9 @@ const ExecutiveOverview: React.FC = () => {
                   <ReferenceLine y={3.8} stroke="#94a3b8" strokeDasharray="3 3" label={{ value: "Baseline", position: "insideTopLeft", fontSize: 10 }} />
                 </ComposedChart>
               </ChartContainer>
-              <div className="mt-3 grid grid-cols-3 gap-2 text-xs">
+              <div className="mt-4 grid grid-cols-3 gap-3 text-xs">
                 {contributionItems.filter((i) => i.key !== "baseline" && i.key !== "final").map((i) => (
-                  <Button key={i.key} variant="secondary" onClick={() => i.link && navigate(i.link)}>
+                  <Button key={i.key} variant="secondary" onClick={() => i.link && navigate(i.link)} className="h-10">
                     Explore {i.label}
                   </Button>
                 ))}
@@ -334,10 +339,15 @@ const ExecutiveOverview: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">Status</CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-wrap gap-2 text-xs">
-              <Badge variant="secondary">Data freshness: 23 min ago</Badge>
-              <Badge variant="secondary">Attribution: Last click (same-day)</Badge>
-              <Badge className="bg-emerald-100 text-emerald-800 hover:bg-emerald-100">API health: OK</Badge>
+            <CardContent className="space-y-4">
+              <div className="space-y-3">
+                <Badge variant="secondary" className="w-full justify-center py-2 text-sm">Data freshness: 23 min ago</Badge>
+                <Badge variant="secondary" className="w-full justify-center py-2 text-sm">Attribution: Last click (same-day)</Badge>
+                <Badge className="w-full justify-center py-2 text-sm bg-emerald-100 text-emerald-800 hover:bg-emerald-100">API health: OK</Badge>
+              </div>
+              <div className="pt-2 border-t">
+                <p className="text-xs text-muted-foreground text-center">Last updated: Today 14:30 IST</p>
+              </div>
             </CardContent>
           </Card>
         </section>
